@@ -79,20 +79,19 @@ android {
 }
 
 val androidLibs = listOf(
-    LibraryDeps.Libs.Android.coroutines,
-    LibraryDeps.Libs.Android.serialization,
-    LibraryDeps.Libs.Android.appCompat,
-    LibraryDeps.Libs.Android.material
+    LibraryDeps.Libs.coroutines,
+    LibraryDeps.Libs.serialization,
+    LibraryDeps.Libs.appCompat,
+    LibraryDeps.Libs.material
 )
 
 
 dependencies {
-    androidLibs.forEach { lib -> androidImplementation(lib) }
+    androidLibs.forEach { lib -> implementation(lib) }
 
-    androidImplementation(LibraryDeps.Libs.Android.filemanager) {
+    implementation(LibraryDeps.Libs.filemanager) {
         exclude(group = "com.github.Merseyside.mersey-android-library", module = "utils")
     }
 
-    kaptLibrary(LibraryDeps.Libs.Android.daggerCompiler)
     compileOnly("javax.annotation:jsr250-api:1.0")
 }

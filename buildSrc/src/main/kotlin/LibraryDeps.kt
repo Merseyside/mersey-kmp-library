@@ -38,130 +38,49 @@ object LibraryDeps {
     }
 
     object Libs {
-        object Android {
-            val coroutines = AndroidLibrary(
-                name = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${LibraryVersions.Libs.Android.coroutines}"
-            )
-            val serialization = AndroidLibrary(
-                name = "org.jetbrains.kotlinx:kotlinx-serialization-json:${LibraryVersions.Common.serialization}"
-            )
-            val appCompat = AndroidLibrary(
-                name = "androidx.appcompat:appcompat:${LibraryVersions.Libs.Android.appCompat}"
-            )
-            val material = AndroidLibrary(
-                name = "com.google.android.material:material:${LibraryVersions.Libs.Android.material}"
-            )
-            val fragment = AndroidLibrary(
-                name = "androidx.fragment:fragment:${LibraryVersions.Libs.Android.fragment}"
-            )
-            val recyclerView = AndroidLibrary(
-                name = "androidx.recyclerview:recyclerview:${LibraryVersions.Libs.Android.recyclerView}"
-            )
-            val constraintLayout = AndroidLibrary(
-                name = "androidx.constraintlayout:constraintlayout:${LibraryVersions.Libs.Android.constraintLayout}"
-            )
-            val lifecycle = AndroidLibrary(
-                name = "androidx.lifecycle:lifecycle-extensions:${LibraryVersions.Libs.Android.lifecycle_extension}"
-            )
-            val lifecycleViewModel = AndroidLibrary(
-                name = "androidx.lifecycle:lifecycle-viewmodel-ktx:${LibraryVersions.Libs.Android.lifecycle}"
-            )
-            val lifecycleViewModelSavedState = AndroidLibrary(
-                name = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${LibraryVersions.Libs.Android.lifecycle}"
-            )
-            val lifecycleLiveDataKtx = AndroidLibrary(
-                name = "androidx.lifecycle:lifecycle-livedata-ktx:${LibraryVersions.Libs.Android.lifecycle}"
-            )
-            val cardView = AndroidLibrary(
-                name = "androidx.cardview:cardview:${LibraryVersions.Libs.Android.cardView}"
-            )
-            val annotation = AndroidLibrary(
-                name = "androidx.annotation:annotation:${LibraryVersions.Libs.Android.annotation}"
-            )
-            val rxjava2 = AndroidLibrary(
-                name = "io.reactivex.rxjava2:rxjava:${LibraryVersions.Libs.Android.rxjava2}"
-            )
-            val paging = AndroidLibrary(
-                name = "androidx.paging:paging-runtime:${LibraryVersions.Libs.Android.paging}"
-            )
-            val reflect = AndroidLibrary(
-                name = "org.jetbrains.kotlin:kotlin-reflect:${LibraryVersions.kotlin}"
-            )
-            val playCore = AndroidLibrary(
-                name = "com.google.android.play:core:${LibraryVersions.Libs.Android.playCore}"
-            )
-            val billing = AndroidLibrary(
-                name = "com.android.billingclient:billing:${LibraryVersions.Libs.Android.billing}"
-            )
-            val billingKtx = AndroidLibrary(
-                name = "com.android.billingclient:billing-ktx:${LibraryVersions.Libs.Android.billing}"
-            )
-            val publisher = AndroidLibrary(
-                name = "com.google.apis:google-api-services-androidpublisher:${LibraryVersions.Libs.Android.publisher}"
-            )
-            val firebaseFirestore = AndroidLibrary(
-                name = "com.google.firebase:firebase-firestore-ktx:${LibraryVersions.Libs.Android.firebaseFirestore}"
-            )
-            val oauth2 = AndroidLibrary(
-                name = "com.google.auth:google-auth-library-oauth2-http:${LibraryVersions.Libs.Android.auth}"
-            )
-            val room = AndroidLibrary(
-                name = "androidx.room:room-runtime:${LibraryVersions.Libs.Android.room}"
-            )
-            val roomCompiler = KaptLibrary(
-                name = "androidx.room:room-compiler:${LibraryVersions.Libs.Android.room}"
-            )
-            val roomKtx = KaptLibrary(
-                name = "androidx.room:room-ktx:${LibraryVersions.Libs.Android.room}"
-            )
-            val dagger = AndroidLibrary(
-                name = "com.google.dagger:dagger:${LibraryVersions.Libs.Android.dagger}"
-            )
-            val daggerCompiler = KaptLibrary(
-                name = "com.google.dagger:dagger-compiler:${LibraryVersions.Libs.Android.dagger}"
-            )
-            val koinViewModels = AndroidLibrary(
-                name = "org.koin:koin-androidx-viewmodel:${LibraryVersions.Common.koin}"
-            )
-            val koinExt = AndroidLibrary(
-                name = "org.koin:koin-androidx-ext:${LibraryVersions.Common.koin}"
-            )
-            val navigation = AndroidLibrary(
-                name = "androidx.navigation:navigation-fragment-ktx:${LibraryVersions.Libs.Android.navigation}"
-            )
-            val navigationUi = AndroidLibrary(
-                name = "androidx.navigation:navigation-ui-ktx:${LibraryVersions.Libs.Android.navigation}"
-            )
-            val keyboard = AndroidLibrary(
-                name = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${LibraryVersions.Libs.Android.keyboard}"
-            )
-            val worker = AndroidLibrary(
-                name = "androidx.work:work-runtime-ktx:${LibraryVersions.Libs.Android.worker}"
-            )
-            val gson = AndroidLibrary(
-                name = "com.google.code.gson:gson:${LibraryVersions.Libs.Android.gson}"
-            )
-            val coil = AndroidLibrary(
-                name = "io.coil-kt:coil:${LibraryVersions.Libs.Android.coil}"
-            )
-            val filemanager = AndroidLibrary(
-                name = "com.github.Merseyside:android-filemanager:${LibraryVersions.Libs.Android.filemanager}"
-            )
-            val typedDatastore = AndroidLibrary(
-                name = "androidx.datastore:datastore:${LibraryVersions.Libs.Android.typedDataStore}"
-            )
-            val mokoMvvmDatabinding = AndroidLibrary(
-                name = "dev.icerock.moko:mvvm-databinding:${LibraryVersions.Libs.Android.mokoMvvm}"
-            )
-            val mokoMvvmViewbinding = AndroidLibrary(
-                name = "dev.icerock.moko:mvvm-viewbinding:${LibraryVersions.Libs.Android.mokoMvvm}"
-            )
+        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${LibraryVersions.Libs.coroutines}"
+        val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${LibraryVersions.Common.serialization}"
+        val appCompat = "androidx.appcompat:appcompat:${LibraryVersions.Libs.appCompat}"
+        val material = "com.google.android.material:material:${LibraryVersions.Libs.material}"
+        val fragment = "androidx.fragment:fragment:${LibraryVersions.Libs.fragment}"
+        val recyclerView = "androidx.recyclerview:recyclerview:${LibraryVersions.Libs.recyclerView}"
+        val constraintLayout = "androidx.constraintlayout:constraintlayout:${LibraryVersions.Libs.constraintLayout}"
+        val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${LibraryVersions.Libs.lifecycle}"
+        val lifecycleViewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${LibraryVersions.Libs.lifecycle}"
+        val lifecycleLiveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:${LibraryVersions.Libs.lifecycle}"
+        val cardView = "androidx.cardview:cardview:${LibraryVersions.Libs.cardView}"
+        val annotation = "androidx.annotation:annotation:${LibraryVersions.Libs.annotation}"
+        val rxjava2 = "io.reactivex.rxjava2:rxjava:${LibraryVersions.Libs.rxjava2}"
+        val paging = "androidx.paging:paging-runtime:${LibraryVersions.Libs.paging}"
+        val reflect = "org.jetbrains.kotlin:kotlin-reflect:${LibraryVersions.kotlin}"
+        val playCore = "com.google.android.play:core:${LibraryVersions.Libs.playCore}"
+        val billing = "com.android.billingclient:billing:${LibraryVersions.Libs.billing}"
+        val billingKtx = "com.android.billingclient:billing-ktx:${LibraryVersions.Libs.billing}"
+        val publisher = "com.google.apis:google-api-services-androidpublisher:${LibraryVersions.Libs.publisher}"
+        val firebaseFirestore = "com.google.firebase:firebase-firestore-ktx:${LibraryVersions.Libs.firebaseFirestore}"
+        val oauth2 = "com.google.auth:google-auth-library-oauth2-http:${LibraryVersions.Libs.auth}"
+        val room = "androidx.room:room-runtime:${LibraryVersions.Libs.room}"
+        val roomCompiler = "androidx.room:room-compiler:${LibraryVersions.Libs.room}"
+        val roomKtx = "androidx.room:room-ktx:${LibraryVersions.Libs.room}"
+        val koinViewModels = "org.koin:koin-androidx-viewmodel:${LibraryVersions.Common.koin}"
+        val koinExt = "org.koin:koin-androidx-ext:${LibraryVersions.Common.koin}"
+        val navigation = "androidx.navigation:navigation-fragment-ktx:${LibraryVersions.Libs.navigation}"
+        val navigationUi = "androidx.navigation:navigation-ui-ktx:${LibraryVersions.Libs.navigation}"
+        val keyboard = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${LibraryVersions.Libs.keyboard}"
+        val worker = "androidx.work:work-runtime-ktx:${LibraryVersions.Libs.worker}"
+        val gson = "com.google.code.gson:gson:${LibraryVersions.Libs.gson}"
+        val coil = "io.coil-kt:coil:${LibraryVersions.Libs.coil}"
+        val dagger = "com.google.dagger:dagger:${LibraryVersions.Libs.dagger}"
+        val daggerCompiler = "com.google.dagger:dagger-compiler:${LibraryVersions.Libs.dagger}"
+        val filemanager = "com.github.Merseyside:android-filemanager:${LibraryVersions.Libs.filemanager}"
+        val typedDatastore = "androidx.datastore:datastore:${LibraryVersions.Libs.typedDataStore}"
+        val mokoMvvmDatabinding = "dev.icerock.moko:mvvm-databinding:${LibraryVersions.Common.mokoMvvm}"
+        val mokoMvvmViewbinding = "dev.icerock.moko:mvvm-viewbinding:${LibraryVersions.Common.mokoMvvm}"
 
-            object MerseyLibs {
-                private const val base = "com.github.Merseyside.mersey-android-library"
-                val archy = AndroidLibrary(name = "$base:archy:${LibraryVersions.Common.merseyLibs}")
-                val utils = AndroidLibrary(name = "$base:utils:${LibraryVersions.Common.merseyLibs}")
-            }
+        object MerseyLibs {
+            private const val base = "com.github.Merseyside.mersey-android-library"
+            val archy = "$base:archy:${LibraryVersions.Common.merseyLibs}"
+            val utils = "$base:utils:${LibraryVersions.Common.merseyLibs}"
         }
 
         object MultiPlatform {
@@ -171,7 +90,9 @@ object LibraryDeps {
             )
             val coroutines = MultiPlatformLibrary(
                 android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${LibraryVersions.Common.coroutines}",
-                common = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${LibraryVersions.Common.coroutines}"
+                common = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${LibraryVersions.Common.coroutines}",
+                iosX64 = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:${LibraryVersions.Common.coroutines}",
+                iosArm64 = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iosarm64:${LibraryVersions.Common.coroutines}"
             )
             val serialization = MultiPlatformLibrary(
                 common = "org.jetbrains.kotlinx:kotlinx-serialization-core:${LibraryVersions.Common.serialization}"
@@ -189,9 +110,9 @@ object LibraryDeps {
                 iosArm64 = "io.ktor:ktor-client-ios:${LibraryVersions.Libs.MultiPlatform.ktor}"
             )
             val mokoMvvm = MultiPlatformLibrary(
-                common = "dev.icerock.moko:mvvm:${LibraryVersions.Libs.MultiPlatform.mokoMvvm}",
-                iosX64 = "dev.icerock.moko:mvvm-iosx64:${LibraryVersions.Libs.MultiPlatform.mokoMvvm}",
-                iosArm64 = "dev.icerock.moko:mvvm-iosarm64:${LibraryVersions.Libs.MultiPlatform.mokoMvvm}"
+                common = "dev.icerock.moko:mvvm:${LibraryVersions.Common.mokoMvvm}",
+                iosX64 = "dev.icerock.moko:mvvm-iosx64:${LibraryVersions.Common.mokoMvvm}",
+                iosArm64 = "dev.icerock.moko:mvvm-iosarm64:${LibraryVersions.Common.mokoMvvm}"
             )
             val mokoResources = MultiPlatformLibrary(
                 common = "dev.icerock.moko:resources:${LibraryVersions.Libs.MultiPlatform.mokoResources}",

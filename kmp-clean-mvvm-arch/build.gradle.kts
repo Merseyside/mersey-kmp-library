@@ -12,15 +12,15 @@ plugins {
     plugin(LibraryDeps.Plugins.iosFramework)
 }
 
-group = LibraryVersions.Application.applicationId
+group = LibraryVersions.Application.groupId
 version = LibraryVersions.Application.version
 
 android {
-    compileSdkVersion(LibraryVersions.Android.compileSdk)
+    compileSdkVersion(LibraryVersions.Application.compileSdk)
 
     defaultConfig {
-        minSdkVersion(LibraryVersions.Android.minSdk)
-        targetSdkVersion(LibraryVersions.Android.targetSdk)
+        minSdkVersion(LibraryVersions.Application.minSdk)
+        targetSdkVersion(LibraryVersions.Application.targetSdk)
     }
 
     packagingOptions {
@@ -52,7 +52,7 @@ kotlin {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = LibraryVersions.Application.packageName // required
+    multiplatformResourcesPackage = LibraryVersions.Application.applicationId // required
 }
 
 val mppLibs = listOf(
@@ -64,23 +64,22 @@ val mppLibs = listOf(
 )
 
 val androidLibraries = listOf(
-    LibraryDeps.Libs.Android.appCompat,
-    LibraryDeps.Libs.Android.fragment,
-    LibraryDeps.Libs.Android.lifecycle,
-    LibraryDeps.Libs.Android.lifecycleViewModelSavedState,
-    LibraryDeps.Libs.Android.annotation,
-    LibraryDeps.Libs.Android.koinViewModels,
-    LibraryDeps.Libs.Android.koinExt
+    LibraryDeps.Libs.appCompat,
+    LibraryDeps.Libs.fragment,
+    LibraryDeps.Libs.lifecycleViewModelSavedState,
+    LibraryDeps.Libs.annotation,
+    LibraryDeps.Libs.koinViewModels,
+    LibraryDeps.Libs.koinExt
 )
 
 val merseyModules = listOf(
-    LibraryModules.Android.archy,
-    LibraryModules.Android.utils
+    LibraryModules.archy,
+    LibraryModules.utils
 )
 
 val merseyLibs = listOf(
-    LibraryDeps.Libs.Android.MerseyLibs.archy,
-    LibraryDeps.Libs.Android.MerseyLibs.utils
+    LibraryDeps.Libs.MerseyLibs.archy,
+    LibraryDeps.Libs.MerseyLibs.utils
 )
 
 val mppModules = listOf(
@@ -90,12 +89,12 @@ val mppModules = listOf(
 dependencies {
     mppModules.forEach { module -> mppModule(module) }
     mppLibs.forEach { mppLibrary(it) }
-    androidLibraries.forEach { lib -> androidLibrary(lib) }
+    androidLibraries.forEach { lib -> implementation(lib) }
 
     if (isLocalDependencies()) {
         merseyModules.forEach { module -> implementation(project(module)) }
     } else {
-        merseyLibs.forEach { lib -> androidLibrary(lib) }
+        merseyLibs.forEach { lib -> implementation(lib) }
     }
 
     compileOnly("javax.annotation:jsr250-api:1.0")

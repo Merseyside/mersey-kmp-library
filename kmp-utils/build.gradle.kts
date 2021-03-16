@@ -14,11 +14,11 @@ group = LibraryVersions.Application.applicationId
 version = LibraryVersions.Application.version
 
 android {
-    compileSdkVersion(LibraryVersions.Android.compileSdk)
+    compileSdkVersion(LibraryVersions.Application.compileSdk)
 
     defaultConfig {
-        minSdkVersion(LibraryVersions.Android.minSdk)
-        targetSdkVersion(LibraryVersions.Android.targetSdk)
+        minSdkVersion(LibraryVersions.Application.minSdk)
+        targetSdkVersion(LibraryVersions.Application.targetSdk)
     }
 
     packagingOptions {
@@ -50,7 +50,6 @@ kotlin {
 
 val mppLibs = listOf(
     LibraryDeps.Libs.MultiPlatform.kotlinStdLib,
-    LibraryDeps.Libs.MultiPlatform.serialization,
     LibraryDeps.Libs.MultiPlatform.serializationJson,
     LibraryDeps.Libs.MultiPlatform.mokoResources,
     LibraryDeps.Libs.MultiPlatform.ktorClient,
@@ -58,29 +57,29 @@ val mppLibs = listOf(
 )
 
 val androidLibraries = listOf(
-    LibraryDeps.Libs.Android.appCompat,
-    LibraryDeps.Libs.Android.publisher,
-    LibraryDeps.Libs.Android.oauth2,
-    LibraryDeps.Libs.Android.billing,
-    LibraryDeps.Libs.Android.billingKtx
+    LibraryDeps.Libs.appCompat,
+    LibraryDeps.Libs.publisher,
+    LibraryDeps.Libs.oauth2,
+    LibraryDeps.Libs.billing,
+    LibraryDeps.Libs.billingKtx
 )
 
 val merseyModules = listOf(
-    LibraryModules.Android.utils
+    LibraryModules.utils
 )
 
 val merseyLibs = listOf(
-    LibraryDeps.Libs.Android.MerseyLibs.utils
+    LibraryDeps.Libs.MerseyLibs.utils
 )
 
 dependencies {
     mppLibs.forEach { mppLibrary(it) }
-    androidLibraries.forEach { lib -> androidLibrary(lib) }
+    androidLibraries.forEach { lib -> implementation(lib) }
 
     if (isLocalDependencies()) {
         merseyModules.forEach { module -> implementation(project(module)) }
     } else {
-        merseyLibs.forEach { lib ->  androidLibrary(lib) }
+        merseyLibs.forEach { lib ->  implementation(lib) }
     }
 }
 
