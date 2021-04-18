@@ -62,8 +62,9 @@ object LibraryDeps {
         val room = "androidx.room:room-runtime:${LibraryVersions.Libs.room}"
         val roomCompiler = "androidx.room:room-compiler:${LibraryVersions.Libs.room}"
         val roomKtx = "androidx.room:room-ktx:${LibraryVersions.Libs.room}"
-        val koinViewModels = "org.koin:koin-androidx-viewmodel:${LibraryVersions.Common.koin}"
-        val koinExt = "org.koin:koin-androidx-ext:${LibraryVersions.Common.koin}"
+        val koin = "io.insert-koin:koin-android:${LibraryVersions.Common.koin}"
+        val koinExt = "io.insert-koin:koin-android-ext:${LibraryVersions.Common.koin}"
+        val koinScope = "io.insert-koin:koin-android:${LibraryVersions.Common.koin}"
         val navigation = "androidx.navigation:navigation-fragment-ktx:${LibraryVersions.Libs.navigation}"
         val navigationUi = "androidx.navigation:navigation-ui-ktx:${LibraryVersions.Libs.navigation}"
         val keyboard = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${LibraryVersions.Libs.keyboard}"
@@ -76,6 +77,7 @@ object LibraryDeps {
         val typedDatastore = "androidx.datastore:datastore:${LibraryVersions.Libs.typedDataStore}"
         val mokoMvvmDatabinding = "dev.icerock.moko:mvvm-databinding:${LibraryVersions.Common.mokoMvvm}"
         val mokoMvvmViewbinding = "dev.icerock.moko:mvvm-viewbinding:${LibraryVersions.Common.mokoMvvm}"
+        val location = "com.google.android.gms:play-services-location:${LibraryVersions.Libs.location}"
 
         object MerseyLibs {
             private const val base = "com.github.Merseyside.mersey-android-library"
@@ -104,8 +106,8 @@ object LibraryDeps {
                 common = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${LibraryVersions.Common.serialization}"
             )
             val ktorClient = MultiPlatformLibrary(
-                android = "io.ktor:ktor-client-android:${LibraryVersions.Libs.MultiPlatform.ktor}",
                 common = "io.ktor:ktor-client-core:${LibraryVersions.Libs.MultiPlatform.ktor}",
+                android = "io.ktor:ktor-client-android:${LibraryVersions.Libs.MultiPlatform.ktor}",
                 iosX64 = "io.ktor:ktor-client-ios:${LibraryVersions.Libs.MultiPlatform.ktor}",
                 iosArm64 = "io.ktor:ktor-client-ios:${LibraryVersions.Libs.MultiPlatform.ktor}"
             )
@@ -120,8 +122,10 @@ object LibraryDeps {
                 iosArm64 = "dev.icerock.moko:resources-iosarm64:${LibraryVersions.Libs.MultiPlatform.mokoResources}"
             )
             val koin = MultiPlatformLibrary(
-                common = "org.koin:koin-core:${LibraryVersions.Common.koin}",
-                android = "org.koin:koin-android:${LibraryVersions.Common.koin}"
+                common = "io.insert-koin:koin-core:${LibraryVersions.Common.koin}",
+                android = "io.insert-koin:koin-android:${LibraryVersions.Common.koin}",
+                iosX64 = "io.insert-koin:koin-core-iosx64:${LibraryVersions.Common.koin}",
+                iosArm64 = "io.insert-koin:koin-core-iosarm64:${LibraryVersions.Common.koin}"
             )
             val sqlDelight = MultiPlatformLibrary(
                 common = "com.squareup.sqldelight:runtime:${LibraryVersions.Libs.MultiPlatform.sqlDelight}",

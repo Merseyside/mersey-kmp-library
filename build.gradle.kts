@@ -18,7 +18,6 @@ allprojects {
         maven { url = uri("https://maven.fabric.io/public") }
         maven { url = uri("https://dl.bintray.com/icerockdev/plugins") }
         maven { url = uri("https://plugins.gradle.org/m2/") }
-        maven { url = uri("https://dl.bintray.com/ekito/koin")}
     }
 }
 

@@ -68,7 +68,7 @@ val androidLibraries = listOf(
     LibraryDeps.Libs.fragment,
     LibraryDeps.Libs.lifecycleViewModelSavedState,
     LibraryDeps.Libs.annotation,
-    LibraryDeps.Libs.koinViewModels,
+    LibraryDeps.Libs.koin,
     LibraryDeps.Libs.koinExt
 )
 

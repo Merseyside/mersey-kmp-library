@@ -23,7 +23,7 @@ object LibraryVersions {
         const val kotlinStdLib = kotlin
         const val coroutines = "1.4.3-native-mt"
         const val serialization = "1.1.0"
-        const val koin = "3.0.0-alpha-4"
+        const val koin = "3.0.1-beta-2"
         const val merseyLibs = "1.3.3"
         const val mokoMvvm = "0.9.1"
     }
@@ -68,6 +68,7 @@ object LibraryVersions {
         const val coil = "1.1.1"
         const val filemanager = "1.0.4"
         const val typedDataStore = "1.0.0-alpha06"
+        const val location = "18.0.0"
 
 
         object MultiPlatform {

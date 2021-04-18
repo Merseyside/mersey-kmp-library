@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
-import com.merseyside.kmpMerseyLib.arch.presentation.fragment.BaseVMFragment
 import com.merseyside.kmpMerseyLib.arch.presentation.di.BaseViewModel
+import com.merseyside.kmpMerseyLib.arch.presentation.fragment.BaseVMFragment
 import com.merseyside.utils.reflection.ReflectionUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
@@ -47,7 +48,10 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     }
 
     override fun performInjection(bundle: Bundle?) {
-        requireActivity().getViewModel(clazz = persistentClass)
+        requireParentFragment().getViewModel(
+            clazz = persistentClass,
+            parameters = { parametersOf(bundle) }
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

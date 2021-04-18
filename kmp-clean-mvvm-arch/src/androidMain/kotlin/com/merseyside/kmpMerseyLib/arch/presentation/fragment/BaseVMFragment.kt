@@ -6,8 +6,8 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.kmpMerseyLib.arch.presentation.di.BaseViewModel
-import com.merseyside.kmpMerseyLib.arch.presentation.di.SavedStateViewModel
-import com.merseyside.kmpMerseyLib.arch.presentation.di.SavedStateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.kmpMerseyLib.arch.presentation.di.StateViewModel
+import com.merseyside.kmpMerseyLib.arch.presentation.di.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.kmpMerseyLib.utils.SavedState
 import com.merseyside.utils.PermissionManager
 import com.merseyside.utils.ext.logMsg
@@ -15,12 +15,18 @@ import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.serialization.putSerialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import org.koin.androidx.scope.lifecycleScope
+import org.koin.androidx.scope.fragmentScope
+import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.scope.getViewModel
+import org.koin.core.component.KoinScopeComponent
 import org.koin.core.parameter.parametersOf
+import org.koin.core.scope.Scope
 import kotlin.reflect.KClass
 
-abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel> : BaseBindingFragment<B>() {
+abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
+    : BaseBindingFragment<B>(), KoinScopeComponent {
+
+    override val scope: Scope by fragmentScope()
 
     protected lateinit var viewModel: M
 
@@ -67,7 +73,11 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel> : BaseBind
     }
 
     override fun performInjection(bundle: Bundle?) {
-        viewModel = lifecycleScope.getViewModel(owner = this, clazz = persistentClass) { parametersOf(bundle) }
+        viewModel = scope.getViewModel(
+            owner = { ViewModelOwner.from(this)},
+            clazz = persistentClass,
+            parameters = { parametersOf(bundle) }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,10 +101,10 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel> : BaseBind
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        if (viewModel is SavedStateViewModel) {
+        if (viewModel is StateViewModel) {
             val bundle = SavedState().also { logMsg("here") }
 
-            (viewModel as SavedStateViewModel).onSaveState(bundle)
+            (viewModel as StateViewModel).onSaveState(bundle)
             outState.putSerialize(INSTANCE_STATE_KEY, bundle.getAll(), MapSerializer(String.serializer(), String.serializer()))
         }
     }

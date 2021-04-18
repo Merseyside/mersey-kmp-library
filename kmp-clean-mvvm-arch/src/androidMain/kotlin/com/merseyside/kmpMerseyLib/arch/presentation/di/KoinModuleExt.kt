@@ -1,7 +1,7 @@
 package com.merseyside.kmpMerseyLib.arch.presentation.di
 
 import android.os.Bundle
-import com.merseyside.kmpMerseyLib.arch.presentation.di.SavedStateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.kmpMerseyLib.arch.presentation.di.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.kmpMerseyLib.utils.SavedState
 import com.merseyside.utils.ext.isNotNullAndEmpty
 import com.merseyside.utils.serialization.getSerialize
@@ -14,7 +14,7 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 import java.lang.IllegalArgumentException
 
-inline fun <reified T : SavedStateViewModel> Module.savedStateViewModel(
+inline fun <reified T : StateViewModel> Module.stateViewModel(
     qualifier: Qualifier? = null,
     override: Boolean = false,
     noinline viewModelDefinition: Scope.() -> T
