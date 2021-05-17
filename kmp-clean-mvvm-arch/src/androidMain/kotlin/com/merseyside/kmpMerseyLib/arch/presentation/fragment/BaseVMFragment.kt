@@ -10,7 +10,6 @@ import com.merseyside.kmpMerseyLib.arch.presentation.di.StateViewModel
 import com.merseyside.kmpMerseyLib.arch.presentation.di.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.kmpMerseyLib.utils.SavedState
 import com.merseyside.utils.PermissionManager
-import com.merseyside.utils.ext.logMsg
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.serialization.putSerialize
 import kotlinx.serialization.builtins.MapSerializer
@@ -82,7 +81,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        getBinding().apply {
+        requireBinding().apply {
             setVariable(getBindingVariable(), viewModel)
             executePendingBindings()
         }
@@ -102,7 +101,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         super.onSaveInstanceState(outState)
 
         if (viewModel is StateViewModel) {
-            val bundle = SavedState().also { logMsg("here") }
+            val bundle = SavedState()
 
             (viewModel as StateViewModel).onSaveState(bundle)
             outState.putSerialize(INSTANCE_STATE_KEY, bundle.getAll(), MapSerializer(String.serializer(), String.serializer()))

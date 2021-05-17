@@ -10,7 +10,7 @@ plugins {
     plugin(LibraryDeps.Plugins.iosFramework)
 }
 
-group = LibraryVersions.Application.applicationId
+group = LibraryVersions.Application.groupId
 version = LibraryVersions.Application.version
 
 android {

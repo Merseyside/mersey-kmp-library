@@ -38,7 +38,7 @@ object LibraryDeps {
     }
 
     object Libs {
-        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${LibraryVersions.Libs.coroutines}"
+        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${LibraryVersions.Common.coroutines}"
         val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${LibraryVersions.Common.serialization}"
         val appCompat = "androidx.appcompat:appcompat:${LibraryVersions.Libs.appCompat}"
         val material = "com.google.android.material:material:${LibraryVersions.Libs.material}"

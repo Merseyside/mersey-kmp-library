@@ -12,24 +12,9 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="BintrayJCenter" />
-      <option name="name" value="BintrayJCenter" />
-      <option name="url" value="https://jcenter.bintray.com/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="Google" />
-      <option name="name" value="Google" />
-      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="maven9" />
       <option name="name" value="maven9" />
       <option name="url" value="https://jetbrains.bintray.com/kotlin-native-dependencies" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="maven13" />
-      <option name="name" value="maven13" />
-      <option name="url" value="https://dl.bintray.com/ekito/koin" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="MavenRepo" />
@@ -40,11 +25,6 @@
       <option name="id" value="maven2" />
       <option name="name" value="maven2" />
       <option name="url" value="https://kotlin.bintray.com/kotlinx" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="MavenLocal" />
-      <option name="name" value="MavenLocal" />
-      <option name="url" value="file:$USER_HOME$/.m2/repository/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="maven3" />
@@ -82,6 +62,16 @@
       <option name="url" value="https://dl.bintray.com/icerockdev/plugins" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:$USER_HOME$/.m2/repository/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="BintrayJCenter" />
+      <option name="name" value="BintrayJCenter" />
+      <option name="url" value="https://jcenter.bintray.com/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven4" />
       <option name="name" value="maven4" />
       <option name="url" value="https://kotlin.bintray.com/ktor" />
@@ -95,6 +85,11 @@
       <option name="id" value="maven12" />
       <option name="name" value="maven12" />
       <option name="url" value="https://plugins.gradle.org/m2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Google" />
+      <option name="name" value="Google" />
+      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
     </remote-repository>
   </component>
 </project>

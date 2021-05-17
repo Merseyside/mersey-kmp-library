@@ -78,7 +78,7 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     abstract fun getBindingVariable(): Int
 
     private fun setBindingVariable() {
-        getBinding().apply {
+        requireBinding().apply {
             setVariable(getBindingVariable(), viewModel)
             executePendingBindings()
         }
@@ -136,5 +136,5 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     }
 
     internal val persistentClass: KClass<M> =
-        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMFragment::class.java, 1).kotlin as KClass<M>
+        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMActivity::class.java, 1).kotlin as KClass<M>
 }

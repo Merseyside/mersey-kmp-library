@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(LibraryVersions.Android.compileSdk)
+    compileSdkVersion(LibraryVersions.Application.compileSdk)
 
     defaultConfig {
-        minSdkVersion(LibraryVersions.Android.minSdk)
-        targetSdkVersion(LibraryVersions.Android.targetSdk)
+        minSdkVersion(LibraryVersions.Application.minSdk)
+        targetSdkVersion(LibraryVersions.Application.targetSdk)
         versionCode = LibraryVersions.Application.versionCode
         versionName = LibraryVersions.Application.version
 
