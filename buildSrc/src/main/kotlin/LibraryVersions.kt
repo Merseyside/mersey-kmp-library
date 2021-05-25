@@ -23,15 +23,14 @@ object LibraryVersions {
     }
 
     const val kotlin = "1.5.0"
-    private const val mokoResources = "0.15.0"
+    private const val mokoResources = "0.15.1"
 
     object Plugins {
-        const val gradle = "4.1.3"
+        const val gradle = "4.2.1"
 
         const val kotlin = LibraryVersions.kotlin
         const val serialization = LibraryVersions.kotlin
         const val mokoResources = LibraryVersions.mokoResources
-        const val maven = "2.1"
         const val sqlDelight = "1.5.0"
 
     }
