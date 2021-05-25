@@ -28,7 +28,7 @@ jobs:
 
         # Runs upload, and then closes & releases the repository
       - name: Publish arch to MavenCentral
-        run: ./gradlew :kmp-clean-mvvm-arch:publishReleasePublicationToSonatypeRepository
+        run: ./gradlew :kmp-clean-mvvm-arch:publishAllPublicationToSonatypeRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
@@ -37,7 +37,7 @@ jobs:
           SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
 
       - name: Publish utils to MavenCentral
-        run: ./gradlew :kmp-utils:publishReleasePublicationToSonatypeRepository
+        run: ./gradlew :kmp-utils:publishAllPublicationToSonatypeRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
