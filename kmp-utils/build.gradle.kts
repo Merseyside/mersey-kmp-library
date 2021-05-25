@@ -1,4 +1,3 @@
-import extensions.isLocalDependencies
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,7 +5,7 @@ plugins {
     plugin(LibraryDeps.Plugins.kotlinMultiplatform)
     plugin(LibraryDeps.Plugins.kotlinKapt)
     plugin(LibraryDeps.Plugins.mobileMultiplatform)
-    plugin(LibraryDeps.Plugins.mavenPublish)
+    plugin(LibraryDeps.Plugins.mavenCentralPublish)
     plugin(LibraryDeps.Plugins.iosFramework)
 }
 
@@ -40,10 +39,8 @@ tasks.withType<KotlinCompile> {
 }
 
 kotlin {
-    android()
-
     android {
-        publishAllLibraryVariants()
+        publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
 }
@@ -85,19 +82,4 @@ dependencies {
 
 framework {
     mppLibs.forEach { export(it) }
-}
-
-publishing {
-    repositories.maven("https://api.bintray.com/maven/merseysoft/mersey-library/kmp-utils/;publish=1") {
-        name = "bintray"
-
-        credentials {
-            username = System.getProperty("BINTRAY_USER")
-            password = System.getProperty("BINTRAY_KEY")
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
 }

@@ -1,7 +1,7 @@
 object LibraryVersions {
 
     object Application {
-        const val groupId = "com.github.Merseyside"
+        const val groupId = "io.github.merseyside"
         const val artifactId = "mersey-android-library"
         const val applicationId = "com.merseyside.merseyKmpLibrary"
 
@@ -17,7 +17,7 @@ object LibraryVersions {
         const val kotlinStdLib = kotlin
         const val coroutines = "1.5.0-native-mt"
         const val serialization = "1.2.1"
-        const val koin = "3.0.1"
+        const val koin = "3.0.2"
         const val merseyLibs = "1.3.4"
         const val mokoMvvm = "0.10.1"
     }
