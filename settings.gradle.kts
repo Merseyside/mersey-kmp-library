@@ -3,7 +3,7 @@ include(":app")
 include(":kmp-clean-mvvm-arch")
 include(":kmp-utils")
 
-private val isLocalDependencies = true
+private val isLocalDependencies = false
 
 if (isLocalDependencies) {
 
