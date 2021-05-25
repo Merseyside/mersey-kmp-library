@@ -9,15 +9,12 @@ repositories {
     mavenCentral()
     google()
     gradlePluginPortal()
-
-    maven { url = uri("https://dl.bintray.com/icerockdev/plugins") }
 }
 
 val multiplatform = "0.9.2"
 val kotlin = "1.5.0"
 val gradle = "4.2.1"
-val mavenVersion = "2.1"
-val resources = "0.15.0"
+val resources = "0.15.1"
 val sqldelight = "1.5.0"
 
 dependencies {
