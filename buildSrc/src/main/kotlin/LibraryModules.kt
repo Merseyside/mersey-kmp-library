@@ -2,17 +2,18 @@ object LibraryModules {
 
     object MultiPlatform {
 
-        val cleanMvvmArch = MultiPlatformModule(
-            name = ":kmp-clean-mvvm-arch",
+        val archyCore = MultiPlatformModule(
+            name = ":archy-core",
             exported = true
         )
 
-        val utils = MultiPlatformModule(
-            name = ":kmp-utils",
+        val utilsCore = MultiPlatformModule(
+            name = ":utils-core",
             exported = true
         )
     }
 
+    const val archyAndroid = ":archy-android"
 
     const val archy = ":archy"
     const val adapters = ":adapters"

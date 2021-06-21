@@ -8,7 +8,7 @@ on:
 jobs:
   publish:
     name: Release build and publish
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -17,30 +17,11 @@ jobs:
         with:
           java-version: 1.8
 
-        # Base64 decodes and pipes the GPG key content into the secret file
-      - name: Prepare environment
-        env:
-          GPG_KEY_CONTENTS: ${{ secrets.GPG_KEY_CONTENTS }}
-          SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
-        run: |
-          git fetch --unshallow
-          sudo bash -c "echo '$GPG_KEY_CONTENTS' | base64 -d > '$SIGNING_SECRET_KEY_RING_FILE'"
-
-        # Runs upload, and then closes & releases the repository
-      - name: Publish arch to MavenCentral
-        run: ./gradlew :kmp-clean-mvvm-arch:publishAllPublicationToSonatypeRepository
+      - name: Build and publish to mavenCentral
+        run: ./gradlew publish
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
-
-      - name: Publish utils to MavenCentral
-        run: ./gradlew :kmp-utils:publishAllPublicationToSonatypeRepository
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
+          SIGNING_KEY: ${{ secrets.GPG_KEY_CONTENTS }}
