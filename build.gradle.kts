@@ -26,11 +26,6 @@ allprojects {
     }
 
     plugins.withId(LibraryDeps.Plugins.mavenPublish.id) {
-        ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-        ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-        ext["signing.signingKey"] = System.getenv("SIGNING_KEY")
-        ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-        ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 
         configure<PublishingExtension> {
             repositories {
@@ -38,8 +33,8 @@ allprojects {
                     name = "sonatype"
                     setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                     credentials {
-                        username = getExtraString("ossrhUsername")
-                        password = getExtraString("ossrhPassword")
+                        username = System.getenv("OSSRH_USERNAME")
+                        password = System.getenv("OSSRH_PASSWORD")
                     }
                 }
             }
@@ -78,9 +73,9 @@ allprojects {
             apply(plugin = LibraryDeps.Plugins.signing.id)
 
             configure<SigningExtension> {
-                val signingKeyId: String? = getExtraString("signing.keyId")
-                val signingPassword: String? = getExtraString("signing.password")
-                val signingKey: String? = getExtraString("signing.signingKey")?.let { base64Key ->
+                val signingKeyId: String? = System.getenv("SIGNING_KEY_ID")
+                val signingPassword: String? = System.getenv("SIGNING_PASSWORD")
+                val signingKey: String? = System.getenv("SIGNING_KEY")?.let { base64Key ->
                     val _base = base64Key.replace("\n", "")
                     String(Base64.getDecoder().decode(_base))
                 }
