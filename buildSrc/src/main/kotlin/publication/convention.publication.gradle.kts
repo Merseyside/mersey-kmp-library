@@ -1,5 +1,6 @@
 package publication
 
+import java.util.Base64
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.`maven-publish`
@@ -14,7 +15,7 @@ plugins {
 // Stub secrets to let the project sync and build without the publication values set up
 ext["signing.keyId"] = null
 ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
+ext["signing.signingKey"] = null
 ext["ossrhUsername"] = null
 ext["ossrhPassword"] = null
 
@@ -31,7 +32,7 @@ if (secretPropsFile.exists()) {
 } else {
     ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
     ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+    ext["signing.signingKey"] = System.getenv("GPG_KEY_CONTENT")
     ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
     ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
@@ -83,7 +84,18 @@ publishing {
             scm {
                 url.set("https://github.com/Merseyside/mersey-kmp-library")
             }
+        }
 
+        configure<SigningExtension> {
+            val signingKeyId: String? = getExtraString("signing.keyId")
+            val signingPassword: String? = getExtraString("signing.password")
+            val signingKey: String? = getExtraString("signing.signingKey")?.let { base64Key ->
+                String(Base64.getDecoder().decode(base64Key))
+            }
+            if (signingKeyId != null) {
+                useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+                sign(publications)
+            }
         }
     }
 }
