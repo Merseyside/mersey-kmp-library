@@ -4,7 +4,7 @@ plugins {
     plugin(LibraryDeps.Plugins.androidLibrary)
     plugin(LibraryDeps.Plugins.kotlinAndroid)
     plugin(LibraryDeps.Plugins.kotlinKapt)
-    plugin(LibraryDeps.Plugins.mavenCentralPublish)
+    plugin(LibraryDeps.Plugins.mavenPublish)
 }
 
 group = LibraryVersions.Application.groupId

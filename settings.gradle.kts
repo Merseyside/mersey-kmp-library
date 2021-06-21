@@ -1,5 +1,3 @@
-include(":app")
-
 include(":archy-core")
 include(":utils-core")
 include(":archy-android")

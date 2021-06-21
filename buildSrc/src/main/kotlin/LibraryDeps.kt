@@ -7,6 +7,7 @@ object LibraryDeps {
         val iosFramework = GradlePlugin(id = "dev.icerock.mobile.multiplatform.ios-framework")
         val mavenCentralPublish = GradlePlugin(id = "publication.convention.publication")
         val mavenPublish = GradlePlugin(id = "maven-publish")
+        val signing = GradlePlugin(id = "signing")
 
         val androidLibrary = GradlePlugin(
             id = "com.android.library",

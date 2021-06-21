@@ -5,7 +5,7 @@ plugins {
     plugin(LibraryDeps.Plugins.kotlinMultiplatform)
     plugin(LibraryDeps.Plugins.kotlinKapt)
     plugin(LibraryDeps.Plugins.mobileMultiplatform)
-    plugin(LibraryDeps.Plugins.mavenCentralPublish)
+    plugin(LibraryDeps.Plugins.mavenPublish)
     plugin(LibraryDeps.Plugins.resources)
     plugin(LibraryDeps.Plugins.sqldelight)
     plugin(LibraryDeps.Plugins.iosFramework)

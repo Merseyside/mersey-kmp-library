@@ -4,12 +4,10 @@ import java.util.Base64
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.`maven-publish`
-import org.gradle.kotlin.dsl.signing
 import java.util.*
 
 plugins {
     `maven-publish`
-    signing
 }
 
 // Stub secrets to let the project sync and build without the publication values set up
@@ -43,7 +41,7 @@ val javadocJar by tasks.registering(Jar::class) {
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
-publishing {
+configure<PublishingExtension> {
     // Configure maven central repository
     repositories {
         maven {
@@ -85,6 +83,8 @@ publishing {
                 url.set("https://github.com/Merseyside/mersey-kmp-library")
             }
         }
+
+        apply(plugin = LibraryDeps.Plugins.signing.id)
 
         configure<SigningExtension> {
             val signingKeyId: String? = getExtraString("signing.keyId")
