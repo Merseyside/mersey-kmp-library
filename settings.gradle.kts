@@ -1,7 +1,8 @@
 include(":app")
 
-include(":kmp-clean-mvvm-arch")
-include(":kmp-utils")
+include(":archy-core")
+include(":utils-core")
+include(":archy-android")
 
 private val isLocalDependencies = false
 
