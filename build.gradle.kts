@@ -81,11 +81,10 @@ allprojects {
                 val signingKeyId: String? = getExtraString("signing.keyId")
                 val signingPassword: String? = getExtraString("signing.password")
                 val signingKey: String? = getExtraString("signing.signingKey")?.let { base64Key ->
-                    print(base64Key)
-                    String(Base64.getDecoder().decode(base64Key))
+                    val _base = base64Key.replace("\n", "")
+                    String(Base64.getDecoder().decode(_base))
                 }
                 if (signingKeyId != null) {
-
                     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
                     sign(publications)
                 }
