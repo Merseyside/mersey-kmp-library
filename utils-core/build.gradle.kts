@@ -43,18 +43,6 @@ kotlin {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
-
-    ios()
-
-    sourceSets {
-        val iosArm64Main by getting
-        val iosX64Main by getting
-
-        val iosMain by getting {
-            iosArm64Main.dependsOn(this)
-            iosX64Main.dependsOn(this)
-        }
-    }
 }
 
 val mppLibs = listOf(
