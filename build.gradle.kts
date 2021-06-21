@@ -98,9 +98,9 @@ allprojects {
             apply(plugin = LibraryDeps.Plugins.signing.id)
 
             configure<SigningExtension> {
-                val signingKeyId: String? = System.getenv("SIGNING_KEY_ID")
-                val signingPassword: String? = System.getenv("SIGNING_PASSWORD")
-                val signingKey: String? = System.getenv("SIGNING_KEY")?.let { base64Key ->
+                val signingKeyId: String? = getExtraString("signing.keyId")
+                val signingPassword: String? = getExtraString("signing.password")
+                val signingKey: String? = getExtraString("signing.signingKey")?.let { base64Key ->
                     String(Base64.getDecoder().decode(base64Key))
                 }
                 if (signingKeyId != null) {
