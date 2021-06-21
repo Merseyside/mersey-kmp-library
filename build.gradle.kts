@@ -21,36 +21,16 @@ allprojects {
 
     fun getExtraString(name: String) = ext[name]?.toString()
 
-    // Stub secrets to let the project sync and build without the publication values set up
-    ext["signing.keyId"] = null
-    ext["signing.password"] = null
-    ext["signing.signingKey"] = null
-    ext["ossrhUsername"] = null
-    ext["ossrhPassword"] = null
-
-// Grabbing secrets from local.properties file or from environment variables, which could be used on CI
-    val secretPropsFile = project.rootProject.file("local.properties")
-    if (secretPropsFile.exists()) {
-        secretPropsFile.reader().use {
-            java.util.Properties().apply {
-                load(it)
-            }
-        }.onEach { (name, value) ->
-            ext[name.toString()] = value
-        }
-    } else {
-        ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-        ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-        ext["signing.signingKey"] = System.getenv("GPG_KEY_CONTENT")
-        ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-        ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
-    }
-
     val javadocJar by tasks.registering(Jar::class) {
         archiveClassifier.set("javadoc")
     }
 
     plugins.withId(LibraryDeps.Plugins.mavenPublish.id) {
+        ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+        ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+        ext["signing.signingKey"] = System.getenv("SIGNING_KEY")
+        ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+        ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 
         configure<PublishingExtension> {
             repositories {
