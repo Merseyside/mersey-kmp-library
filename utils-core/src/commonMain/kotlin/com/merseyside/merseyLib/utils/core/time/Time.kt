@@ -48,4 +48,3 @@ fun getFormattedDate(timestamp: TimeUnit, pattern: String): String {
 }
 
 expect fun getFormattedDate(timestamp: Long, pattern: String): String
-

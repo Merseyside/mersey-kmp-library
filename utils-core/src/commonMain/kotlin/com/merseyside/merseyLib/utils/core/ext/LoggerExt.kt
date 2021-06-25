@@ -1,6 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
+import com.merseyside.merseyLib.utils.core.Logger.log as loggerLog
 
 fun <T> T.log(tag: Any = Logger.TAG, prefix: Any? = null, suffix: Any? = null): T {
     val msg = "${prefix ?: ""} $this ${suffix ?: ""}"
@@ -10,5 +11,5 @@ fun <T> T.log(tag: Any = Logger.TAG, prefix: Any? = null, suffix: Any? = null): 
 }
 
 inline fun <reified T> T.logMsg(message: Any? = null): T {
-    return this.also { Logger.log(T::class.simpleName ?: Logger.TAG, message) }
+    return this.also { loggerLog(T::class.simpleName ?: Logger.TAG, message) }
 }

@@ -27,8 +27,7 @@ inline fun <reified T : StateViewModel> Module.stateViewModel(
                     addAll(bundle.getSerialize(
                         INSTANCE_STATE_KEY,
                         MapSerializer(String.serializer(), String.serializer())
-                    ) ?: throw IllegalArgumentException()
-                    )
+                    ) ?: throw IllegalArgumentException())
                 }
 
                 onRestoreState(savedState)

@@ -5,6 +5,7 @@ plugins {
     plugin(LibraryDeps.Plugins.kotlinMultiplatform)
     plugin(LibraryDeps.Plugins.kotlinKapt)
     plugin(LibraryDeps.Plugins.mobileMultiplatform)
+    plugin(LibraryDeps.Plugins.kotlinSerialization)
     plugin(LibraryDeps.Plugins.mavenPublish)
     plugin(LibraryDeps.Plugins.iosFramework)
 }
@@ -73,7 +74,7 @@ dependencies {
     mppLibs.forEach { mppLibrary(it) }
     androidLibraries.forEach { lib -> implementation(lib) }
 
-    if (isLocalDependencies()) {
+    if (isLocalAndroidDependencies()) {
         merseyModules.forEach { module -> implementation(project(module)) }
     } else {
         merseyLibs.forEach { lib ->  implementation(lib) }

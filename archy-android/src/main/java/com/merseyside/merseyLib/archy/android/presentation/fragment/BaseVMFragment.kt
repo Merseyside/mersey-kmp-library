@@ -89,7 +89,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         viewModel.apply {
             errorLiveEvent.addObserver(errorObserver)
             messageLiveEvent.addObserver(messageObserver)
-            isInProgressLiveData.addObserver(progressObserver)
+            isInProgress.addObserver(progressObserver)
             alertDialogLiveEvent.addObserver(alertDialogModelObserver)
             grantPermissionLiveEvent.addObserver(permissionObserver)
         }
@@ -145,7 +145,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         viewModel.apply {
             errorLiveEvent.removeObserver(errorObserver)
             messageLiveEvent.removeObserver(messageObserver)
-            isInProgressLiveData.removeObserver(progressObserver)
+            isInProgress.removeObserver(progressObserver)
             alertDialogLiveEvent.removeObserver(alertDialogModelObserver)
             grantPermissionLiveEvent.removeObserver(permissionObserver)
         }

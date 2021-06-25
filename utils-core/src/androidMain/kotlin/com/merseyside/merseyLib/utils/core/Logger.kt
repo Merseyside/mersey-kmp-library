@@ -6,43 +6,43 @@ actual object Logger {
     actual var isEnabled: Boolean = true
     actual var isDebug = true
 
-    actual fun log(tag: Any, msg: Any) {
+    actual fun log(tag: Any?, msg: Any?) {
         if (isLogging()) {
             Log.d(adoptTag(tag), adoptMsg(msg))
         }
     }
 
-    actual fun log(msg: Any) {
+    actual fun log(msg: Any?) {
         log(TAG, msg)
     }
 
-    actual fun logErr(tag: Any, msg: Any) {
+    actual fun logErr(tag: Any?, msg: Any?) {
         if (isLogging()) {
             Log.e(adoptTag(tag), adoptMsg(msg))
         }
     }
 
-    actual fun logErr(msg: Any) {
+    actual fun logErr(msg: Any?) {
         logErr("", msg)
     }
 
-    actual fun logInfo(tag: Any, msg: Any) {
+    actual fun logInfo(tag: Any?, msg: Any?) {
         if (isLogging()) {
             Log.i(adoptTag(tag), adoptMsg(msg))
         }
     }
 
-    actual fun logInfo(msg: Any) {
+    actual fun logInfo(msg: Any?) {
         logInfo("", msg)
     }
 
-    actual fun logWtf(tag: Any, msg: Any) {
+    actual fun logWtf(tag: Any?, msg: Any?) {
         if (isLogging()) {
             Log.wtf(adoptTag(tag), adoptMsg(msg))
         }
     }
 
-    actual fun logWtf(msg: Any) {
+    actual fun logWtf(msg: Any?) {
         logWtf("", msg)
     }
 
@@ -52,7 +52,7 @@ actual object Logger {
         }
     }
 
-    actual fun logErr(tag: Any, throwable: Throwable) {
+    actual fun logErr(tag: Any?, throwable: Throwable) {
         if (isLogging()) {
             Log.d(adoptTag(tag), throwable.message ?: "No message")
         }

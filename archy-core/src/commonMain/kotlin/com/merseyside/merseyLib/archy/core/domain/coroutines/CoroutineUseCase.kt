@@ -29,6 +29,7 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
             } catch (throwable: Throwable) {
                 Logger.logErr(throwable)
                 onError(throwable)
+                throwable.printStackTrace()
             }
 
             onPostExecute()

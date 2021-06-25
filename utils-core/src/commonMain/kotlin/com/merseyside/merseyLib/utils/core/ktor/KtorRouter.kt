@@ -1,5 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
+import com.merseyside.merseyLib.utils.core.ext.log
+import com.merseyside.merseyLib.utils.core.ext.logMsg
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.*
@@ -52,6 +54,7 @@ abstract class KtorRouter(
         vararg queryParams: Pair<String, String>
     ) {
         this.method = method
+        baseUrl.log()
         url {
             baseUrl?.let { host = it }
             encodedPath = path

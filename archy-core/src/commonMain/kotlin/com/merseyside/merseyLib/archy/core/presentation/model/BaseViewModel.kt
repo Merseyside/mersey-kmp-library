@@ -3,13 +3,20 @@ package com.merseyside.merseyLib.archy.core.presentation.model
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
+import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.resources.StringResource
 
 abstract class BaseViewModel protected constructor() : ViewModel() {
 
-    val isInProgress = MutableLiveData(false)
+    private val _isInProgress = MutableLiveData(false)
+    val isInProgress: LiveData<Boolean> = _isInProgress
+
+    protected var progress: Boolean
+        get() { return _isInProgress.value }
+        set(value) { _isInProgress.value = value }
+
     val progressText = MutableLiveData<String?>(null)
 
     val errorLiveEvent: MutableLiveData<Throwable?> =
@@ -17,8 +24,6 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
 
     val messageLiveEvent: MutableLiveData<TextMessage?> =
         MutableLiveData(null)
-
-    val isInProgressLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val alertDialogLiveEvent: MutableLiveData<AlertDialogModel?> =
         MutableLiveData(null)
@@ -110,18 +115,18 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
     fun showProgress(text: String? = null) {
         Logger.log(this, text ?: "Empty")
 
-        isInProgress.value = true
+        progress = true
         progressText.value = text
 
-        isInProgressLiveData.value = true
+        progress = true
     }
 
     fun hideProgress() {
-        if (isInProgressLiveData.value) {
-            isInProgress.value = false
+        if (progress) {
+            progress = false
             progressText.value = null
 
-            isInProgressLiveData.value = false
+            progress = false
         }
     }
 

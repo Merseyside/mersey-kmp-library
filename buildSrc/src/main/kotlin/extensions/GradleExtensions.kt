@@ -23,6 +23,10 @@ inline fun <reified T> Project.findTypedProperty(propertyName: String): T {
 fun Project.isLocalDependencies(): Boolean =
     findTypedProperty("build.localDependencies")
 
+fun Project.isLocalAndroidDependencies(): Boolean =
+    findTypedProperty("build.localAndroidDependencies")
+
+
 fun DependencyHandler.androidImplementation(dependencyNotation: AndroidLibrary): Dependency? =
     add("implementation", dependencyNotation.name)
 

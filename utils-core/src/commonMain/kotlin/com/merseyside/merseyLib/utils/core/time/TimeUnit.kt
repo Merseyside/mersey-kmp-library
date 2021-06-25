@@ -2,6 +2,7 @@
 
 package com.merseyside.merseyLib.utils.core.time
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
 object Conversions {
@@ -102,6 +103,7 @@ interface TimeUnit {
     }
 }
 
+@Serializable
 @JvmInline
 value class Millis(override val value: Long): TimeUnit {
 
@@ -137,6 +139,7 @@ value class Millis(override val value: Long): TimeUnit {
     }
 }
 
+@Serializable
 @JvmInline
 value class Seconds(override val value: Long): TimeUnit {
 
@@ -172,6 +175,7 @@ value class Seconds(override val value: Long): TimeUnit {
     }
 }
 
+@Serializable
 @JvmInline
 value class Minutes(override val value: Long): TimeUnit {
 
@@ -207,6 +211,7 @@ value class Minutes(override val value: Long): TimeUnit {
     }
 }
 
+@Serializable
 @JvmInline
 value class Hours(override val value: Long): TimeUnit {
 
@@ -242,6 +247,7 @@ value class Hours(override val value: Long): TimeUnit {
     }
 }
 
+@Serializable
 @JvmInline
 value class Days(override val value: Long): TimeUnit {
 

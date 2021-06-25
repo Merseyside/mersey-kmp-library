@@ -97,7 +97,7 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     private fun observeViewModel() {
         viewModel.apply {
             messageLiveEvent.addObserver(messageObserver)
-            isInProgressLiveData.addObserver(loadingObserver)
+            isInProgress.addObserver(loadingObserver)
             alertDialogLiveEvent.addObserver(alertDialogModel)
             grantPermissionLiveEvent.addObserver(permissionObserver)
         }

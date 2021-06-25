@@ -62,7 +62,7 @@ val merseyLibs = listOf(
 dependencies {
     api(project(LibraryModules.MultiPlatform.archyCore.name))
 
-    if (isLocalDependencies()) {
+    if (isLocalAndroidDependencies()) {
         merseyModules.forEach { module -> implementation(project(module)) }
     } else {
         merseyLibs.forEach { lib -> implementation(lib) }

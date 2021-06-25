@@ -40,5 +40,3 @@ fun <T: CharSequence> T.toHours(): Hours {
 fun <T: CharSequence> T.toDays(): Days {
     return this.toString().toLong().toDays()
 }
-
-expect fun String.toTimeUnit(dateFormat: String): TimeUnit
