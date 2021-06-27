@@ -8,19 +8,17 @@ import com.merseyside.utils.ext.isNotNullAndEmpty
 import com.merseyside.utils.serialization.getSerialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import org.koin.androidx.viewmodel.dsl.setIsViewModel
-import org.koin.core.definition.BeanDefinition
+import org.koin.core.instance.InstanceFactory
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 
 inline fun <reified T : StateViewModel> Module.stateViewModel(
     qualifier: Qualifier? = null,
-    override: Boolean = false,
     noinline viewModelDefinition: Scope.() -> T
-): BeanDefinition<T> {
+): Pair<Module, InstanceFactory<T>> {
 
-    val beanDefinition = factory(qualifier, override) { (bundle: Bundle) ->
+    return factory(qualifier) { (bundle: Bundle) ->
         viewModelDefinition().apply {
             if (bundle.isNotNullAndEmpty()) {
                 val savedState = SavedState().apply {
@@ -34,6 +32,4 @@ inline fun <reified T : StateViewModel> Module.stateViewModel(
             }
         }
     }
-    beanDefinition.setIsViewModel()
-    return beanDefinition
 }

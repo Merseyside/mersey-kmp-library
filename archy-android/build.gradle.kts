@@ -45,8 +45,7 @@ val androidLibraries = listOf(
     LibraryDeps.Libs.fragment,
     LibraryDeps.Libs.lifecycleViewModelSavedState,
     LibraryDeps.Libs.annotation,
-    LibraryDeps.Libs.koin,
-    LibraryDeps.Libs.koinExt
+    LibraryDeps.Libs.koin
 )
 
 val merseyModules = listOf(

@@ -104,7 +104,8 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
             val bundle = SavedState()
 
             (viewModel as StateViewModel).onSaveState(bundle)
-            outState.putSerialize(INSTANCE_STATE_KEY, bundle.getAll(), MapSerializer(String.serializer(), String.serializer()))
+            outState.putSerialize(INSTANCE_STATE_KEY, bundle.getAll(),
+                MapSerializer(String.serializer(), String.serializer()))
         }
     }
 
