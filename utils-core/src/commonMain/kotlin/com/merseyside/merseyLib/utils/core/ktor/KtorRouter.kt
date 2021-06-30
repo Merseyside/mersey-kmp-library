@@ -1,7 +1,5 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import com.merseyside.merseyLib.utils.core.ext.log
-import com.merseyside.merseyLib.utils.core.ext.logMsg
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.*
@@ -13,11 +11,11 @@ import kotlinx.serialization.json.Json
 abstract class KtorRouter(
     val client: HttpClient,
     val json: Json = createJson(),
-    val baseUrl: String? = null
+    val baseUrl: () -> String = { "" }
 ) {
     constructor(
         httpClientEngine: HttpClientEngine,
-        baseUrl: String,
+        baseUrl: () -> String,
         json: Json = createJson(),
         defaultRequest: HttpRequestBuilder.() -> Unit = {}
     ) : this(
@@ -32,7 +30,7 @@ abstract class KtorRouter(
     )
 
     constructor(
-        baseUrl: String,
+        baseUrl: () -> String,
         json: Json = createJson(),
         defaultRequest: HttpRequestBuilder.() -> Unit = {}
     ) : this(
@@ -54,9 +52,8 @@ abstract class KtorRouter(
         vararg queryParams: Pair<String, String>
     ) {
         this.method = method
-        baseUrl.log()
         url {
-            baseUrl?.let { host = it }
+            baseUrl().let { if (it.isNotEmpty()) host = it }
             encodedPath = path
             queryParams.forEach { parameters.append(it.first, it.second) }
         }

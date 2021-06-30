@@ -22,7 +22,7 @@ fun String?.isNotNullAndEmpty(): Boolean {
     return this != null && this.isNotEmpty()
 }
 
-inline fun <reified T: Any> String?.isNotNullAndEmpty(block: String.() -> T): T? {
+fun <T: Any> String?.isNotNullAndEmpty(block: String.() -> T): T? {
     return if (isNotNullAndEmpty()) {
         this.block()
     } else {
