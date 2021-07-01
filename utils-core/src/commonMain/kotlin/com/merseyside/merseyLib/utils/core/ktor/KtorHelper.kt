@@ -12,11 +12,11 @@ import kotlinx.serialization.serializer
 
 typealias Response = Any
 
-fun HttpRequestBuilder.addHeader(key: String, value: String) {
+fun HttpRequestBuilder.addHeader(key: String, value: Any) {
     header(key, value)
 }
 
-fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, String>) {
+fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
     pairs.forEach { pair -> addHeader(pair.first, pair.second) }
 }
 
@@ -110,7 +110,7 @@ suspend inline fun <reified T: Any> KtorRouter.request(
     deserializationStrategy: DeserializationStrategy<T>? = null,
     block: HttpRequestBuilder.() -> Unit = {}
 ): T {
-    val call = client.request<String> {
+    val call = client().request<String> {
         buildUrl(httpMethod, path, *queryParams)
         block()
     }
