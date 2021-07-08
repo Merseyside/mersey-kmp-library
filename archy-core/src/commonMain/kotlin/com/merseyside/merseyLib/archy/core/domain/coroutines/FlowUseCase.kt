@@ -50,4 +50,9 @@ abstract class FlowUseCase<T, Params> : CoroutineScope by CoroutineScope(applica
         job?.cancel()
         job = null
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    operator fun invoke(params: Params? = null): Flow<T> {
+        return executeOnBackground(params)
+    }
 }

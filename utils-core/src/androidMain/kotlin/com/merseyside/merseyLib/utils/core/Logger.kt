@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.utils.core
 import android.util.Log
 
 actual object Logger {
+
     actual var isEnabled: Boolean = true
     actual var isDebug = true
 
@@ -48,6 +49,7 @@ actual object Logger {
 
     actual fun logErr(throwable: Throwable) {
         if (isLogging()) {
+            throwable.printStackTrace()
             Log.d(TAG, throwable.message ?: "No message")
         }
     }

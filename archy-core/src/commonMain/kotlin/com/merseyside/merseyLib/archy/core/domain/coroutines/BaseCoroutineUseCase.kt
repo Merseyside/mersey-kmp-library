@@ -33,4 +33,6 @@ abstract class BaseCoroutineUseCase<T, Params> {
         job?.cancel(cause)
         job = null
     }
+
+    suspend operator fun invoke(params: Params? = null) = executeOnBackground(params)
 }

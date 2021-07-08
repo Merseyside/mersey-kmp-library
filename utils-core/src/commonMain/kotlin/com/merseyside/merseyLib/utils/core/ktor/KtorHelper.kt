@@ -20,10 +20,10 @@ fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
     pairs.forEach { pair -> addHeader(pair.first, pair.second) }
 }
 
-fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, String>) {
+fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
     body = FormDataContent(
         Parameters.build {
-            pairs.forEach { pair -> append(pair.first, pair.second) }
+            pairs.forEach { pair -> append(pair.first, pair.second.toString()) }
         })
 }
 
