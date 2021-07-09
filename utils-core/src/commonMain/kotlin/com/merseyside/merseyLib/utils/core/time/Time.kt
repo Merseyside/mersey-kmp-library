@@ -2,25 +2,17 @@ package com.merseyside.merseyLib.utils.core.time
 
 enum class TimeZone { SYSTEM, GMT }
 
-fun getCurrentTimeMillis(timeZone: TimeZone = TimeZone.GMT): Long {
-    return getCurrentTimeMillis(timeZone.name)
-}
-
-expect fun getCurrentTimeMillis(timeZone: String): Long
+expect fun getCurrentTimeMillis(): Long
 
 /**
  * If set return type to Millis
  */
-fun getCurrentTimeUnit(timeZone: TimeZone = TimeZone.GMT): TimeUnit {
-    return getCurrentTimeUnit(timeZone.name)
-}
-
-fun getCurrentTimeUnit(timeZone: String): TimeUnit {
-    return Millis(getCurrentTimeMillis(timeZone))
+fun getCurrentTimeUnit(): TimeUnit {
+    return Millis(getCurrentTimeMillis())
 }
 
 fun getHoursMinutes(timestamp: Long): String {
-    return getFormattedDate(timestamp, "hh:mm")
+    return toFormattedDate(timestamp, "hh:mm")
 }
 
 fun getHoursMinutes(timestamp: TimeUnit): String {
@@ -28,7 +20,7 @@ fun getHoursMinutes(timestamp: TimeUnit): String {
 }
 
 fun getDate(timestamp: Long): String {
-    return getFormattedDate(timestamp, "dd.MM.YYYY")
+    return toFormattedDate(timestamp, "dd.MM.YYYY")
 }
 
 fun getDate(timestamp: TimeUnit): String {
@@ -36,15 +28,15 @@ fun getDate(timestamp: TimeUnit): String {
 }
 
 fun getDateWithTime(timestamp: Long): String {
-    return getFormattedDate(timestamp, "dd-MM-YYYY hh:mm")
+    return toFormattedDate(timestamp, "dd-MM-YYYY hh:mm")
 }
 
 fun getDateWithTime(timestamp: TimeUnit): String {
     return getDateWithTime(timestamp.toMillisLong())
 }
 
-fun getFormattedDate(timestamp: TimeUnit, pattern: String): String {
-    return getFormattedDate(timestamp.toMillisLong(), pattern)
+fun toFormattedDate(timestamp: TimeUnit, pattern: String): FormattedDate {
+    return FormattedDate(toFormattedDate(timestamp.toMillisLong(), pattern))
 }
 
-expect fun getFormattedDate(timestamp: Long, pattern: String): String
+expect fun toFormattedDate(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String

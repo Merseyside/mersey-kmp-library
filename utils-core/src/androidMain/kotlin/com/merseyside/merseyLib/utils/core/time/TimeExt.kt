@@ -1,31 +1,27 @@
 @file:JvmName("AndroidTimeExt")
+
 package com.merseyside.merseyLib.utils.core.time
 
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.TimeZone as SystemTimeZone
 
-actual fun getCurrentTimeMillis(timeZone: String): Long {
-    return when (timeZone) {
-        TimeZone.SYSTEM.name -> {
-            val offset: Int = java.util.TimeZone.getDefault().rawOffset +
-                java.util.TimeZone.getDefault().dstSavings
-            return System.currentTimeMillis() + offset
-        }
-
-        else -> {
-            Calendar.getInstance(java.util.TimeZone.getTimeZone(timeZone)).timeInMillis
-        }
-    }
+actual fun getCurrentTimeMillis(): Long {
+    return System.currentTimeMillis()
 }
 
-actual fun getFormattedDate(timestamp: Long, pattern: String): String {
+actual fun toFormattedDate(timestamp: Long, pattern: String, timeZone: String): String {
     return try {
 
         val sdf = SimpleDateFormat(pattern, Locale.US)
 
         val netDate = Date(timestamp)
+        if (timeZone != TimeZone.SYSTEM.toString()) {
+            sdf.timeZone = SystemTimeZone.getTimeZone(timeZone)
+        }
         sdf.format(netDate)
     } catch (e: Exception) {
-        e.toString()
+        e.printStackTrace()
+        throw IllegalArgumentException("Can not format date!")
     }
 }
