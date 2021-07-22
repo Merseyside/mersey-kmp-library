@@ -11,32 +11,22 @@ fun getCurrentTimeUnit(): TimeUnit {
     return Millis(getCurrentTimeMillis())
 }
 
-fun getHoursMinutes(timestamp: Long): String {
-    return toFormattedDate(timestamp, "hh:mm")
+fun getHoursMinutes(timestamp: TimeUnit): FormattedDate {
+    return FormattedDate(getHoursMinutes(timestamp.millis, "HH:mm"))
 }
 
-fun getHoursMinutes(timestamp: TimeUnit): String {
-    return getHoursMinutes(timestamp.toMillisLong())
+fun getDate(timestamp: TimeUnit): FormattedDate {
+    return getFormattedDate(timestamp, "dd.MM.YYYY")
 }
 
-fun getDate(timestamp: Long): String {
-    return toFormattedDate(timestamp, "dd.MM.YYYY")
+fun getDateWithTime(timestamp: TimeUnit): FormattedDate {
+    return getFormattedDate(timestamp, "dd-MM-YYYY hh:mm")
 }
 
-fun getDate(timestamp: TimeUnit): String {
-    return getDate(timestamp.toMillisLong())
+fun getFormattedDate(timestamp: TimeUnit, pattern: String): FormattedDate {
+    return FormattedDate(getFormattedDate(timestamp.millis, pattern))
 }
 
-fun getDateWithTime(timestamp: Long): String {
-    return toFormattedDate(timestamp, "dd-MM-YYYY hh:mm")
-}
+expect fun getHoursMinutes(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
 
-fun getDateWithTime(timestamp: TimeUnit): String {
-    return getDateWithTime(timestamp.toMillisLong())
-}
-
-fun toFormattedDate(timestamp: TimeUnit, pattern: String): FormattedDate {
-    return FormattedDate(toFormattedDate(timestamp.toMillisLong(), pattern))
-}
-
-expect fun toFormattedDate(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
+expect fun getFormattedDate(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String

@@ -1,6 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
 import com.merseyside.merseyLib.utils.core.serialization.deserialize
+import com.merseyside.merseyLib.utils.core.serialization.serialize
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
@@ -8,6 +9,10 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.serializer
 
 typealias Response = Any
@@ -25,6 +30,10 @@ fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
         Parameters.build {
             pairs.forEach { pair -> append(pair.first, pair.second.toString()) }
         })
+}
+
+fun HttpRequestBuilder.buildJsonBody(block: JsonObjectBuilder.() -> Unit) {
+    body = buildJsonObject { block() }.toString()
 }
 
 suspend inline fun <reified T: Any> KtorRouter.post(

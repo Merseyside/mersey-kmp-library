@@ -24,4 +24,4 @@ if (isLocalDependencies) {
 
 }
 
-rootProject.name = "merseykmplibrary"
+rootProject.name = "kmm-support-library"
