@@ -6,15 +6,21 @@ package com.merseyside.merseyLib.archy.core.domain.coroutines
 
 
 import android.util.Log
+import com.merseyside.merseyLib.utils.core.ext.delay
+import com.merseyside.merseyLib.utils.core.time.Millis
+import com.merseyside.merseyLib.utils.core.time.Seconds
+import com.merseyside.merseyLib.utils.core.time.TimeUnit
+import com.merseyside.merseyLib.utils.core.time.minus
 import kotlinx.coroutines.*
 
-class CoroutineTimer(private val listener: CoroutineTimerListener, dispatcher: CoroutineDispatcher = Dispatchers.Unconfined) {
+class CoroutineTimer(
+    private val listener: CoroutineTimerListener,
+    private val delay: TimeUnit = Seconds(1),
+    private val scope: CoroutineScope = CoroutineScope(Job() + Dispatchers.Unconfined)) {
 
-    companion object {
-        const val TAG = "CoroutineTimer"
-    }
+    private var timerJob: Job? = null
+    private var countDownTimer: TimeUnit = TimeUnit.getEmpty()
 
-    private val scope: CoroutineScope by lazy { CoroutineScope(Job() + dispatcher) }
     var state: CurrentTimerState = CurrentTimerState.STOPPED
         private set(value) {
             if (field == CurrentTimerState.DESTROYED) {
@@ -23,19 +29,20 @@ class CoroutineTimer(private val listener: CoroutineTimerListener, dispatcher: C
             field = value
         }
 
-    fun startTimer(countDownTime: Long, delayMillis: Long = 1000) {
+    fun startTimer(countDownTimer: TimeUnit) {
+        this.countDownTimer = countDownTimer
         when (state) {
             CurrentTimerState.RUNNING -> {
-                listener.onTick(null, TimerException(TimerErrorTypes.ALREADY_RUNNING))
+                listener.onTick(countDownTimer, TimerException(TimerErrorTypes.ALREADY_RUNNING))
             }
             CurrentTimerState.PAUSED -> {
-                listener.onTick(null, TimerException(TimerErrorTypes.CURRENTLY_PAUSED))
+                listener.onTick(countDownTimer, TimerException(TimerErrorTypes.CURRENTLY_PAUSED))
             }
             CurrentTimerState.DESTROYED -> {
-                listener.onTick(null, TimerException(TimerErrorTypes.DESTROYED))
+                listener.onTick(countDownTimer, TimerException(TimerErrorTypes.DESTROYED))
             }
             else -> {
-                timerCanStart(countDownTime, delayMillis)
+                timerCanStart()
             }
         }
     }
@@ -44,6 +51,7 @@ class CoroutineTimer(private val listener: CoroutineTimerListener, dispatcher: C
         val error = if (state == CurrentTimerState.STOPPED) {
             TimerException(TimerErrorTypes.NO_TIMER_RUNNING)
         } else { null }
+        timerJob?.cancel()
         state = CurrentTimerState.STOPPED
         listener.onStop(error)
     }
@@ -69,41 +77,44 @@ class CoroutineTimer(private val listener: CoroutineTimerListener, dispatcher: C
         state = CurrentTimerState.DESTROYED
     }
 
-    private fun timerCanStart(countDownTime: Long, delayMillis: Long = 1000) {
-        scope.launch {
+    private fun timerCanStart() {
+        timerJob = scope.launch {
             state = CurrentTimerState.RUNNING
-            var timeLeft = countDownTime
 
-            timerLoop@ while (true) {
-                when {
-                    timeLeft < 1 -> {
-                        state = CurrentTimerState.STOPPED
-                        listener.onStop()
-                        break@timerLoop
-                    }
-                    timeLeft > 0 && state == CurrentTimerState.RUNNING -> {
-                        listener.onTick(timeLeft)
-                        delay(delayMillis)
-                        timeLeft -= 1
-                    }
-                    state == CurrentTimerState.PAUSED -> {
-                        listener.onPause(timeLeft)
-                    }
-                    state == CurrentTimerState.STOPPED -> {
-                        listener.onStop()
-                        break@timerLoop
+            listener.onTick(countDownTimer)
+            delay(delay)
+
+            timerLoop@ while (isActive) {
+                countDownTimer -= delay
+
+                if (countDownTimer.isEmpty()) {
+                    state = CurrentTimerState.STOPPED
+
+                    listener.onTick(TimeUnit.getEmpty())
+                    listener.onStop()
+                } else {
+                    listener.onTick(countDownTimer)
+
+                    if (countDownTimer < delay) {
+                        delay(countDownTimer)
+                    } else {
+                        delay(delay)
                     }
                 }
             }
         }
     }
+
+    companion object {
+        const val TAG = "CoroutineTimer"
+    }
 }
 
 interface CoroutineTimerListener {
-    fun onTick(timeLeft: Long?, error: Exception? = null)
+    fun onTick(timeLeft: TimeUnit, error: Exception? = null)
     fun onStop(error: Exception? = null) {}
     fun onContinue() {}
-    fun onPause(remainingTime: Long) {}
+    fun onPause(remainingTime: TimeUnit) {}
     fun onDestroy() {}
 }
 
