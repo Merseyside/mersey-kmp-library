@@ -5,6 +5,7 @@ import com.merseyside.merseyLib.utils.core.serialization.serialize
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
+import io.ktor.util.*
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
@@ -25,6 +26,7 @@ fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
     pairs.forEach { pair -> addHeader(pair.first, pair.second) }
 }
 
+@OptIn(InternalAPI::class)
 fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
     body = FormDataContent(
         Parameters.build {
