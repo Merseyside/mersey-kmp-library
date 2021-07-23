@@ -79,30 +79,36 @@ class CoroutineTimer(
 
     private fun timerCanStart() {
         timerJob = scope.launch {
-            state = CurrentTimerState.RUNNING
+            withContext(Dispatchers.Unconfined) {
+                state = CurrentTimerState.RUNNING
 
-            listener.onTick(countDownTimer)
-            delay(delay)
+                onTick(countDownTimer)
+                delay(delay)
 
-            timerLoop@ while (isActive) {
-                countDownTimer -= delay
+                timerLoop@ while (isActive) {
+                    countDownTimer -= delay
 
-                if (countDownTimer.isEmpty()) {
-                    state = CurrentTimerState.STOPPED
+                    if (countDownTimer.isEmpty()) {
+                        state = CurrentTimerState.STOPPED
 
-                    listener.onTick(TimeUnit.getEmpty())
-                    listener.onStop()
-                } else {
-                    listener.onTick(countDownTimer)
-
-                    if (countDownTimer < delay) {
-                        delay(countDownTimer)
+                        onTick(TimeUnit.getEmpty())
+                        listener.onStop()
                     } else {
-                        delay(delay)
+                        onTick(countDownTimer)
+
+                        if (countDownTimer < delay) {
+                            delay(countDownTimer)
+                        } else {
+                            delay(delay)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private suspend fun onTick(timeLeft: TimeUnit, error: Exception? = null) = withContext(Dispatchers.Main) {
+        listener.onTick(timeLeft, error)
     }
 
     companion object {
