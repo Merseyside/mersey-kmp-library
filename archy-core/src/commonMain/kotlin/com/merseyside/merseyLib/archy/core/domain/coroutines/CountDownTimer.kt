@@ -13,7 +13,7 @@ import com.merseyside.merseyLib.utils.core.time.TimeUnit
 import com.merseyside.merseyLib.utils.core.time.minus
 import kotlinx.coroutines.*
 
-class CoroutineTimer(
+class CountDownTimer(
     private val listener: CoroutineTimerListener,
     private val delay: TimeUnit = Seconds(1),
     private val scope: CoroutineScope = CoroutineScope(Job() + Dispatchers.Unconfined)) {

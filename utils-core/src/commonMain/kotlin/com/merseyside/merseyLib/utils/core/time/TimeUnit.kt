@@ -141,7 +141,7 @@ value class Millis(override val millis: Long): TimeUnit {
     }
 }
 
-@Serializable
+@Serializable(with = LongAsSecondsSerializer::class)
 @JvmInline
 value class Seconds private constructor(override val millis: Long): TimeUnit {
 
@@ -170,7 +170,7 @@ value class Seconds private constructor(override val millis: Long): TimeUnit {
     }
 }
 
-@Serializable
+@Serializable(with = LongAsMinutesSerializer::class)
 @JvmInline
 value class Minutes private constructor(override val millis: Long): TimeUnit {
 
@@ -199,7 +199,7 @@ value class Minutes private constructor(override val millis: Long): TimeUnit {
     }
 }
 
-@Serializable
+@Serializable(with = LongAsHoursSerializer::class)
 @JvmInline
 value class Hours private constructor(override val millis: Long): TimeUnit {
 
@@ -228,7 +228,7 @@ value class Hours private constructor(override val millis: Long): TimeUnit {
     }
 }
 
-@Serializable
+@Serializable(with = LongAsDaysSerializer::class)
 @JvmInline
 value class Days private constructor(override val millis: Long): TimeUnit {
 
