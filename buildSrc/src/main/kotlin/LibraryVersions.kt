@@ -14,11 +14,11 @@ object LibraryVersions {
 
     object Common {
         const val kotlinStdLib = kotlin
-        const val coroutines = "1.5.0-native-mt"
+        const val coroutines = "1.5.1-native-mt"
         const val serialization = "1.2.2"
-        const val koin = "3.1.1"
+        const val koin = "3.1.2"
         const val merseyLibs = "1.4.0"
-        const val mokoMvvm = "0.10.1"
+        const val mokoMvvm = "0.11.0"
     }
 
     const val kotlin = "1.5.30-M1"
