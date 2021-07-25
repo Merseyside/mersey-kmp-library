@@ -6,6 +6,7 @@ import io.ktor.client.features.*
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.accept
 import io.ktor.http.*
+import io.ktor.util.*
 import kotlinx.serialization.json.Json
 
 abstract class KtorRouter(
@@ -18,6 +19,7 @@ abstract class KtorRouter(
 
     open fun handleResponse(response: Response) {}
 
+    @OptIn(InternalAPI::class)
     fun HttpRequestBuilder.buildUrl(
         method: HttpMethod,
         path: String,

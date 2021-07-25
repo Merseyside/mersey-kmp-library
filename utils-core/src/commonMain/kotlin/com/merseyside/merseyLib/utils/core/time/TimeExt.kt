@@ -45,7 +45,11 @@ fun <T : CharSequence> T.toDays(): Days {
 }
 
 fun TimeUnit.toFormattedDate(pattern: String): FormattedDate {
-    return toFormattedDate(this, pattern)
+    return getFormattedDate(this, pattern)
+}
+
+fun TimeUnit.toHoursMinutes(): FormattedDate {
+    return getHoursMinutes(this)
 }
 
 fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
@@ -53,7 +57,7 @@ fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
 
     patternsList.forEach {
         try {
-            formattedDate.toTimeUnit(it)?.let { timestamp -> return timestamp.toMillis() }
+            value.toTimeUnit(it)?.let { timestamp -> return timestamp.toMillis() }
         } catch (e: ParseException) {
             Logger.logErr(tag = "TimeUnit", msg = "$it is wrong pattern to format time")
         }
