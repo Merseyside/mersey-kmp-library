@@ -9,12 +9,14 @@ object TimeConfiguration {
 
     var language: Language = "en"
     var country: Country = "US"
+    var formatPattern: String = "dd-MM-YYYY hh:mm"
 
 
     var formatPatterns = listOf(
         "yyyy-MM-dd'T'HH:mm:ss'Z'",
         "yyyy-MM-dd'T'HH:mm:ss.SSS",
-        "yyyy-MM-dd'T'HH:mm:ssZ"
+        "yyyy-MM-dd'T'HH:mm:ssZ",
+        "HH:mm"
     )
 
     fun addFormatPattern(pattern: String) {

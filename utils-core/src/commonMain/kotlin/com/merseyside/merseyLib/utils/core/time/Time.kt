@@ -27,6 +27,12 @@ fun getFormattedDate(timestamp: TimeUnit, pattern: String): FormattedDate {
     return FormattedDate(getFormattedDate(timestamp.millis, pattern))
 }
 
+fun getToday(): TimeUnit {
+    return Days(getCurrentTimeUnit().toDays().value)
+}
+
+expect fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek
+
 expect fun getHoursMinutes(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
 
 expect fun getFormattedDate(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String

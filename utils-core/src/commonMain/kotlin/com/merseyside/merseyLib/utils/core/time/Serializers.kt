@@ -77,3 +77,21 @@ class LongAsDaysSerializer : KSerializer<Days> {
         encoder.encodeLong(value.value)
     }
 }
+
+class LongAsWeeksSerializer : KSerializer<Weeks> {
+
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor(
+            "com.merseyside.merseyLib.utils.core.time.LongAsWeeksSerializer",
+            PrimitiveKind.LONG
+        )
+
+    override fun deserialize(decoder: Decoder): Weeks {
+        val value = decoder.decodeLong()
+        return Weeks(value)
+    }
+
+    override fun serialize(encoder: Encoder, value: Weeks) {
+        encoder.encodeLong(value.value)
+    }
+}

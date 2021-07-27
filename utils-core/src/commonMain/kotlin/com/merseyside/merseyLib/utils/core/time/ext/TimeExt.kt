@@ -1,7 +1,8 @@
-package com.merseyside.merseyLib.utils.core.time
+package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.toTimeUnit
+import com.merseyside.merseyLib.utils.core.time.*
 import io.ktor.http.parsing.*
 
 fun <T : Number> T.toMillis(): Millis {
@@ -44,12 +45,16 @@ fun <T : CharSequence> T.toDays(): Days {
     return this.toString().toLong().toDays()
 }
 
-fun TimeUnit.toFormattedDate(pattern: String): FormattedDate {
+fun TimeUnit.toFormattedDate(pattern: String = TimeConfiguration.formatPattern): FormattedDate {
     return getFormattedDate(this, pattern)
 }
 
 fun TimeUnit.toHoursMinutes(): FormattedDate {
     return getHoursMinutes(this)
+}
+
+fun TimeUnit.toDayOfWeek(timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
+    return getDayOfWeek(millis, timeZone)
 }
 
 fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
@@ -63,5 +68,5 @@ fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
         }
     }
 
-    throw Exception("Can not format response time with suggested patterns!")
+    throw Exception("Can not format $value with suggested patterns!")
 }

@@ -44,9 +44,7 @@ fun <T: Any> List<T>.unique(predicate: (T, T) -> Boolean): List<T> {
             if (index.isZero()) {
                 uniqueList.add(value)
             } else {
-
                 val found = uniqueList.find { predicate.invoke(it, value) }
-
                 if (found == null) uniqueList.add(0, value)
             }
         }
@@ -128,4 +126,15 @@ fun List<TimeUnit>.sum(): TimeUnit {
     forEach { sum += it }
 
     return sum
+}
+
+fun <T> List<T>.merge(vararg lists: List<T>): List<T> {
+    if (lists.isEmpty()) throw IllegalArgumentException("Pass at least one list!")
+    val list: MutableList<T> = ArrayList(this)
+
+    lists.forEach {
+        list.addAll(it)
+    }
+
+    return list
 }

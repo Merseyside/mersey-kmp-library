@@ -9,6 +9,7 @@ object Conversions {
     const val MILLIS_CONST = 1000L
     const val SECONDS_MINUTES_CONST = 60L
     const val HOURS_CONST = 24L
+    const val WEEK_CONST = 7L
 }
 
 operator fun <T: TimeUnit> T.plus(increment: Number): T {
@@ -78,6 +79,10 @@ interface TimeUnit : Comparable<TimeUnit> {
 
     fun toDays(): Days {
         return Days(this)
+    }
+
+    fun toWeeks(): Weeks {
+        return Weeks(this)
     }
 
 //    fun getDayOfYear(context: Context? = null): Days {
@@ -250,6 +255,35 @@ value class Days private constructor(override val millis: Long): TimeUnit {
 
     override fun newInstanceMillis(millis: Long): Days {
         return Days(millis)
+    }
+
+    override fun toString(): String {
+        return getString()
+    }
+}
+
+@Serializable(with = LongAsWeeksSerializer::class)
+@JvmInline
+value class Weeks private constructor(override val millis: Long): TimeUnit {
+
+    internal constructor(unit: TimeUnit): this(unit.millis)
+
+    constructor(number: Number): this(
+        (Days(Conversions.WEEK_CONST) * number).millis
+    )
+
+    constructor(str: String): this(number = str.toLong())
+    constructor(): this(0)
+
+    override val value: Long
+        get() = toDays().value / Conversions.WEEK_CONST
+
+    override fun newInstance(value: Long): TimeUnit {
+        return Weeks((Days(Conversions.WEEK_CONST) * value).millis)
+    }
+
+    override fun newInstanceMillis(millis: Long): Weeks {
+        return Weeks(millis)
     }
 
     override fun toString(): String {

@@ -17,3 +17,7 @@ actual fun getHoursMinutes(
 ): String {
 
 }
+
+actual fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
+
+}
