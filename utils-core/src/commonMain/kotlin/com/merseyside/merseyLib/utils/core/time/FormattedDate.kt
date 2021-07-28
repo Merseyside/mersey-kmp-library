@@ -1,5 +1,6 @@
 package com.merseyside.merseyLib.utils.core.time
 
+import com.merseyside.merseyLib.utils.core.time.ext.toFormattedDate
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
@@ -9,6 +10,13 @@ value class FormattedDate(val value: String) {
 
     companion object {
         fun empty(): FormattedDate = FormattedDate("")
+
+        fun from(
+            timeUnit: TimeUnit,
+            pattern: String = TimeConfiguration.formatPattern
+        ): FormattedDate {
+            return timeUnit.toFormattedDate(pattern)
+        }
     }
 }
 

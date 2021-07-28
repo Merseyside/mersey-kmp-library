@@ -18,6 +18,18 @@ actual fun getHoursMinutes(
 
 }
 
-actual fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
+actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
+
+}
+
+actual fun getSecondsOfDay(timestamp: Long, timeZone: String): Seconds {
+
+}
+
+actual fun getMinutesOfDay(timestamp: Long, timeZone: String): Minutes {
+
+}
+
+actual fun getHoursOfDay(timestamp: Long, timeZone: String): Hours {
 
 }

@@ -16,7 +16,23 @@ actual fun getCurrentTimeMillis(): Long {
     return System.currentTimeMillis()
 }
 
+actual fun getSecondsOfDay(timestamp: Long, timeZone: String): Seconds {
+    return Seconds(getUnitOfDay(timestamp, Calendar.SECOND, timeZone))
+}
 
+actual fun getMinutesOfDay(
+    timestamp: Long,
+    timeZone: String
+): Minutes {
+    return Minutes(getUnitOfDay(timestamp, Calendar.MINUTE, timeZone))
+}
+
+actual fun getHoursOfDay(
+    timestamp: Long,
+    timeZone: String
+): Hours {
+    return Hours(getUnitOfDay(timestamp, Calendar.HOUR_OF_DAY, timeZone))
+}
 
 actual fun getFormattedDate(
     timestamp: Long,
@@ -45,7 +61,12 @@ actual fun getHoursMinutes(
 ): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         try {
-            val localTime = LocalTime.ofSecondOfDay(timestamp / Conversions.MILLIS_CONST)
+            val newTime = if (Days(1).millis >= timestamp) getHoursMinutesOfDay(
+                timestamp,
+                timeZone
+            ).millis else timestamp
+
+            val localTime = LocalTime.ofSecondOfDay(newTime / Conversions.MILLIS_CONST)
 
             val formatterUS = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
                 .withLocale(TimeConfiguration.getLocale())
@@ -77,4 +98,19 @@ actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
     }
 
     return DayOfWeek.valueOf(result.uppercase())
+}
+
+private fun getUnitOfDay(
+    timestamp: Long,
+    unit: Int,
+    timeZone: String = TimeConfiguration.timeZone
+): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = Date(timestamp)
+
+    if (timeZone != TimeZone.SYSTEM.toString()) {
+        calendar.timeZone = SystemTimeZone.getTimeZone(timeZone)
+    }
+
+    return calendar.get(unit)
 }

@@ -2,6 +2,10 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.time.*
 
+fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
+    return TimeUnitRange(getStart(), getEnd())
+}
+
 fun <T: ITimeRange> List<T>.findEdge(): TimeUnitRange {
     if (isEmpty()) throw  IllegalArgumentException("List can not be empty!")
     val mutList = this.toMutableList()
@@ -60,7 +64,12 @@ fun <T: ITimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
     return range.toDaysOfWeek()
 }
 
+fun ITimeRange.toHoursMinutesOfDay(): TimeUnitRange {
+    return TimeUnitRange(getStart().toHoursMinutesOfDay(), getEnd().toHoursMinutesOfDay())
+}
+
 fun ITimeRange.isIntersect(other: ITimeRange): Boolean {
     return getStart() <= other.getEnd() && getStart() >= other.getStart() ||
-            getEnd() > other.getStart() && getEnd() < other.getEnd()
+            getEnd() > other.getStart() && getEnd() < other.getEnd() ||
+            getStart() >= other.getStart() && getEnd() <= other.getEnd()
 }

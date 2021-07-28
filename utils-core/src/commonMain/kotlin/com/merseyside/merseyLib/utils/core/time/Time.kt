@@ -31,8 +31,18 @@ fun getToday(): TimeUnit {
     return Days(getCurrentTimeUnit().toDays().value)
 }
 
+fun getHoursMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getHoursOfDay(timestamp, timeZone) + getMinutesOfDay(timestamp, timeZone)
+}
+
 expect fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek
 
 expect fun getHoursMinutes(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
 
 expect fun getFormattedDate(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
+
+expect fun getSecondsOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Seconds
+
+expect fun getMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Minutes
+
+expect fun getHoursOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Hours

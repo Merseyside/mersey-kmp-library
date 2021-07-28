@@ -52,13 +52,13 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
 fun String.camelToSnakeCase(): String {
     return camelRegex.replace(this) {
         "_${it.value}"
-    }.toLowerCase()
+    }.lowercase()
 }
 
 fun String.snakeToLowerCamelCase(): String {
     return snakeRegex.replace(this) {
         it.value.replace("_","")
-            .toUpperCase()
+            .uppercase()
     }
 }
 

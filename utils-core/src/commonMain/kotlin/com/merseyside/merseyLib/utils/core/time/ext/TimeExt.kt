@@ -53,6 +53,22 @@ fun TimeUnit.toHoursMinutes(): FormattedDate {
     return getHoursMinutes(this)
 }
 
+fun TimeUnit.toSecondsOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getSecondsOfDay(millis, timeZone)
+}
+
+fun TimeUnit.toMinutesOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getMinutesOfDay(millis, timeZone)
+}
+
+fun TimeUnit.toHoursOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getHoursOfDay(millis, timeZone)
+}
+
+fun TimeUnit.toHoursMinutesOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getHoursMinutesOfDay(millis, timeZone)
+}
+
 fun TimeUnit.toDayOfWeek(timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
     return getDayOfWeek(millis, timeZone)
 }
