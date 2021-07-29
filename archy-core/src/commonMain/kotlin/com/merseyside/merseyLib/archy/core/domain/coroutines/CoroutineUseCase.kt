@@ -12,12 +12,12 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
         onError: (Throwable) -> Unit = {},
         onPostExecute: () -> Unit = {},
         params: Params? = null
-    ) {
+    ): Job {
         if (job != null) {
             cancel()
         }
 
-        coroutineScope.launch {
+        return coroutineScope.launch {
             onPreExecute()
 
             val deferred = doWorkAsync(params)

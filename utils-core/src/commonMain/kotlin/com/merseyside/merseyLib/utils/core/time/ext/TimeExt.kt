@@ -86,3 +86,8 @@ fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
 
     throw Exception("Can not format $value with suggested patterns!")
 }
+
+fun TimeUnit.logHuman(tag: String = this::class.simpleName ?: "TimeUnit"): TimeUnit {
+    Logger.log(tag, "time = ${toFormattedDate()}")
+    return this
+}

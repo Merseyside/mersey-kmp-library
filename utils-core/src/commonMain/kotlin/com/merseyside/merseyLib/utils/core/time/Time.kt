@@ -1,5 +1,7 @@
 package com.merseyside.merseyLib.utils.core.time
 
+import com.merseyside.merseyLib.utils.core.time.ext.toHoursMinutesOfDay
+
 enum class TimeZone { SYSTEM, GMT }
 
 expect fun getCurrentTimeMillis(): Long
@@ -9,6 +11,10 @@ expect fun getCurrentTimeMillis(): Long
  */
 fun getCurrentTimeUnit(): TimeUnit {
     return Millis(getCurrentTimeMillis())
+}
+
+fun getCurrentDayTime(timeZone: String = TimeZone.SYSTEM.toString()): TimeUnit {
+    return getCurrentTimeUnit().toHoursMinutesOfDay(timeZone)
 }
 
 fun getHoursMinutes(timestamp: TimeUnit): FormattedDate {

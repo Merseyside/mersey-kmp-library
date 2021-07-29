@@ -1,5 +1,6 @@
 package com.merseyside.merseyLib.utils.core.time.ext
 
+import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
 
 fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
@@ -72,4 +73,13 @@ fun ITimeRange.isIntersect(other: ITimeRange): Boolean {
     return getStart() <= other.getEnd() && getStart() >= other.getStart() ||
             getEnd() > other.getStart() && getEnd() < other.getEnd() ||
             getStart() >= other.getStart() && getEnd() <= other.getEnd()
+}
+
+fun ITimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
+    return getStart() <= timeUnit && getEnd() >= timeUnit
+}
+
+fun ITimeRange.logHuman(tag: String = this::class.simpleName ?: "ITimeRange"): ITimeRange {
+    Logger.log(tag, "start = ${getStart().toFormattedDate()} end = ${getEnd().toFormattedDate()}")
+    return this
 }

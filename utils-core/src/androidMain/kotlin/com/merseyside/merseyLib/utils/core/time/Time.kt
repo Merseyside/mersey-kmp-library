@@ -3,9 +3,9 @@
 package com.merseyside.merseyLib.utils.core.time
 
 import android.os.Build
+import com.merseyside.merseyLib.utils.core.ext.log
 import java.text.SimpleDateFormat
 import java.time.DateTimeException
-import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -61,7 +61,7 @@ actual fun getHoursMinutes(
 ): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         try {
-            val newTime = if (Days(1).millis >= timestamp) getHoursMinutesOfDay(
+            val newTime = if (Days(1).millis <= timestamp) getHoursMinutesOfDay(
                 timestamp,
                 timeZone
             ).millis else timestamp
