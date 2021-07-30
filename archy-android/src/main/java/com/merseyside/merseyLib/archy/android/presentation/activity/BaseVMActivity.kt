@@ -129,11 +129,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        closeScope()
-    }
-
     internal val persistentClass: KClass<M> =
         ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMActivity::class.java, 1).kotlin as KClass<M>
 }
