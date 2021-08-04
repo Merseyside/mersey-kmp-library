@@ -80,6 +80,6 @@ fun ITimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
 }
 
 fun ITimeRange.logHuman(tag: String = this::class.simpleName ?: "ITimeRange"): ITimeRange {
-    Logger.log(tag, "start = ${getStart().toFormattedDate()} end = ${getEnd().toFormattedDate()}")
+    Logger.log(tag, "start = ${getStart().getHumanDate()} end = ${getEnd().getHumanDate()}")
     return this
 }

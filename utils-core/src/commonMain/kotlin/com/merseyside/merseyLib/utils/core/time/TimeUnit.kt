@@ -2,6 +2,7 @@
 
 package com.merseyside.merseyLib.utils.core.time
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 

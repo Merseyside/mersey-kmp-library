@@ -87,7 +87,23 @@ fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
     throw Exception("Can not format $value with suggested patterns!")
 }
 
-fun TimeUnit.logHuman(tag: String = this::class.simpleName ?: "TimeUnit"): TimeUnit {
-    Logger.log(tag, "time = ${toFormattedDate()}")
+fun TimeUnit.logHuman(
+    tag: String = this::class.simpleName ?: "TimeUnit",
+    prefix: String = ""
+): TimeUnit {
+    Logger.log(tag, "$prefix = ${getHumanDate()}")
     return this
+}
+
+fun TimeUnit.getHumanDate(): FormattedDate {
+    return if (!isMoreThanDay()) toHoursMinutes()
+    else toFormattedDate()
+}
+
+fun TimeUnit.isExpired(): Boolean {
+    return getCurrentTimeUnit() - this > TimeUnit.getEmpty()
+}
+
+fun TimeUnit.isMoreThanDay(): Boolean {
+    return Days(1) < this
 }
