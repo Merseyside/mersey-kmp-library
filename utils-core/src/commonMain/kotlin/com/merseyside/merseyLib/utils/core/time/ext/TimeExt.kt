@@ -1,9 +1,6 @@
 package com.merseyside.merseyLib.utils.core.time.ext
 
-import com.merseyside.merseyLib.utils.core.Logger
-import com.merseyside.merseyLib.utils.core.ext.toTimeUnit
 import com.merseyside.merseyLib.utils.core.time.*
-import io.ktor.http.parsing.*
 
 fun <T : Number> T.toMillis(): Millis {
     return Millis(this.toLong())
@@ -43,67 +40,4 @@ fun <T : CharSequence> T.toHours(): Hours {
 
 fun <T : CharSequence> T.toDays(): Days {
     return this.toString().toLong().toDays()
-}
-
-fun TimeUnit.toFormattedDate(pattern: String = TimeConfiguration.formatPattern): FormattedDate {
-    return getFormattedDate(this, pattern)
-}
-
-fun TimeUnit.toHoursMinutes(): FormattedDate {
-    return getHoursMinutes(this)
-}
-
-fun TimeUnit.toSecondsOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
-    return getSecondsOfDay(millis, timeZone)
-}
-
-fun TimeUnit.toMinutesOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
-    return getMinutesOfDay(millis, timeZone)
-}
-
-fun TimeUnit.toHoursOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
-    return getHoursOfDay(millis, timeZone)
-}
-
-fun TimeUnit.toHoursMinutesOfDay(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
-    return getHoursMinutesOfDay(millis, timeZone)
-}
-
-fun TimeUnit.toDayOfWeek(timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
-    return getDayOfWeek(millis, timeZone)
-}
-
-fun FormattedDate.toTimeUnit(vararg pattern: String): TimeUnit {
-    val patternsList: List<String> = if (pattern.isNotEmpty()) pattern.toList() else TimeConfiguration.formatPatterns
-
-    patternsList.forEach {
-        try {
-            value.toTimeUnit(it)?.let { timestamp -> return timestamp.toMillis() }
-        } catch (e: ParseException) {
-            Logger.logErr(tag = "TimeUnit", msg = "$it is wrong pattern to format time")
-        }
-    }
-
-    throw Exception("Can not format $value with suggested patterns!")
-}
-
-fun TimeUnit.logHuman(
-    tag: String = this::class.simpleName ?: "TimeUnit",
-    prefix: String = ""
-): TimeUnit {
-    Logger.log(tag, "$prefix = ${getHumanDate()}")
-    return this
-}
-
-fun TimeUnit.getHumanDate(): FormattedDate {
-    return if (!isMoreThanDay()) toHoursMinutes()
-    else toFormattedDate()
-}
-
-fun TimeUnit.isExpired(): Boolean {
-    return getCurrentTimeUnit() - this > TimeUnit.getEmpty()
-}
-
-fun TimeUnit.isMoreThanDay(): Boolean {
-    return Days(1) < this
 }

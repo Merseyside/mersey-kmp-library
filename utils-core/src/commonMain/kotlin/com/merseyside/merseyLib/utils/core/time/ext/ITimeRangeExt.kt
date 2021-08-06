@@ -2,12 +2,13 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
+import com.merseyside.merseyLib.utils.core.time.getToday
 
 fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
     return TimeUnitRange(getStart(), getEnd())
 }
 
-fun <T: ITimeRange> List<T>.findEdge(): TimeUnitRange {
+fun <T : ITimeRange> List<T>.findEdge(): TimeUnitRange {
     if (isEmpty()) throw  IllegalArgumentException("List can not be empty!")
     val mutList = this.toMutableList()
 
@@ -29,12 +30,12 @@ fun <T: ITimeRange> List<T>.findEdge(): TimeUnitRange {
     }
 }
 
-fun <T: ITimeRange> List<T>.findEdge(block: (TimeUnitRange) -> T): T {
+fun <T : ITimeRange> List<T>.findEdge(block: (TimeUnitRange) -> T): T {
     val range = findEdge()
     return block(range)
 }
 
-fun <T: ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
+fun <T : ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
     return if (getGap() > Weeks(1)) {
         DayOfWeek.values().toList()
     } else {
@@ -50,7 +51,7 @@ fun <T: ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
         } else {
             val list = DayOfWeek.values().toMutableList()
             if (endDay.index < startDay.index) {
-                val indexRange = (endDay.index+1 until startDay.index)
+                val indexRange = (endDay.index + 1 until startDay.index)
                 list.filter { !indexRange.contains(it.index) }.toList()
             } else {
                 val indexRange = (startDay.index..endDay.index)
@@ -60,7 +61,7 @@ fun <T: ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
     }
 }
 
-fun <T: ITimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
+fun <T : ITimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
     val range = findEdge()
     return range.toDaysOfWeek()
 }
@@ -75,11 +76,27 @@ fun ITimeRange.isIntersect(other: ITimeRange): Boolean {
             getStart() >= other.getStart() && getEnd() <= other.getEnd()
 }
 
+fun ITimeRange.contains(other: ITimeRange): Boolean {
+    return getStart() <= other.getStart() && getEnd() >= other.getEnd()
+}
+
 fun ITimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
     return getStart() <= timeUnit && getEnd() >= timeUnit
 }
 
-fun ITimeRange.logHuman(tag: String = this::class.simpleName ?: "ITimeRange"): ITimeRange {
-    Logger.log(tag, "start = ${getStart().getHumanDate()} end = ${getEnd().getHumanDate()}")
+fun <T : ITimeRange> T.logHuman(
+    tag: String = this::class.simpleName ?: "ITimeRange",
+    prefix: String = "",
+    suffix: String = ""
+): T {
+    Logger.log(tag, "$prefix start = ${getStart().getHumanDate()} end = ${getEnd().getHumanDate()} $suffix")
+    return this
+}
+
+fun <T : ITimeRange> List<T>.logHuman(
+    tag: String = this::class.simpleName ?: "ITimeRange",
+    prefix: String = ""
+): List<T> {
+    forEach { it.logHuman(tag, prefix) }
     return this
 }

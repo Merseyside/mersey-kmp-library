@@ -37,6 +37,8 @@ fun getToday(): TimeUnit {
     return Days(getCurrentTimeUnit().toDays().value)
 }
 
+fun getTodayRange(): ITimeRange = TimeUnitRange(getToday(), getToday() + Days(1))
+
 fun getHoursMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): TimeUnit {
     return getHoursOfDay(timestamp, timeZone) + getMinutesOfDay(timestamp, timeZone)
 }

@@ -8,14 +8,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlin.coroutines.CoroutineContext
 
 abstract class FlowUseCase<T, Params> : CoroutineScope by CoroutineScope(applicationContext) {
-
     var job: Job? = null
-
     var backgroundContext: CoroutineContext = computationContext
 
     @ExperimentalCoroutinesApi
     protected abstract fun executeOnBackground(params: Params?): Flow<T>
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun observe(
@@ -23,27 +20,27 @@ abstract class FlowUseCase<T, Params> : CoroutineScope by CoroutineScope(applica
         params: Params? = null,
         onEmit: (T) -> Unit,
         onError: (Throwable) -> Unit = {}
-    ) {
+    ): Job {
         val flow = executeOnBackground(params)
             .flowOn(backgroundContext)
 
-        if (job != null) {
+        job?.let {
             cancel()
         }
 
-        job = coroutineScope.launch {
+        return coroutineScope.launch {
             try {
                 flow.collect { data ->
                     onEmit.invoke(data)
                 }
             } catch (e: CancellationException) {
-                Logger.log(this, "Coroutine had canceled")
+                Logger.log(this@FlowUseCase, "Coroutine had canceled")
             }
             catch (e: Throwable) {
                 Logger.log(e)
                 onError.invoke(e)
             }
-        }
+        }.also { job = it }
     }
 
     fun cancel() {

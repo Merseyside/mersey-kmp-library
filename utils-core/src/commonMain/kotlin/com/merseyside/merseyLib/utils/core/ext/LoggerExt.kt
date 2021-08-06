@@ -10,6 +10,9 @@ fun <T> T.log(tag: Any = Logger.TAG, prefix: Any? = null, suffix: Any? = null): 
     return this
 }
 
-inline fun <reified T> T.logMsg(message: Any? = null): T {
-    return this.also { loggerLog(T::class.simpleName ?: Logger.TAG, message) }
+inline fun <reified T> T.logMsg(
+    tag: String = T::class.simpleName ?: Logger.TAG,
+    message: Any? = null
+): T {
+    return this.also { loggerLog(tag, message) }
 }
