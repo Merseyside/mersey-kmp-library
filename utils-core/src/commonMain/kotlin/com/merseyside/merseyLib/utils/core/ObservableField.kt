@@ -1,8 +1,7 @@
 package com.merseyside.merseyLib.utils.core
 
 abstract class ObservableField<T> {
-    open var value: T? = null
-
+    abstract val value: T?
 
     protected val observableList: MutableList<(T) -> Unit> = mutableListOf()
 
@@ -22,9 +21,9 @@ abstract class ObservableField<T> {
     fun removeAllObservers() { observableList.clear() }
 }
 
-class MutableObservableField<T>(initialValue: T? = null): ObservableField<T>() {
+open class MutableObservableField<T>(initialValue: T? = null): ObservableField<T>() {
 
-    override var value: T? = null
+    override var value: T? = initialValue
         set(value) {
             field = value
 
@@ -34,14 +33,23 @@ class MutableObservableField<T>(initialValue: T? = null): ObservableField<T>() {
                 }
             }
         }
+}
 
-    init {
-        value = initialValue
-    }
+class SingleObservableField<T>(initialValue: T? = null): ObservableField<T>() {
+    override var value: T? = initialValue
+        get() {
+            return field.also { value = null }
+        }
+        set(value) {
+            field = value
 
-    fun postValue(value: T) {
-        this.value = value
-    }
+            if (value != null) {
+                if (observableList.isNotEmpty()) {
+                    val v = this.value ?: return
+                    observableList.forEach { it(v) }
+                }
+            }
+        }
 }
 
 class Disposable<T>(

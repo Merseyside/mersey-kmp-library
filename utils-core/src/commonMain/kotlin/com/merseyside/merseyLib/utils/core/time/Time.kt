@@ -1,6 +1,7 @@
 package com.merseyside.merseyLib.utils.core.time
 
 import com.merseyside.merseyLib.utils.core.time.ext.toHoursMinutesOfDay
+import com.merseyside.merseyLib.utils.core.time.ext.toTimeUnit
 
 enum class TimeZone { SYSTEM, GMT }
 
@@ -42,6 +43,20 @@ fun getTodayRange(): ITimeRange = TimeUnitRange(getToday(), getToday() + Days(1)
 fun getHoursMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): TimeUnit {
     return getHoursOfDay(timestamp, timeZone) + getMinutesOfDay(timestamp, timeZone)
 }
+
+fun getEndOfDay(): TimeUnit = Days(1) - Minutes(1)
+
+fun getCurrentWeekRange(): ITimeRange {
+    val dayOfWeek = getDayOfWeek(getCurrentTimeMillis())
+    val today = getToday()
+
+    val monday = today - dayOfWeek.toTimeUnit()
+    val sunday = today + Days(7)
+
+    return TimeUnitRange(monday, sunday)
+}
+
+expect fun getDayOfMonth(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Days
 
 expect fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek
 

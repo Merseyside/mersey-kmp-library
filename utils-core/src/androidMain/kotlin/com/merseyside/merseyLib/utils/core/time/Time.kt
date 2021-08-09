@@ -34,6 +34,10 @@ actual fun getHoursOfDay(
     return Hours(getUnitOfDay(timestamp, Calendar.HOUR_OF_DAY, timeZone))
 }
 
+actual fun getDayOfMonth(timestamp: Long, timeZone: String): Days {
+    return Days(getUnitOfDay(timestamp, Calendar.DAY_OF_MONTH, timeZone))
+}
+
 actual fun getFormattedDate(
     timestamp: Long,
     pattern: String,

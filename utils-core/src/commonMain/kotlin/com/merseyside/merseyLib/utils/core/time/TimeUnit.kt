@@ -2,7 +2,6 @@
 
 package com.merseyside.merseyLib.utils.core.time
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
@@ -13,49 +12,57 @@ object Conversions {
     const val WEEK_CONST = 7L
 }
 
-operator fun <T: TimeUnit> T.plus(increment: Number): T {
+operator fun <T : TimeUnit> T.plus(increment: Number): T {
     return this + newInstanceMillis(increment.toLong())
 }
 
-operator fun <T: TimeUnit> T.div(divider: Number): T {
+operator fun <T : TimeUnit> T.div(divider: Number): T {
     return this / newInstanceMillis(divider.toLong())
 }
 
-operator fun <T: TimeUnit> T.times(times: Number): T {
+operator fun <T : TimeUnit> T.times(times: Number): T {
     return this * newInstanceMillis(times.toLong()) as T
 }
 
-operator fun <T: TimeUnit> T.minus(unary: Number): T {
+operator fun <T : TimeUnit> T.minus(unary: Number): T {
     return this - newInstanceMillis(unary.toLong())
 }
 
-operator fun <T: TimeUnit> T.plus(increment: TimeUnit): T {
+operator fun <T : TimeUnit> T.plus(increment: TimeUnit): T {
     return newInstanceMillis(this.millis + increment.millis) as T
 }
 
-operator fun <T: TimeUnit> T.div(divider: TimeUnit): T {
+operator fun <T : TimeUnit> T.div(divider: TimeUnit): T {
     return newInstanceMillis(this.millis / divider.millis) as T
 }
 
-operator fun <T: TimeUnit> T.times(times: TimeUnit): T {
+operator fun <T : TimeUnit> T.times(times: TimeUnit): T {
     return newInstanceMillis(this.millis * times.millis) as T
 }
 
-operator fun <T: TimeUnit> T.minus(unary: TimeUnit): T {
+operator fun <T : TimeUnit> T.minus(unary: TimeUnit): T {
     return newInstanceMillis(this.millis - unary.millis) as T
 }
 
-fun <T: TimeUnit> T.isEqual(other: T): Boolean {
+operator fun <T : TimeUnit> T.inc(): T {
+    return this + newInstance(1)
+}
+
+operator fun <T : TimeUnit> T.dec(): T {
+    return this - newInstance(1)
+}
+
+fun <T : TimeUnit> T.isEqual(other: T): Boolean {
     return this.millis == other.millis
 }
 
-operator fun <T: TimeUnit> T.compareTo(value: Number): Int {
+operator fun <T : TimeUnit> T.compareTo(value: Number): Int {
     return this.millis.compareTo(newInstanceMillis(value.toLong()).millis)
 }
 
-fun <T: TimeUnit> T.isNotEqual(other: T) = !isEqual(other)
+fun <T : TimeUnit> T.isNotEqual(other: T) = !isEqual(other)
 
-fun <T: TimeUnit> T.round() = newInstance(value)
+fun <T : TimeUnit> T.round() = newInstance(value)
 
 interface TimeUnit : Comparable<TimeUnit> {
 
@@ -122,17 +129,17 @@ interface TimeUnit : Comparable<TimeUnit> {
 
 @Serializable
 @JvmInline
-value class Millis(override val millis: Long): TimeUnit {
+value class Millis(override val millis: Long) : TimeUnit {
 
     override val value: Long
         get() = millis
 
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(number.toLong())
-    constructor(str: String): this(str.toLong())
-    constructor(): this(0)
+    constructor(number: Number) : this(number.toLong())
+    constructor(str: String) : this(str.toLong())
+    constructor() : this(0)
 
     override fun newInstance(value: Long): TimeUnit {
         return Millis(value)
@@ -149,19 +156,19 @@ value class Millis(override val millis: Long): TimeUnit {
 
 @Serializable(with = LongAsSecondsSerializer::class)
 @JvmInline
-value class Seconds private constructor(override val millis: Long): TimeUnit {
+value class Seconds private constructor(override val millis: Long) : TimeUnit {
 
     override val value: Long
         get() = millis / Conversions.MILLIS_CONST
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(
+    constructor(number: Number) : this(
         (Millis(Conversions.MILLIS_CONST) * number).millis
     )
 
-    constructor(str: String): this(number = str.toLong())
-    constructor(): this(0)
+    constructor(str: String) : this(number = str.toLong())
+    constructor() : this(0)
 
     override fun newInstance(value: Long): Seconds {
         return Seconds((Millis(Conversions.MILLIS_CONST) * value).millis)
@@ -178,16 +185,16 @@ value class Seconds private constructor(override val millis: Long): TimeUnit {
 
 @Serializable(with = LongAsMinutesSerializer::class)
 @JvmInline
-value class Minutes private constructor(override val millis: Long): TimeUnit {
+value class Minutes private constructor(override val millis: Long) : TimeUnit {
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(
+    constructor(number: Number) : this(
         (Seconds(Conversions.SECONDS_MINUTES_CONST) * number).millis
     )
 
-    constructor(str: String): this(number = str.toLong())
-    constructor(): this(0)
+    constructor(str: String) : this(number = str.toLong())
+    constructor() : this(0)
 
     override val value: Long
         get() = toSeconds().value / Conversions.SECONDS_MINUTES_CONST
@@ -207,16 +214,16 @@ value class Minutes private constructor(override val millis: Long): TimeUnit {
 
 @Serializable(with = LongAsHoursSerializer::class)
 @JvmInline
-value class Hours private constructor(override val millis: Long): TimeUnit {
+value class Hours private constructor(override val millis: Long) : TimeUnit {
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(
+    constructor(number: Number) : this(
         (Minutes(Conversions.SECONDS_MINUTES_CONST) * number).millis
     )
 
-    constructor(str: String): this(number = str.toLong())
-    constructor(): this(0)
+    constructor(str: String) : this(number = str.toLong())
+    constructor() : this(0)
 
     override val value: Long
         get() = toMinutes().value / Conversions.SECONDS_MINUTES_CONST
@@ -236,16 +243,16 @@ value class Hours private constructor(override val millis: Long): TimeUnit {
 
 @Serializable(with = LongAsDaysSerializer::class)
 @JvmInline
-value class Days private constructor(override val millis: Long): TimeUnit {
+value class Days private constructor(override val millis: Long) : TimeUnit {
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(
+    constructor(number: Number) : this(
         (Hours(Conversions.HOURS_CONST) * number).millis
     )
 
-    constructor(str: String): this(number = str.toLong())
-    constructor(): this(0)
+    constructor(str: String) : this(number = str.toLong())
+    constructor() : this(0)
 
     override val value: Long
         get() = toHours().value / Conversions.HOURS_CONST
@@ -265,16 +272,16 @@ value class Days private constructor(override val millis: Long): TimeUnit {
 
 @Serializable(with = LongAsWeeksSerializer::class)
 @JvmInline
-value class Weeks private constructor(override val millis: Long): TimeUnit {
+value class Weeks private constructor(override val millis: Long) : TimeUnit {
 
-    internal constructor(unit: TimeUnit): this(unit.millis)
+    internal constructor(unit: TimeUnit) : this(unit.millis)
 
-    constructor(number: Number): this(
+    constructor(number: Number) : this(
         (Days(Conversions.WEEK_CONST) * number).millis
     )
 
-    constructor(str: String): this(number = str.toLong())
-    constructor(): this(0)
+    constructor(str: String) : this(number = str.toLong())
+    constructor() : this(0)
 
     override val value: Long
         get() = toDays().value / Conversions.WEEK_CONST

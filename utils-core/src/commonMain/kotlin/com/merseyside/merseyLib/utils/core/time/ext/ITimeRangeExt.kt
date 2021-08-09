@@ -2,7 +2,6 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
-import com.merseyside.merseyLib.utils.core.time.getToday
 
 fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
     return TimeUnitRange(getStart(), getEnd())
@@ -66,6 +65,27 @@ fun <T : ITimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
     return range.toDaysOfWeek()
 }
 
+fun ITimeRange.toDayRanges(): List<ITimeRange> {
+    var nextDay = getStart().getNextDay()
+    val dayRanges = mutableListOf<ITimeRange>()
+
+    dayRanges.add(TimeUnitRange(getStart(), nextDay))
+
+    while (nextDay < getEnd()) {
+        val tempNextDay = nextDay.getNextDay()
+        if (tempNextDay < getEnd()) {
+            dayRanges.add(TimeUnitRange(nextDay, tempNextDay))
+        } else {
+            dayRanges.add(TimeUnitRange(nextDay, getEnd()))
+        }
+
+        nextDay = tempNextDay
+    }
+
+    return dayRanges
+}
+
+@Throws(IllegalArgumentException::class)
 fun ITimeRange.toHoursMinutesOfDay(): TimeUnitRange {
     return TimeUnitRange(getStart().toHoursMinutesOfDay(), getEnd().toHoursMinutesOfDay())
 }
@@ -89,7 +109,10 @@ fun <T : ITimeRange> T.logHuman(
     prefix: String = "",
     suffix: String = ""
 ): T {
-    Logger.log(tag, "$prefix start = ${getStart().getHumanDate()} end = ${getEnd().getHumanDate()} $suffix")
+    Logger.log(
+        tag,
+        "$prefix start = ${getStart().getHumanDate()} end = ${getEnd().getHumanDate()} $suffix"
+    )
     return this
 }
 

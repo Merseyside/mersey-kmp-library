@@ -31,12 +31,8 @@ fun TimeUnit.toDayOfWeek(timeZone: String = TimeConfiguration.timeZone): DayOfWe
     return getDayOfWeek(millis, timeZone)
 }
 
-fun TimeUnit.logHuman(
-    tag: String = this::class.simpleName ?: "TimeUnit",
-    prefix: String = ""
-): TimeUnit {
-    Logger.log(tag, "$prefix = ${getHumanDate()}")
-    return this
+fun TimeUnit.toDayOfMonth(timeZone: String = TimeConfiguration.timeZone): TimeUnit {
+    return getDayOfMonth(millis, timeZone)
 }
 
 fun TimeUnit.getHumanDate(): FormattedDate {
@@ -55,4 +51,30 @@ fun TimeUnit.isMoreThanDay(): Boolean {
 fun TimeUnit.toDayTimeRange(): ITimeRange {
     val day = toDays().round()
     return TimeUnitRange(day, day + Days(1))
+}
+
+fun TimeUnit.getNextDay(): Days {
+    var currentDay = toDays().round()
+    return ++currentDay as Days
+}
+
+fun TimeUnit.getPrevDay(): Days {
+    var currentDay = toDays().round()
+    return --currentDay as Days
+}
+
+fun <T : TimeUnit> T.logHuman(
+    tag: String = this::class.simpleName ?: "TimeUnit",
+    prefix: String = ""
+): T {
+    Logger.log(tag, "$prefix ${getHumanDate()}")
+    return this
+}
+
+fun <T : TimeUnit> List<T>.logHuman(
+    tag: String = this::class.simpleName ?: "TimeUnit",
+    prefix: String = ""
+): List<T> {
+    Logger.log(tag, "$prefix ${joinToString(separator = ", ") { it.getHumanDate().value }}")
+    return this
 }

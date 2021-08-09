@@ -33,3 +33,7 @@ actual fun getMinutesOfDay(timestamp: Long, timeZone: String): Minutes {
 actual fun getHoursOfDay(timestamp: Long, timeZone: String): Hours {
 
 }
+
+actual fun getDayOfMonth(timestamp: Long, timeZone: String): Days {
+
+}

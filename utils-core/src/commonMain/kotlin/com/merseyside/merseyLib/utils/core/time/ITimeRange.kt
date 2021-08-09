@@ -10,6 +10,7 @@ interface ITimeRange : Comparable<ITimeRange> {
         return getEnd() - getStart()
     }
 
+    @Throws(IllegalArgumentException::class)
     fun requireValid() {
         if (getStart() > getEnd())
             throw IllegalArgumentException("Start value ${getStart().getHumanDate()} must be less than end value ${getEnd().getHumanDate()}")
