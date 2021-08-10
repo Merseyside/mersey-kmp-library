@@ -85,10 +85,14 @@ actual fun getHoursMinutes(
 }
 
 
-actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
-    //val localeDate = LocalDate.ofEpochDay(timestamp)
+actual fun getDayOfWeekHuman(
+    timestamp: Long,
+    language: String,
+    pattern: String,
+    timeZone: String
+): String {
     val result = try {
-        val sdf = SimpleDateFormat("EEEE", Locale("en"))
+        val sdf = SimpleDateFormat(pattern, Locale(language))
 
         val netDate = Date(timestamp)
 
@@ -101,7 +105,12 @@ actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
         throw IllegalArgumentException("Can not format date!")
     }
 
-    return DayOfWeek.valueOf(result.uppercase())
+    return result
+}
+
+actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
+    val human = getDayOfWeekHuman(timestamp, "en", "EEEE", timeZone)
+    return DayOfWeek.valueOf(human.uppercase())
 }
 
 private fun getUnitOfDay(

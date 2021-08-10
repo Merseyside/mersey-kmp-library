@@ -51,7 +51,7 @@ fun getCurrentWeekRange(): ITimeRange {
     val today = getToday()
 
     val monday = today - dayOfWeek.toTimeUnit()
-    val sunday = today + Days(7)
+    val sunday = monday + Days(7)
 
     return TimeUnitRange(monday, sunday)
 }
@@ -59,6 +59,13 @@ fun getCurrentWeekRange(): ITimeRange {
 expect fun getDayOfMonth(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Days
 
 expect fun getDayOfWeek(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): DayOfWeek
+
+expect fun getDayOfWeekHuman(
+    timestamp: Long,
+    language: Language = TimeConfiguration.language,
+    pattern: String = TimeConfiguration.dayOfWeekPattern,
+    timeZone: String = TimeConfiguration.timeZone
+): String
 
 expect fun getHoursMinutes(timestamp: Long, pattern: String, timeZone: String = TimeConfiguration.timeZone): String
 

@@ -100,8 +100,24 @@ fun ITimeRange.contains(other: ITimeRange): Boolean {
     return getStart() <= other.getStart() && getEnd() >= other.getEnd()
 }
 
+fun ITimeRange.contains(timeUnit: TimeUnit): Boolean {
+    return getStart() <= timeUnit && getEnd() >= timeUnit
+}
+
 fun ITimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
     return getStart() <= timeUnit && getEnd() >= timeUnit
+}
+
+fun ITimeRange.getGap(): TimeUnit {
+    return getEnd() - getStart()
+}
+
+fun ITimeRange.shift(timeUnit: TimeUnit): ITimeRange {
+    return TimeUnitRange(getStart() + timeUnit, getEnd() + timeUnit)
+}
+
+fun ITimeRange.shiftBack(timeUnit: TimeUnit): ITimeRange {
+    return TimeUnitRange(getStart() - timeUnit, getEnd() - timeUnit)
 }
 
 fun <T : ITimeRange> T.logHuman(

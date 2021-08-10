@@ -27,7 +27,9 @@ fun TimeUnit.toHoursMinutesOfDay(timeZone: String = TimeConfiguration.timeZone):
     return getHoursMinutesOfDay(millis, timeZone)
 }
 
-fun TimeUnit.toDayOfWeek(timeZone: String = TimeConfiguration.timeZone): DayOfWeek {
+fun TimeUnit.toDayOfWeek(
+    timeZone: String = TimeConfiguration.timeZone,
+): DayOfWeek {
     return getDayOfWeek(millis, timeZone)
 }
 

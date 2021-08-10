@@ -18,6 +18,15 @@ actual fun getHoursMinutes(
 
 }
 
+actual fun getDayOfWeekHuman(
+    timestamp: Long,
+    language: Language,
+    pattern: String,
+    timeZone: String
+): String {
+
+}
+
 actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
 
 }

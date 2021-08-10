@@ -10,7 +10,7 @@ object TimeConfiguration {
     var language: Language = "en"
     var country: Country = "US"
     var formatPattern: String = "dd-MM-YYYY hh:mm"
-
+    var dayOfWeekPattern: String = "EE"
 
     var formatPatterns = listOf(
         "yyyy-MM-dd'T'HH:mm:ss'Z'",
