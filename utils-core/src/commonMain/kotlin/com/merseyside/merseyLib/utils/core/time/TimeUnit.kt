@@ -13,19 +13,19 @@ object Conversions {
 }
 
 operator fun <T : TimeUnit> T.plus(increment: Number): T {
-    return this + newInstanceMillis(increment.toLong())
+    return this + newInstance(increment.toLong())
 }
 
 operator fun <T : TimeUnit> T.div(divider: Number): T {
-    return this / newInstanceMillis(divider.toLong())
+    return this / newInstance(divider.toLong())
 }
 
 operator fun <T : TimeUnit> T.times(times: Number): T {
-    return this * newInstanceMillis(times.toLong()) as T
+    return this * newInstance(times.toLong())
 }
 
 operator fun <T : TimeUnit> T.minus(unary: Number): T {
-    return this - newInstanceMillis(unary.toLong())
+    return this - newInstance(unary.toLong())
 }
 
 operator fun <T : TimeUnit> T.plus(increment: TimeUnit): T {
@@ -171,7 +171,7 @@ value class Seconds private constructor(override val millis: Long) : TimeUnit {
     constructor() : this(0)
 
     override fun newInstance(value: Long): Seconds {
-        return Seconds((Millis(Conversions.MILLIS_CONST) * value).millis)
+        return Seconds(Millis(Conversions.MILLIS_CONST).millis * value)
     }
 
     override fun newInstanceMillis(millis: Long): Seconds {
@@ -187,20 +187,20 @@ value class Seconds private constructor(override val millis: Long) : TimeUnit {
 @JvmInline
 value class Minutes private constructor(override val millis: Long) : TimeUnit {
 
+    override val value: Long
+        get() = toSeconds().value / Conversions.SECONDS_MINUTES_CONST
+
     internal constructor(unit: TimeUnit) : this(unit.millis)
 
     constructor(number: Number) : this(
-        (Seconds(Conversions.SECONDS_MINUTES_CONST) * number).millis
+        (Seconds(Conversions.SECONDS_MINUTES_CONST).millis * number.toLong())
     )
 
     constructor(str: String) : this(number = str.toLong())
     constructor() : this(0)
 
-    override val value: Long
-        get() = toSeconds().value / Conversions.SECONDS_MINUTES_CONST
-
     override fun newInstance(value: Long): TimeUnit {
-        return Minutes((Seconds(Conversions.SECONDS_MINUTES_CONST) * value).millis)
+        return Minutes(Seconds(Conversions.SECONDS_MINUTES_CONST).millis * value)
     }
 
     override fun newInstanceMillis(millis: Long): Minutes {
@@ -219,7 +219,7 @@ value class Hours private constructor(override val millis: Long) : TimeUnit {
     internal constructor(unit: TimeUnit) : this(unit.millis)
 
     constructor(number: Number) : this(
-        (Minutes(Conversions.SECONDS_MINUTES_CONST) * number).millis
+        (Minutes(Conversions.SECONDS_MINUTES_CONST).millis * number.toLong())
     )
 
     constructor(str: String) : this(number = str.toLong())
@@ -229,7 +229,7 @@ value class Hours private constructor(override val millis: Long) : TimeUnit {
         get() = toMinutes().value / Conversions.SECONDS_MINUTES_CONST
 
     override fun newInstance(value: Long): TimeUnit {
-        return Hours((Minutes(Conversions.SECONDS_MINUTES_CONST) * value).millis)
+        return Hours(Minutes(Conversions.SECONDS_MINUTES_CONST).millis * value)
     }
 
     override fun newInstanceMillis(millis: Long): Hours {
@@ -248,7 +248,7 @@ value class Days private constructor(override val millis: Long) : TimeUnit {
     internal constructor(unit: TimeUnit) : this(unit.millis)
 
     constructor(number: Number) : this(
-        (Hours(Conversions.HOURS_CONST) * number).millis
+        (Hours(Conversions.HOURS_CONST).millis * number.toLong())
     )
 
     constructor(str: String) : this(number = str.toLong())
@@ -258,7 +258,7 @@ value class Days private constructor(override val millis: Long) : TimeUnit {
         get() = toHours().value / Conversions.HOURS_CONST
 
     override fun newInstance(value: Long): TimeUnit {
-        return Days((Hours(Conversions.HOURS_CONST) * value).millis)
+        return Days(Hours(Conversions.HOURS_CONST).millis * value)
     }
 
     override fun newInstanceMillis(millis: Long): Days {
@@ -277,7 +277,7 @@ value class Weeks private constructor(override val millis: Long) : TimeUnit {
     internal constructor(unit: TimeUnit) : this(unit.millis)
 
     constructor(number: Number) : this(
-        (Days(Conversions.WEEK_CONST) * number).millis
+        (Days(Conversions.WEEK_CONST).millis * number.toLong())
     )
 
     constructor(str: String) : this(number = str.toLong())
@@ -287,7 +287,7 @@ value class Weeks private constructor(override val millis: Long) : TimeUnit {
         get() = toDays().value / Conversions.WEEK_CONST
 
     override fun newInstance(value: Long): TimeUnit {
-        return Weeks((Days(Conversions.WEEK_CONST) * value).millis)
+        return Weeks(Days(Conversions.WEEK_CONST).millis * value)
     }
 
     override fun newInstanceMillis(millis: Long): Weeks {

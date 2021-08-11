@@ -1,5 +1,7 @@
 package com.merseyside.merseyLib.utils.core.time
 
+import com.merseyside.merseyLib.utils.core.ext.log
+import com.merseyside.merseyLib.utils.core.time.ext.getDayCount
 import com.merseyside.merseyLib.utils.core.time.ext.toHoursMinutesOfDay
 import com.merseyside.merseyLib.utils.core.time.ext.toTimeUnit
 
@@ -35,7 +37,7 @@ fun getFormattedDate(timestamp: TimeUnit, pattern: String): FormattedDate {
 }
 
 fun getToday(): TimeUnit {
-    return Days(getCurrentTimeUnit().toDays().value)
+    return getCurrentTimeUnit().toDays().round()
 }
 
 fun getTodayRange(): ITimeRange = TimeUnitRange(getToday(), getToday() + Days(1))
@@ -47,13 +49,26 @@ fun getHoursMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.t
 fun getEndOfDay(): TimeUnit = Days(1) - Minutes(1)
 
 fun getCurrentWeekRange(): ITimeRange {
-    val dayOfWeek = getDayOfWeek(getCurrentTimeMillis())
-    val today = getToday()
+    val dayOfWeek = getDayOfWeek(getCurrentTimeMillis()).log(prefix = "day of week")
+    val today = getToday().log(prefix = "today =")
 
-    val monday = today - dayOfWeek.toTimeUnit()
+    val monday = today - dayOfWeek.toTimeUnit().log(prefix = "monday = ")
     val sunday = monday + Days(7)
 
     return TimeUnitRange(monday, sunday)
+}
+
+fun getCurrentMonthRange(): ITimeRange {
+    val currentTime = getCurrentTimeMillis()
+
+    val today = getToday()
+    val dayOfMonth = getDayOfMonth(currentTime)
+
+    val month = getMonth(currentTime)
+
+    val monthStart = today + 1 - dayOfMonth
+    val monthEnd = monthStart + month.getDayCount(getYear(currentTime))
+    return TimeUnitRange(monthStart, monthEnd)
 }
 
 expect fun getDayOfMonth(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Days
@@ -76,3 +91,7 @@ expect fun getSecondsOfDay(timestamp: Long, timeZone: String = TimeConfiguration
 expect fun getMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Minutes
 
 expect fun getHoursOfDay(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Hours
+
+expect fun getMonth(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Month
+
+expect fun getYear(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Years

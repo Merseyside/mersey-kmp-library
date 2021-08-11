@@ -11,6 +11,7 @@ object TimeConfiguration {
     var country: Country = "US"
     var formatPattern: String = "dd-MM-YYYY hh:mm"
     var dayOfWeekPattern: String = "EE"
+    var year = getYear(getCurrentTimeMillis())
 
     var formatPatterns = listOf(
         "yyyy-MM-dd'T'HH:mm:ss'Z'",

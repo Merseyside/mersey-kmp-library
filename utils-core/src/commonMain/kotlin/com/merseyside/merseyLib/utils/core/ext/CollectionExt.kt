@@ -16,7 +16,7 @@ fun Collection<*>?.isNotNullAndEmpty(): Boolean {
     return this != null && this.isNotEmpty()
 }
 
-fun <T: Any> Collection<*>?.isNotNullAndEmpty(block: Collection<*>.() -> T): T? {
+fun <T, R> List<T>?.isNotNullAndEmpty(block: List<T>.() -> R): R? {
     return if (this.isNotNullAndEmpty()) {
         this.block()
     } else {

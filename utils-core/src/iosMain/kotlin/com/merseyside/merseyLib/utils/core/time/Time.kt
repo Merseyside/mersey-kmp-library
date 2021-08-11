@@ -1,7 +1,5 @@
 package com.merseyside.merseyLib.utils.core.time
 
-import platform.Foundation.*
-
 actual fun getCurrentTimeMillis(): Long {
     return 0
 }
@@ -44,5 +42,13 @@ actual fun getHoursOfDay(timestamp: Long, timeZone: String): Hours {
 }
 
 actual fun getDayOfMonth(timestamp: Long, timeZone: String): Days {
+
+}
+
+actual fun getMonth(timestamp: Long, timeZone: String): Month {
+
+}
+
+actual fun getYear(timestamp: Long, timeZone: String): Years {
 
 }

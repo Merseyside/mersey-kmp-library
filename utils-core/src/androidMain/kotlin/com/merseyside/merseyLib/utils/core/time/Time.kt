@@ -3,7 +3,6 @@
 package com.merseyside.merseyLib.utils.core.time
 
 import android.os.Build
-import com.merseyside.merseyLib.utils.core.ext.log
 import java.text.SimpleDateFormat
 import java.time.DateTimeException
 import java.time.LocalTime
@@ -17,25 +16,25 @@ actual fun getCurrentTimeMillis(): Long {
 }
 
 actual fun getSecondsOfDay(timestamp: Long, timeZone: String): Seconds {
-    return Seconds(getUnitOfDay(timestamp, Calendar.SECOND, timeZone))
+    return Seconds(getUnit(timestamp, Calendar.SECOND, timeZone))
 }
 
 actual fun getMinutesOfDay(
     timestamp: Long,
     timeZone: String
 ): Minutes {
-    return Minutes(getUnitOfDay(timestamp, Calendar.MINUTE, timeZone))
+    return Minutes(getUnit(timestamp, Calendar.MINUTE, timeZone))
 }
 
 actual fun getHoursOfDay(
     timestamp: Long,
     timeZone: String
 ): Hours {
-    return Hours(getUnitOfDay(timestamp, Calendar.HOUR_OF_DAY, timeZone))
+    return Hours(getUnit(timestamp, Calendar.HOUR_OF_DAY, timeZone))
 }
 
 actual fun getDayOfMonth(timestamp: Long, timeZone: String): Days {
-    return Days(getUnitOfDay(timestamp, Calendar.DAY_OF_MONTH, timeZone))
+    return Days(getUnit(timestamp, Calendar.DAY_OF_MONTH, timeZone))
 }
 
 actual fun getFormattedDate(
@@ -84,7 +83,6 @@ actual fun getHoursMinutes(
     }
 }
 
-
 actual fun getDayOfWeekHuman(
     timestamp: Long,
     language: String,
@@ -109,11 +107,23 @@ actual fun getDayOfWeekHuman(
 }
 
 actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
-    val human = getDayOfWeekHuman(timestamp, "en", "EEEE", timeZone)
-    return DayOfWeek.valueOf(human.uppercase())
+    val newIndex = getUnit(timestamp, Calendar.DAY_OF_WEEK, timeZone).let { day ->
+        if (day == 1) 6
+        else day - 2
+
+    }
+    return DayOfWeek.getByIndex(newIndex)
 }
 
-private fun getUnitOfDay(
+actual fun getMonth(timestamp: Long, timeZone: String): Month {
+    return Month.getByIndex(getUnit(timestamp, Calendar.MONTH, timeZone))
+}
+
+actual fun getYear(timestamp: Long, timeZone: String): Years {
+    return Years(getUnit(timestamp, Calendar.YEAR, timeZone))
+}
+
+private fun getUnit(
     timestamp: Long,
     unit: Int,
     timeZone: String = TimeConfiguration.timeZone
