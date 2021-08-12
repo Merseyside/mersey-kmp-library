@@ -62,7 +62,7 @@ operator fun <T : TimeUnit> T.compareTo(value: Number): Int {
 
 fun <T : TimeUnit> T.isNotEqual(other: T) = !isEqual(other)
 
-fun <T : TimeUnit> T.round() = newInstance(value)
+fun <T : TimeUnit> T.round() = newInstance(value) as T
 
 interface TimeUnit : Comparable<TimeUnit> {
 

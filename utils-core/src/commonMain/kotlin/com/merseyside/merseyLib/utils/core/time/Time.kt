@@ -1,9 +1,12 @@
 package com.merseyside.merseyLib.utils.core.time
 
-import com.merseyside.merseyLib.utils.core.ext.log
 import com.merseyside.merseyLib.utils.core.time.ext.getDayCount
+import com.merseyside.merseyLib.utils.core.time.ext.toDayOfWeek
 import com.merseyside.merseyLib.utils.core.time.ext.toHoursMinutesOfDay
 import com.merseyside.merseyLib.utils.core.time.ext.toTimeUnit
+import com.merseyside.merseyLib.utils.core.time.ranges.ITimeRange
+import com.merseyside.merseyLib.utils.core.time.ranges.MonthRange
+import com.merseyside.merseyLib.utils.core.time.ranges.TimeUnitRange
 
 enum class TimeZone { SYSTEM, GMT }
 
@@ -49,26 +52,34 @@ fun getHoursMinutesOfDay(timestamp: Long, timeZone: String = TimeConfiguration.t
 fun getEndOfDay(): TimeUnit = Days(1) - Minutes(1)
 
 fun getCurrentWeekRange(): ITimeRange {
-    val dayOfWeek = getDayOfWeek(getCurrentTimeMillis()).log(prefix = "day of week")
-    val today = getToday().log(prefix = "today =")
+    return getWeekRange(getCurrentTimeUnit())
+}
 
-    val monday = today - dayOfWeek.toTimeUnit().log(prefix = "monday = ")
+fun getWeekRange(timestamp: TimeUnit): ITimeRange {
+    val dayOfWeek = timestamp.toDayOfWeek()
+    val days = timestamp.toDays().round()
+
+    val monday = days - dayOfWeek.toTimeUnit()
     val sunday = monday + Days(7)
 
     return TimeUnitRange(monday, sunday)
 }
 
-fun getCurrentMonthRange(): ITimeRange {
-    val currentTime = getCurrentTimeMillis()
+fun getCurrentMonthRange(): MonthRange {
+    return getMonthRange(getCurrentTimeUnit())
+}
 
-    val today = getToday()
-    val dayOfMonth = getDayOfMonth(currentTime)
+fun getMonthRange(timestamp: TimeUnit): MonthRange {
+    val days: Days = timestamp.toDays().round()
+    val millis = timestamp.millis
 
-    val month = getMonth(currentTime)
+    val dayOfMonth = getDayOfMonth(millis)
 
-    val monthStart = today + 1 - dayOfMonth
-    val monthEnd = monthStart + month.getDayCount(getYear(currentTime))
-    return TimeUnitRange(monthStart, monthEnd)
+    val month = getMonth(millis)
+
+    val monthStart = days + 1 - dayOfMonth
+    val monthEnd = monthStart + month.getDayCount(getYear(millis))
+    return MonthRange(monthStart, monthEnd)
 }
 
 expect fun getDayOfMonth(timestamp: Long, timeZone: String = TimeConfiguration.timeZone): Days

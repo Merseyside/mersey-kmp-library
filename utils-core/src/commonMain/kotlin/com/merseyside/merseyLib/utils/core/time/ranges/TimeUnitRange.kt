@@ -1,4 +1,6 @@
-package com.merseyside.merseyLib.utils.core.time
+package com.merseyside.merseyLib.utils.core.time.ranges
+
+import com.merseyside.merseyLib.utils.core.time.TimeUnit
 
 data class TimeUnitRange(
     val startTime: TimeUnit,

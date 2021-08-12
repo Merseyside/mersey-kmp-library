@@ -2,6 +2,8 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
+import com.merseyside.merseyLib.utils.core.time.ranges.ITimeRange
+import com.merseyside.merseyLib.utils.core.time.ranges.TimeUnitRange
 
 fun TimeUnit.toFormattedDate(pattern: String = TimeConfiguration.formatPattern): FormattedDate {
     return getFormattedDate(this, pattern)
@@ -55,6 +57,10 @@ fun TimeUnit.toDayTimeRange(): ITimeRange {
     return TimeUnitRange(day, day + Days(1))
 }
 
+fun TimeUnit.toTimeRange(startShift: TimeUnit): ITimeRange {
+    return TimeUnitRange(this, this + startShift)
+}
+
 fun TimeUnit.getNextDay(): Days {
     var currentDay = toDays().round()
     return ++currentDay as Days
@@ -63,6 +69,10 @@ fun TimeUnit.getNextDay(): Days {
 fun TimeUnit.getPrevDay(): Days {
     var currentDay = toDays().round()
     return --currentDay as Days
+}
+
+fun TimeUnit.toMonth(): Month {
+    return getMonth(this.millis)
 }
 
 fun <T : TimeUnit> T.logHuman(

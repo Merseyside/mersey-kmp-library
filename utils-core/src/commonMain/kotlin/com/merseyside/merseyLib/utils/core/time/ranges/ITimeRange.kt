@@ -1,6 +1,8 @@
-package com.merseyside.merseyLib.utils.core.time
+package com.merseyside.merseyLib.utils.core.time.ranges
 
+import com.merseyside.merseyLib.utils.core.time.TimeUnit
 import com.merseyside.merseyLib.utils.core.time.ext.getHumanDate
+import com.merseyside.merseyLib.utils.core.time.minus
 
 interface ITimeRange : Comparable<ITimeRange> {
     fun getStart(): TimeUnit

@@ -2,6 +2,8 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
+import com.merseyside.merseyLib.utils.core.time.ranges.ITimeRange
+import com.merseyside.merseyLib.utils.core.time.ranges.TimeUnitRange
 
 fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
     return TimeUnitRange(getStart(), getEnd())
