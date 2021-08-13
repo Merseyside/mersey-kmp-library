@@ -116,8 +116,12 @@ interface TimeUnit : Comparable<TimeUnit> {
         return this.millis.compareTo(other.millis)
     }
 
-    fun getString(): String {
+    fun getDebugString(): String {
         return "${this::class.simpleName} = $value Millis = $millis"
+    }
+
+    fun getString(): String {
+        return value.toString()
     }
 
     companion object {
