@@ -5,13 +5,14 @@ import kotlin.native.concurrent.ThreadLocal
 @ThreadLocal
 object TimeConfiguration {
 
-    var timeZone: String = TimeZone.SYSTEM.toString()
+    var timeZone: String = Time.TimeZone.SYSTEM.toString()
 
     var language: Language = "en"
     var country: Country = "US"
-    var formatPattern: String = "dd-MM-YYYY hh:mm"
+    var defaultPattern: String = "dd-MM-YYYY hh:mm"
+    var hoursMinutesPattern: String = "HH:mm"
     var dayOfWeekPattern: String = "EE"
-    var year = getYear(getCurrentTimeMillis())
+    var year = Time.getCurrentYear()
 
     var formatPatterns = listOf(
         "yyyy-MM-dd'T'HH:mm:ss'Z'",

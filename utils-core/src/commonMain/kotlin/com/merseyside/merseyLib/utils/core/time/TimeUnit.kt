@@ -64,6 +64,8 @@ fun <T : TimeUnit> T.isNotEqual(other: T) = !isEqual(other)
 
 fun <T : TimeUnit> T.round() = newInstance(value) as T
 
+fun <T : TimeUnit> T.isRound() = newInstance(value).millis == millis
+
 interface TimeUnit : Comparable<TimeUnit> {
 
     val millis: Long
@@ -92,10 +94,6 @@ interface TimeUnit : Comparable<TimeUnit> {
     fun toWeeks(): Weeks {
         return Weeks(this)
     }
-
-//    fun getDayOfYear(context: Context? = null): Days {
-//        return Days(getFormattedDate(this, "DD", context))
-//    }
 
     fun newInstance(value: Long): TimeUnit
 

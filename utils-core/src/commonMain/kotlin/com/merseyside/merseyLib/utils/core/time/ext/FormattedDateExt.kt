@@ -9,8 +9,8 @@ fun FormattedDate.toSecondsOfDay(timeZone: String = TimeConfiguration.timeZone):
     return toTimeUnit().toSecondsOfDay().toFormattedDate()
 }
 
-fun FormattedDate.toMinutesOfDay(timeZone: String = TimeConfiguration.timeZone): FormattedDate {
-    return toTimeUnit().toMinutesOfDay(timeZone).toFormattedDate()
+fun FormattedDate.toMinutesOfHour(timeZone: String = TimeConfiguration.timeZone): FormattedDate {
+    return toTimeUnit().toMinutesOfHour(timeZone).toFormattedDate()
 }
 
 fun FormattedDate.toHoursOfDay(timeZone: String = TimeConfiguration.timeZone): FormattedDate {

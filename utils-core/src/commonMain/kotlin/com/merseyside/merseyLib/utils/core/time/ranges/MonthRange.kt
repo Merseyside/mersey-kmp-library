@@ -9,7 +9,7 @@ import com.merseyside.merseyLib.utils.core.time.ext.toMonth
 class MonthRange internal constructor(
     private val start: TimeUnit,
     private val end: TimeUnit
-): ITimeRange {
+): TimeRange {
 
     override fun getStart() = start
     override fun getEnd() = end

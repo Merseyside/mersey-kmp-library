@@ -4,7 +4,7 @@ import com.merseyside.merseyLib.utils.core.time.TimeUnit
 import com.merseyside.merseyLib.utils.core.time.ext.getHumanDate
 import com.merseyside.merseyLib.utils.core.time.minus
 
-interface ITimeRange : Comparable<ITimeRange> {
+interface TimeRange : Comparable<TimeRange> {
     fun getStart(): TimeUnit
     fun getEnd(): TimeUnit
 
@@ -18,7 +18,7 @@ interface ITimeRange : Comparable<ITimeRange> {
             throw IllegalArgumentException("Start value ${getStart().getHumanDate()} must be less than end value ${getEnd().getHumanDate()}")
     }
 
-    override fun compareTo(other: ITimeRange): Int {
+    override fun compareTo(other: TimeRange): Int {
         return getStart().compareTo(other.getStart())
     }
 }

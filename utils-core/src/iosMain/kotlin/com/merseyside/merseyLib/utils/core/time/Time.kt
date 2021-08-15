@@ -1,54 +1,50 @@
 package com.merseyside.merseyLib.utils.core.time
 
-actual fun getCurrentTimeMillis(): Long {
-    return 0
+actual fun getCurrentTimeMillis(): Millis {
+    
 }
 
-actual fun getFormattedDate(timestamp: Long, pattern: String, timeZone: String): String {
-    return ""
+actual fun getDayOfMonth(timeUnit: TimeUnit, timeZone: String): Days {
+
 }
 
-actual fun getHoursMinutes(
-    timestamp: Long,
-    pattern: String,
-    timeZone: String
-): String {
+actual fun getDayOfWeek(timeUnit: TimeUnit, timeZone: String): DayOfWeek {
 
 }
 
 actual fun getDayOfWeekHuman(
-    timestamp: Long,
+    timeUnit: TimeUnit,
     language: Language,
     pattern: String,
     timeZone: String
-): String {
+): FormattedDate {
 
 }
 
-actual fun getDayOfWeek(timestamp: Long, timeZone: String): DayOfWeek {
+actual fun getHoursMinutesOfDay(timeUnit: TimeUnit, pattern: String, timeZone: String): FormattedDate {
 
 }
 
-actual fun getSecondsOfDay(timestamp: Long, timeZone: String): Seconds {
+actual fun getFormattedDate(timeUnit: TimeUnit, pattern: String, timeZone: String): FormattedDate {
 
 }
 
-actual fun getMinutesOfDay(timestamp: Long, timeZone: String): Minutes {
+actual fun getSecondsOfDay(timeUnit: TimeUnit, timeZone: String): Seconds {
 
 }
 
-actual fun getHoursOfDay(timestamp: Long, timeZone: String): Hours {
+actual fun getMinutesOfHour(timeUnit: TimeUnit, timeZone: String): Minutes {
 
 }
 
-actual fun getDayOfMonth(timestamp: Long, timeZone: String): Days {
+actual fun getHoursOfDay(timeUnit: TimeUnit, timeZone: String): Hours {
 
 }
 
-actual fun getMonth(timestamp: Long, timeZone: String): Month {
+actual fun getMonth(timeUnit: TimeUnit, timeZone: String): Month {
 
 }
 
-actual fun getYear(timestamp: Long, timeZone: String): Years {
+actual fun getYear(timeUnit: TimeUnit, timeZone: String): Years {
 
 }

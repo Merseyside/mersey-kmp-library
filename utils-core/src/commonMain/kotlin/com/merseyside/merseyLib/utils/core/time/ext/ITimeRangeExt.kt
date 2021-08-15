@@ -2,14 +2,14 @@ package com.merseyside.merseyLib.utils.core.time.ext
 
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.time.*
-import com.merseyside.merseyLib.utils.core.time.ranges.ITimeRange
+import com.merseyside.merseyLib.utils.core.time.ranges.TimeRange
 import com.merseyside.merseyLib.utils.core.time.ranges.TimeUnitRange
 
-fun ITimeRange.toTimeUnitRange(): TimeUnitRange {
+fun TimeRange.toTimeUnitRange(): TimeUnitRange {
     return TimeUnitRange(getStart(), getEnd())
 }
 
-fun <T : ITimeRange> List<T>.findEdge(): TimeUnitRange {
+fun <T : TimeRange> List<T>.findEdge(): TimeUnitRange {
     if (isEmpty()) throw  IllegalArgumentException("List can not be empty!")
     val mutList = this.toMutableList()
 
@@ -31,12 +31,12 @@ fun <T : ITimeRange> List<T>.findEdge(): TimeUnitRange {
     }
 }
 
-fun <T : ITimeRange> List<T>.findEdge(block: (TimeUnitRange) -> T): T {
+fun <T : TimeRange> List<T>.findEdge(block: (TimeUnitRange) -> T): T {
     val range = findEdge()
     return block(range)
 }
 
-fun <T : ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
+fun <T : TimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
     return if (getGap() > Weeks(1)) {
         DayOfWeek.values().toList()
     } else {
@@ -62,14 +62,14 @@ fun <T : ITimeRange> T.toDaysOfWeek(): List<DayOfWeek> {
     }
 }
 
-fun <T : ITimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
+fun <T : TimeRange> List<T>.toDaysOfWeek(): List<DayOfWeek> {
     val range = findEdge()
     return range.toDaysOfWeek()
 }
 
-fun ITimeRange.toDayRanges(): List<ITimeRange> {
+fun TimeRange.toDayRanges(): List<TimeRange> {
     var nextDay = getStart().getNextDay()
-    val dayRanges = mutableListOf<ITimeRange>()
+    val dayRanges = mutableListOf<TimeRange>()
 
     dayRanges.add(TimeUnitRange(getStart(), nextDay))
 
@@ -88,41 +88,41 @@ fun ITimeRange.toDayRanges(): List<ITimeRange> {
 }
 
 @Throws(IllegalArgumentException::class)
-fun ITimeRange.toHoursMinutesOfDay(): TimeUnitRange {
+fun TimeRange.toHoursMinutesOfDay(): TimeUnitRange {
     return TimeUnitRange(getStart().toHoursMinutesOfDay(), getEnd().toHoursMinutesOfDay())
 }
 
-fun ITimeRange.isIntersect(other: ITimeRange): Boolean {
+fun TimeRange.isIntersect(other: TimeRange): Boolean {
     return getStart() <= other.getEnd() && getStart() >= other.getStart() ||
             getEnd() > other.getStart() && getEnd() < other.getEnd() ||
             getStart() >= other.getStart() && getEnd() <= other.getEnd()
 }
 
-fun ITimeRange.contains(other: ITimeRange): Boolean {
+fun TimeRange.contains(other: TimeRange): Boolean {
     return getStart() <= other.getStart() && getEnd() >= other.getEnd()
 }
 
-fun ITimeRange.contains(timeUnit: TimeUnit): Boolean {
+fun TimeRange.contains(timeUnit: TimeUnit): Boolean {
     return getStart() <= timeUnit && getEnd() >= timeUnit
 }
 
-fun ITimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
+fun TimeRange.isIntersect(timeUnit: TimeUnit): Boolean {
     return getStart() <= timeUnit && getEnd() >= timeUnit
 }
 
-fun ITimeRange.getGap(): TimeUnit {
+fun TimeRange.getGap(): TimeUnit {
     return getEnd() - getStart()
 }
 
-fun ITimeRange.shift(timeUnit: TimeUnit): ITimeRange {
+fun TimeRange.shift(timeUnit: TimeUnit): TimeRange {
     return TimeUnitRange(getStart() + timeUnit, getEnd() + timeUnit)
 }
 
-fun ITimeRange.shiftBack(timeUnit: TimeUnit): ITimeRange {
+fun TimeRange.shiftBack(timeUnit: TimeUnit): TimeRange {
     return TimeUnitRange(getStart() - timeUnit, getEnd() - timeUnit)
 }
 
-fun <T : ITimeRange> T.logHuman(
+fun <T : TimeRange> T.logHuman(
     tag: String = this::class.simpleName ?: "ITimeRange",
     prefix: String = "",
     suffix: String = ""
@@ -134,7 +134,7 @@ fun <T : ITimeRange> T.logHuman(
     return this
 }
 
-fun <T : ITimeRange> List<T>.logHuman(
+fun <T : TimeRange> List<T>.logHuman(
     tag: String = this::class.simpleName ?: "ITimeRange",
     prefix: String = ""
 ): List<T> {

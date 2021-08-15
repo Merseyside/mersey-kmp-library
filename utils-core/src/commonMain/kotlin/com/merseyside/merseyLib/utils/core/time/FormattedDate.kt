@@ -17,7 +17,7 @@ value class FormattedDate(val value: String) {
 
         fun from(
             timeUnit: TimeUnit,
-            pattern: String = TimeConfiguration.formatPattern
+            pattern: String = TimeConfiguration.defaultPattern
         ): FormattedDate {
             return timeUnit.toFormattedDate(pattern)
         }

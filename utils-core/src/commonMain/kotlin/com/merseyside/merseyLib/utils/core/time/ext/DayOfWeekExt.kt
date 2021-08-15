@@ -19,6 +19,6 @@ fun DayOfWeek.getHuman(
     pattern: String = TimeConfiguration.dayOfWeekPattern,
     language: Language = TimeConfiguration.language,
     timeZone: String = TimeConfiguration.timeZone
-): String {
-    return getDayOfWeekHuman((Days(4) + toTimeUnit()).millis, language, pattern, timeZone)
+): FormattedDate {
+    return getDayOfWeekHuman((Days(4) + toTimeUnit()), language, pattern, timeZone)
 }
