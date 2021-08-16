@@ -1,6 +1,5 @@
 package com.merseyside.merseyLib.utils.core.ext
 
-import com.merseyside.merseyLib.utils.core.time.TimeUnit
 import io.ktor.http.parsing.*
 import io.ktor.utils.io.charsets.*
 import io.ktor.utils.io.core.*
@@ -113,5 +112,3 @@ fun String.getLettersCount() : Int {
 expect fun String.encodeBase64(): String
 
 expect fun String.decodeBase64(): String
-
-expect fun String.toTimeUnit(dateFormat: String): TimeUnit?

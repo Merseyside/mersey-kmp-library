@@ -1,9 +1,6 @@
 package com.merseyside.merseyLib.utils.core.ext
 
 import com.merseyside.merseyLib.utils.core.isZero
-import com.merseyside.merseyLib.utils.core.time.Millis
-import com.merseyside.merseyLib.utils.core.time.TimeUnit
-import com.merseyside.merseyLib.utils.core.time.plus
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -119,13 +116,6 @@ fun <T: Any> List<List<T>>.intersect(): List<T> {
 
 fun <K, V> Map<out K, V>.forEachEntry(action: (key: K, value: V) -> Unit) {
     forEach { entry -> action(entry.key, entry.value) }
-}
-
-fun List<TimeUnit>.sum(): TimeUnit {
-    var sum = Millis(0)
-    forEach { sum += it }
-
-    return sum
 }
 
 fun <T> List<T>.merge(vararg lists: List<T>): List<T> {

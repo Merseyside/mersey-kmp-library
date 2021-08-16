@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.utils.core.serialization
 
-import com.merseyside.merseyLib.utils.core.time.Millis
-import com.merseyside.merseyLib.utils.core.time.TimeUnit
+import com.merseyside.merseyLib.time.Millis
+import com.merseyside.merseyLib.time.TimeUnit
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule

@@ -11,6 +11,11 @@ object LibraryModules {
             name = ":utils-core",
             exported = true
         )
+
+        val time = MultiPlatformModule(
+            name = ":time",
+            exported = true
+        )
     }
 
     const val archyAndroid = ":archy-android"

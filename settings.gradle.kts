@@ -24,4 +24,8 @@ if (isLocalDependencies) {
 
 }
 
+include(":time")
+project(":time").projectDir =
+    File(rootDir.parent, "kmm-time-library/time")
+
 rootProject.name = "kmm-support-library"

@@ -54,14 +54,6 @@ val mppLibs = listOf(
     LibraryDeps.Libs.MultiPlatform.sqlDelight
 )
 
-val androidLibraries = listOf(
-    LibraryDeps.Libs.appCompat,
-    LibraryDeps.Libs.publisher,
-    LibraryDeps.Libs.oauth2,
-    LibraryDeps.Libs.billing,
-    LibraryDeps.Libs.billingKtx
-)
-
 val merseyModules = listOf(
     LibraryModules.utils
 )
@@ -71,14 +63,8 @@ val merseyLibs = listOf(
 )
 
 dependencies {
+    commonMainApi(project(LibraryModules.MultiPlatform.time.name))
     mppLibs.forEach { mppLibrary(it) }
-    androidLibraries.forEach { lib -> implementation(lib) }
-
-    if (isLocalAndroidDependencies()) {
-        merseyModules.forEach { module -> implementation(project(module)) }
-    } else {
-        merseyLibs.forEach { lib ->  implementation(lib) }
-    }
 }
 
 framework {
