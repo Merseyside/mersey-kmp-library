@@ -109,6 +109,10 @@ fun String.getLettersCount() : Int {
     return filter { it.isLetter() }.count()
 }
 
+fun String.decodeBase64String(): String {
+    return decodeBase64().toString()
+}
+
 expect fun String.encodeBase64(): String
 
-expect fun String.decodeBase64(): String
+expect fun String.decodeBase64(): ByteArray

@@ -1,25 +1,21 @@
 package com.merseyside.merseyLib.utils.core.serialization
 
-import com.merseyside.merseyLib.time.Millis
-import com.merseyside.merseyLib.time.TimeUnit
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.subclass
-import kotlinx.serialization.modules.polymorphic as truePolymorphic
+import kotlin.reflect.KClass
 
-val module = SerializersModule {
-    truePolymorphic(TimeUnit::class) {
-        subclass(Millis::class)
-    }
-}
+//val module = SerializersModule {
+//    truePolymorphic(TimeUnit::class) {
+//        subclass(Millis::class)
+//    }
+//}
 
 val json: Json by lazy {
     Json {
         isLenient = true
         allowStructuredMapKeys = true
         ignoreUnknownKeys = true
-        serializersModule = module
+        //serializersModule = module
     }
 }
 
@@ -39,8 +35,9 @@ inline fun <reified T : Any> T.serializeFloat(): Float {
     return json.encodeToString(this).toFloat()
 }
 
-inline fun <reified T : Any> String.deserialize(): T {
-    return json.decodeFromString(this)
+@OptIn(InternalSerializationApi::class)
+fun <T : Any> T.serialize(type: KClass<T>): String {
+    return serialize(type.serializer())
 }
 
 fun <T : Any> T.serialize(serializationStrategy: SerializationStrategy<T>): String {
@@ -50,6 +47,16 @@ fun <T : Any> T.serialize(serializationStrategy: SerializationStrategy<T>): Stri
 fun <T> String.deserialize(deserializationStrategy: DeserializationStrategy<T>): T {
     return json.decodeFromString(deserializationStrategy, this)
 }
+
+inline fun <reified T : Any> String.deserialize(): T {
+    return json.decodeFromString(this)
+}
+
+@OptIn(InternalSerializationApi::class)
+fun <T : Any> String.deserialize(type: KClass<T>): T {
+    return deserialize(type.serializer())
+}
+
 
 inline fun <reified T : Any> Any.deserialize(): T {
     return this.toString().deserialize()
