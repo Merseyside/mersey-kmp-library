@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.utils.core
 import android.util.Log
 
 actual object Logger {
+
     actual var isEnabled: Boolean = true
     actual var isDebug = true
 
@@ -48,6 +49,7 @@ actual object Logger {
 
     actual fun logErr(throwable: Throwable) {
         if (isLogging()) {
+            throwable.printStackTrace()
             Log.d(TAG, throwable.message ?: "No message")
         }
     }
@@ -62,7 +64,7 @@ actual object Logger {
         return isEnabled && isDebug
     }
 
-    private fun adoptTag(tag: Any?): String {
+    internal actual fun adoptTag(tag: Any?): String {
 
         return if (tag != null) {
             val strTag = if (tag is String) {
@@ -81,7 +83,7 @@ actual object Logger {
         }
     }
 
-    private fun adoptMsg(msg: Any?): String {
+    internal actual fun adoptMsg(msg: Any?): String {
         return when (msg) {
             null -> {
                 "null"
@@ -95,7 +97,7 @@ actual object Logger {
                 if (msg.isEmpty()) {
                     "Empty collection"
                 } else {
-                    msg.toString()
+                    msg.joinToString(separator = "\n")
                 }
             }
 

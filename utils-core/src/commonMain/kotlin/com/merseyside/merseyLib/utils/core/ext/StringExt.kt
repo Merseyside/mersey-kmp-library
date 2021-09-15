@@ -1,6 +1,5 @@
 package com.merseyside.merseyLib.utils.core.ext
 
-import com.merseyside.merseyLib.utils.core.time.TimeUnit
 import io.ktor.http.parsing.*
 import io.ktor.utils.io.charsets.*
 import io.ktor.utils.io.core.*
@@ -52,13 +51,13 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
 fun String.camelToSnakeCase(): String {
     return camelRegex.replace(this) {
         "_${it.value}"
-    }.toLowerCase()
+    }.lowercase()
 }
 
 fun String.snakeToLowerCamelCase(): String {
     return snakeRegex.replace(this) {
         it.value.replace("_","")
-            .toUpperCase()
+            .uppercase()
     }
 }
 
@@ -110,8 +109,10 @@ fun String.getLettersCount() : Int {
     return filter { it.isLetter() }.count()
 }
 
+fun String.decodeBase64String(): String {
+    return decodeBase64().toString()
+}
+
 expect fun String.encodeBase64(): String
 
-expect fun String.decodeBase64(): String
-
-expect fun String.toTimeUnit(dateFormat: String): TimeUnit?
+expect fun String.decodeBase64(): ByteArray

@@ -9,8 +9,8 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
-import com.merseyside.utils.PermissionManager
 import com.merseyside.utils.reflection.ReflectionUtils
+import com.merseyside.utils.requestPermissions
 import com.merseyside.utils.serialization.putSerialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
@@ -60,7 +60,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     private val permissionObserver = { pair: Pair<Array<String>, Int>? ->
         if (pair != null) {
-            PermissionManager.requestPermissions(this, *pair.first, requestCode = pair.second)
+            requestPermissions(*pair.first, requestCode = pair.second)
         }
     }
 

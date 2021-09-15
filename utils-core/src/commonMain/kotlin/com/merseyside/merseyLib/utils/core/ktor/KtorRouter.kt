@@ -6,46 +6,20 @@ import io.ktor.client.features.*
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.accept
 import io.ktor.http.*
+import io.ktor.util.*
 import kotlinx.serialization.json.Json
 
 abstract class KtorRouter(
-    val client: HttpClient,
+    val client: () -> HttpClient,
     val json: Json = createJson(),
     val baseUrl: () -> String = { "" }
 ) {
-    constructor(
-        httpClientEngine: HttpClientEngine,
-        baseUrl: () -> String,
-        json: Json = createJson(),
-        defaultRequest: HttpRequestBuilder.() -> Unit = {}
-    ) : this(
-        httpClientEngine.run {
-            HttpClient(httpClientEngine) {
-                defaultRequest {
-                    accept(ContentType.Application.Json)
-                    defaultRequest()
-                }
-            }
-        }, json, baseUrl
-    )
-
-    constructor(
-        baseUrl: () -> String,
-        json: Json = createJson(),
-        defaultRequest: HttpRequestBuilder.() -> Unit = {}
-    ) : this(
-        HttpClient {
-            defaultRequest {
-                accept(ContentType.Application.Json)
-                defaultRequest()
-            }
-        }, json, baseUrl
-    )
 
     var isEncoding = false
 
     open fun handleResponse(response: Response) {}
 
+    @OptIn(InternalAPI::class)
     fun HttpRequestBuilder.buildUrl(
         method: HttpMethod,
         path: String,

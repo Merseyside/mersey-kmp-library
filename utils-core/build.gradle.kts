@@ -1,29 +1,25 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    plugin(LibraryDeps.Plugins.androidLibrary)
-    plugin(LibraryDeps.Plugins.kotlinMultiplatform)
-    plugin(LibraryDeps.Plugins.kotlinKapt)
-    plugin(LibraryDeps.Plugins.mobileMultiplatform)
-    plugin(LibraryDeps.Plugins.kotlinSerialization)
-    plugin(LibraryDeps.Plugins.mavenPublish)
-    plugin(LibraryDeps.Plugins.iosFramework)
+    plugin(Plugins.androidLibrary)
+    plugin(Plugins.kotlinMultiplatform)
+    plugin(Plugins.kotlinKapt)
+    plugin(Plugins.mobileMultiplatform)
+    plugin(Plugins.kotlinSerialization)
+    plugin(Plugins.mavenPublish)
+    plugin(Plugins.iosFramework)
+    `maven-publish-config`
 }
 
-group = LibraryVersions.Application.groupId
-version = LibraryVersions.Application.version
+group = Application.groupId
+version = Application.version
 
 android {
-    compileSdkVersion(LibraryVersions.Application.compileSdk)
+    compileSdkVersion(Application.compileSdk)
 
     defaultConfig {
-        minSdkVersion(LibraryVersions.Application.minSdk)
-        targetSdkVersion(LibraryVersions.Application.targetSdk)
-    }
-
-    packagingOptions {
-        exclude("META-INF/DEPENDENCIES")
-        exclude("META-INF/*.kotlin_module")
+        minSdkVersion(Application.minSdk)
+        targetSdkVersion(Application.targetSdk)
     }
 
     compileOptions {
@@ -47,38 +43,31 @@ kotlin {
 }
 
 val mppLibs = listOf(
-    LibraryDeps.Libs.MultiPlatform.kotlinStdLib,
-    LibraryDeps.Libs.MultiPlatform.serializationJson,
-    LibraryDeps.Libs.MultiPlatform.mokoResources,
-    LibraryDeps.Libs.MultiPlatform.ktorClient,
-    LibraryDeps.Libs.MultiPlatform.sqlDelight
-)
-
-val androidLibraries = listOf(
-    LibraryDeps.Libs.appCompat,
-    LibraryDeps.Libs.publisher,
-    LibraryDeps.Libs.oauth2,
-    LibraryDeps.Libs.billing,
-    LibraryDeps.Libs.billingKtx
+    multiplatformLibs.serialization,
+    multiplatformLibs.moko.resources,
+    multiplatformLibs.ktor,
+    multiplatformLibs.sqldelight
 )
 
 val merseyModules = listOf(
-    LibraryModules.utils
+    ":utils"
+)
+
+val android = listOf(
+    androidLibs.sqldelight
 )
 
 val merseyLibs = listOf(
-    LibraryDeps.Libs.MerseyLibs.utils
+    androidLibs.merseyLib.utils,
 )
 
 dependencies {
-    mppLibs.forEach { mppLibrary(it) }
-    androidLibraries.forEach { lib -> implementation(lib) }
+    commonMainApi(projects.time)
+    //commonMainApi(LibraryDeps.Libs.MerseyLibs.time)
+    mppLibs.forEach { commonMainImplementation(it) }
 
-    if (isLocalAndroidDependencies()) {
-        merseyModules.forEach { module -> implementation(project(module)) }
-    } else {
-        merseyLibs.forEach { lib ->  implementation(lib) }
-    }
+    android.forEach { lib -> implementation(lib) }
+    merseyLibs.forEach { lib -> implementation(lib) }
 }
 
 framework {

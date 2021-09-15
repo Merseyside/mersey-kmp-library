@@ -1,11 +1,12 @@
 package com.merseyside.merseyLib.utils.core.ext
 
 import com.merseyside.merseyLib.utils.core.isZero
-import com.merseyside.merseyLib.utils.core.time.Millis
-import com.merseyside.merseyLib.utils.core.time.TimeUnit
-import com.merseyside.merseyLib.utils.core.time.plus
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.buildJsonArray
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import kotlin.jvm.JvmName
 
 @OptIn(ExperimentalContracts::class)
 fun Collection<*>?.isNotNullAndEmpty(): Boolean {
@@ -16,9 +17,9 @@ fun Collection<*>?.isNotNullAndEmpty(): Boolean {
     return this != null && this.isNotEmpty()
 }
 
-fun <T: Any> Collection<*>?.isNotNullAndEmpty(block: Collection<*>.() -> T): T? {
+fun <T, R> List<T>?.isNotNullAndEmpty(block: List<T>.() -> R): R? {
     return if (this.isNotNullAndEmpty()) {
-        this.block()
+        block()
     } else {
         null
     }
@@ -36,7 +37,7 @@ fun <T: Any> List<T>.removeEqualItems(): List<T> {
     return this.toSet().toList()
 }
 
-fun <T: Any> List<T>.unique(predicate: (T, T) -> Boolean): List<T> {
+fun <T: Any> List<T>.unique(predicate: (obj1: T, obj2: T) -> Boolean): List<T> {
     return if (isNotEmpty()) {
         val uniqueList = ArrayList<T>()
 
@@ -44,9 +45,7 @@ fun <T: Any> List<T>.unique(predicate: (T, T) -> Boolean): List<T> {
             if (index.isZero()) {
                 uniqueList.add(value)
             } else {
-
                 val found = uniqueList.find { predicate.invoke(it, value) }
-
                 if (found == null) uniqueList.add(0, value)
             }
         }
@@ -107,10 +106,10 @@ fun <T: Any> List<List<T>>.union(): List<T> {
 fun <T: Any> List<List<T>>.intersect(): List<T> {
     val hasEmptyList = find { it.isEmpty() } != null
 
-    if (hasEmptyList || isEmpty()) return emptyList<T>().log(prefix = "here1")
-    if (size == 1) return first().log(prefix = "here2")
+    if (hasEmptyList || isEmpty()) return emptyList()
+    if (size == 1) return first()
 
-    var resultList = first().toSet().log(prefix = "first")
+    var resultList = first().toSet()
 
     (1 until size).forEach { index ->
         resultList = resultList.intersect(get(index))
@@ -123,9 +122,49 @@ fun <K, V> Map<out K, V>.forEachEntry(action: (key: K, value: V) -> Unit) {
     forEach { entry -> action(entry.key, entry.value) }
 }
 
-fun List<TimeUnit>.sum(): TimeUnit {
-    var sum = Millis(0)
-    forEach { sum += it }
+fun <T> List<T>.merge(vararg lists: List<T>): List<T> {
+    if (lists.isEmpty()) throw IllegalArgumentException("Pass at least one list!")
+    val list: MutableList<T> = ArrayList(this)
 
-    return sum
+    lists.forEach {
+        list.addAll(it)
+    }
+
+    return list
+}
+
+@JvmName("toStringJsonArray")
+fun Collection<String?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toIntJsonArray")
+fun Collection<Int?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toFloatJsonArray")
+fun Collection<Float?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toBooleanJsonArray")
+fun Collection<Boolean?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
 }

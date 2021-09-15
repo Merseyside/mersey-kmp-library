@@ -34,13 +34,7 @@ class SavedState {
     }
 
     fun getBool(key: String): Boolean? {
-        return map[key]?.let {
-            if (it == "false" || it == "true") {
-                it.toBoolean()
-            } else {
-                null
-            }
-        }
+        return map[key]?.toBooleanStrictOrNull()
     }
 
     fun getInt(key: String): Int? {

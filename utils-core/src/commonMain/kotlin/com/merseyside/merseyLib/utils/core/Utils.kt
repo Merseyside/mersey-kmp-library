@@ -10,3 +10,9 @@ fun generateRandomString(length: Int = 10): String {
 }
 
 fun String.hexStringToByteArray() = ByteArray(this.length / 2) { this.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+
+fun <T> merge(first: List<T>, second: List<T>): List<T> {
+    val list: MutableList<T> = ArrayList(first)
+    list.addAll(second)
+    return list
+}

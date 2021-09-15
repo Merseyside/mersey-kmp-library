@@ -1,26 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    plugin(LibraryDeps.Plugins.androidLibrary)
-    plugin(LibraryDeps.Plugins.kotlinAndroid)
-    plugin(LibraryDeps.Plugins.kotlinKapt)
-    plugin(LibraryDeps.Plugins.mavenPublish)
+    plugin(Plugins.androidLibrary)
+    plugin(Plugins.kotlinAndroid)
+    plugin(Plugins.kotlinKapt)
+    `maven-publish-config`
 }
 
-group = LibraryVersions.Application.groupId
-version = LibraryVersions.Application.version
+group = Application.groupId
+version = Application.version
 
 android {
-    compileSdkVersion(LibraryVersions.Application.compileSdk)
+    compileSdkVersion(Application.compileSdk)
 
     defaultConfig {
-        minSdkVersion(LibraryVersions.Application.minSdk)
-        targetSdkVersion(LibraryVersions.Application.targetSdk)
-    }
-
-    packagingOptions {
-        exclude("META-INF/DEPENDENCIES")
-        exclude("META-INF/*.kotlin_module")
+        minSdkVersion(Application.minSdk)
+        targetSdkVersion(Application.targetSdk)
     }
 
     compileOptions {
@@ -41,25 +36,27 @@ tasks.withType<KotlinCompile> {
 }
 
 val androidLibraries = listOf(
-    LibraryDeps.Libs.appCompat,
-    LibraryDeps.Libs.fragment,
-    LibraryDeps.Libs.lifecycleViewModelSavedState,
-    LibraryDeps.Libs.annotation,
-    LibraryDeps.Libs.koin
+    common.serialization,
+    androidLibs.appCompat,
+    androidLibs.fragment,
+    androidLibs.lifecycleViewModelSavedState,
+    androidLibs.annotation,
+    androidLibs.koin
 )
 
 val merseyModules = listOf(
-    LibraryModules.archy,
-    LibraryModules.utils
+    ":archy",
+    ":utils"
 )
 
 val merseyLibs = listOf(
-    LibraryDeps.Libs.MerseyLibs.archy,
-    LibraryDeps.Libs.MerseyLibs.utils
+    androidLibs.merseyLib.archy,
+    androidLibs.merseyLib.utils
 )
 
 dependencies {
-    api(project(LibraryModules.MultiPlatform.archyCore.name))
+    api(projects.utilsCore)
+    api(projects.archyCore)
 
     if (isLocalAndroidDependencies()) {
         merseyModules.forEach { module -> implementation(project(module)) }
