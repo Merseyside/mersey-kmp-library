@@ -6,7 +6,6 @@ plugins {
     plugin(Plugins.kotlinKapt)
     plugin(Plugins.mobileMultiplatform)
     plugin(Plugins.kotlinSerialization)
-    plugin(Plugins.mavenPublish)
     plugin(Plugins.iosFramework)
     `maven-publish-config`
 }
@@ -62,8 +61,6 @@ val merseyLibs = listOf(
 )
 
 dependencies {
-    commonMainApi(projects.time)
-    //commonMainApi(LibraryDeps.Libs.MerseyLibs.time)
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }

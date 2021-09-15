@@ -7,7 +7,7 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 
-    val catalogVersions = "1.0.2"
+    val catalogVersions = "1.0.3"
     val group = "io.github.merseyside"
     versionCatalogs {
         create("multiplatformLibs") {
@@ -49,9 +49,5 @@ if (isLocalAndroidDependencies) {
         File(rootDir.parent, "mersey-android-library/animators")
 
 }
-
-include(":time")
-project(":time").projectDir =
-    File(rootDir.parent, "kmm-time-library/time")
 
 rootProject.name = "kmm-support-library"

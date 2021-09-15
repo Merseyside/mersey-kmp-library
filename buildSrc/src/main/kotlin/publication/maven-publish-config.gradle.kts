@@ -1,12 +1,12 @@
-import java.util.*
+import java.util.Base64
 
 plugins {
     `maven-publish`
     signing
 }
 
-group = "io.github.merseyside"
-version = "1.0.0"
+group = Metadata.groupId
+version = Metadata.version
 
 publishing {
     publications.withType<MavenPublication>().all {

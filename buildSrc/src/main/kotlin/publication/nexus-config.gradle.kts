@@ -2,8 +2,8 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
 
-group = "io.github.merseyside"
-version = "1.0.0"
+group = Metadata.groupId
+version = Metadata.version
 
 nexusPublishing {
     repositories {
