@@ -19,5 +19,8 @@ expect object Logger {
     fun logErr(tag: Any?, throwable: Throwable)
     fun logErr(throwable: Throwable)
 
+    internal fun adoptTag(tag: Any?): String
+    internal fun adoptMsg(msg: Any?): String
+
     val TAG: String
 }

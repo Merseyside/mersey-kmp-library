@@ -9,9 +9,9 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
-import com.merseyside.utils.serialization.putSerialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import org.koin.androidx.scope.fragmentScope

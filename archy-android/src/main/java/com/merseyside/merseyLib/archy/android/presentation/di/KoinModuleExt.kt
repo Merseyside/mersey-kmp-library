@@ -4,8 +4,8 @@ import android.os.Bundle
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.isNotNullAndEmpty
-import com.merseyside.utils.serialization.getSerialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import org.koin.core.instance.InstanceFactory

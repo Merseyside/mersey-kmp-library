@@ -17,7 +17,7 @@ object LibraryVersions {
         const val coroutines = "1.5.1-native-mt"
         const val serialization = "1.2.2"
         const val koin = "3.1.2"
-        const val merseyLibs = "1.4.3"
+        const val merseyLibs = "1.4.6"
         const val mokoMvvm = "0.11.0"
     }
 

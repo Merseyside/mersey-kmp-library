@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.archy.core.presentation.model
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
+import com.merseyside.merseyLib.utils.core.ext.log
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel

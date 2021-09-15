@@ -37,7 +37,7 @@ fun <T: Any> List<T>.removeEqualItems(): List<T> {
     return this.toSet().toList()
 }
 
-fun <T: Any> List<T>.unique(predicate: (T, T) -> Boolean): List<T> {
+fun <T: Any> List<T>.unique(predicate: (obj1: T, obj2: T) -> Boolean): List<T> {
     return if (isNotEmpty()) {
         val uniqueList = ArrayList<T>()
 
