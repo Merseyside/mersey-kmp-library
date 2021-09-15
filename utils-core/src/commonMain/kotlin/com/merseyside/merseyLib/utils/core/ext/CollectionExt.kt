@@ -1,8 +1,12 @@
 package com.merseyside.merseyLib.utils.core.ext
 
 import com.merseyside.merseyLib.utils.core.isZero
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.buildJsonArray
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import kotlin.jvm.JvmName
 
 @OptIn(ExperimentalContracts::class)
 fun Collection<*>?.isNotNullAndEmpty(): Boolean {
@@ -15,7 +19,7 @@ fun Collection<*>?.isNotNullAndEmpty(): Boolean {
 
 fun <T, R> List<T>?.isNotNullAndEmpty(block: List<T>.() -> R): R? {
     return if (this.isNotNullAndEmpty()) {
-        this.block()
+        block()
     } else {
         null
     }
@@ -33,7 +37,7 @@ fun <T: Any> List<T>.removeEqualItems(): List<T> {
     return this.toSet().toList()
 }
 
-fun <T: Any> List<T>.unique(predicate: (T, T) -> Boolean): List<T> {
+fun <T: Any> List<T>.unique(predicate: (obj1: T, obj2: T) -> Boolean): List<T> {
     return if (isNotEmpty()) {
         val uniqueList = ArrayList<T>()
 
@@ -127,4 +131,40 @@ fun <T> List<T>.merge(vararg lists: List<T>): List<T> {
     }
 
     return list
+}
+
+@JvmName("toStringJsonArray")
+fun Collection<String?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toIntJsonArray")
+fun Collection<Int?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toFloatJsonArray")
+fun Collection<Float?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
+}
+
+@JvmName("toBooleanJsonArray")
+fun Collection<Boolean?>.toJsonArray(): JsonArray {
+    return buildJsonArray {
+        forEach {
+            add(it)
+        }
+    }
 }

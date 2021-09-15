@@ -4,6 +4,6 @@ actual fun String.encodeBase64(): String {
 
 }
 
-actual fun String.decodeBase64(): String {
+actual fun String.decodeBase64(): ByteArray {
 
 }
