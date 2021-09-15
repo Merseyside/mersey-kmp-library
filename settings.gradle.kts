@@ -1,10 +1,36 @@
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    val catalogVersions = "1.0.2"
+    val group = "io.github.merseyside"
+    versionCatalogs {
+        create("multiplatformLibs") {
+            from("$group:catalog-version-multiplatform:$catalogVersions")
+        }
+
+        create("common") {
+            from("$group:catalog-version-common:$catalogVersions")
+        }
+
+        create("androidLibs") {
+            from("$group:catalog-version-android:$catalogVersions")
+        }
+    }
+}
+
 include(":archy-core")
 include(":utils-core")
 include(":archy-android")
 
-private val isLocalDependencies = false
+private val isLocalAndroidDependencies = false
 
-if (isLocalDependencies) {
+if (isLocalAndroidDependencies) {
 
     include(":utils")
     project(":utils").projectDir =
