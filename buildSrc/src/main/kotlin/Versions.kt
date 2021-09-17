@@ -3,7 +3,7 @@ object Application {
     const val applicationId = "com.merseyside.merseyLib"
 
     const val version = Metadata.version
-    const val versionCode = 140
+    const val versionCode = 141
 
     const val compileSdk = 30
     const val targetSdk = 30
