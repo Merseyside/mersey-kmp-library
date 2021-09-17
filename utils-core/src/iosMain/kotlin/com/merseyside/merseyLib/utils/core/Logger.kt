@@ -8,23 +8,23 @@ actual object Logger {
     actual var isEnabled: Boolean = true
     actual var isDebug: Boolean = true
 
-    actual fun log(tag: Any, msg: Any) {
+    actual fun log(tag: Any?, msg: Any?) {
         NSLog("%s: %s", adoptTag(tag), adoptMsg(msg))
     }
 
-    actual fun log(msg: Any) {
+    actual fun log(msg: Any?) {
         NSLog("%s: %s", TAG, adoptMsg(msg))
     }
 
-    actual fun logErr(tag: Any, msg: Any) {
+    actual fun logErr(tag: Any?, msg: Any?) {
         NSLog("%s Error: %s", adoptTag(tag), adoptMsg(msg))
     }
 
-    actual fun logErr(msg: Any) {
+    actual fun logErr(msg: Any?) {
         NSLog("%s Error: %s", TAG, adoptMsg(msg))
     }
 
-    actual fun logErr(tag: Any, throwable: Throwable) {
+    actual fun logErr(tag: Any?, throwable: Throwable) {
         NSLog("%s Error: %s", adoptTag(tag), throwable.message)
     }
 
@@ -32,19 +32,19 @@ actual object Logger {
         NSLog("%s Error: %s", TAG, throwable.message)
     }
 
-    actual fun logInfo(tag: Any, msg: Any) {
+    actual fun logInfo(tag: Any?, msg: Any?) {
         NSLog("%s Info: %s", adoptTag(tag), adoptMsg(msg))
     }
 
-    actual fun logInfo(msg: Any) {
+    actual fun logInfo(msg: Any?) {
         NSLog("%s Info: %s", TAG, adoptMsg(msg))
     }
 
-    actual fun logWtf(tag: Any, msg: Any) {
+    actual fun logWtf(tag: Any?, msg: Any?) {
         NSLog("%s Wtf?: %s", adoptTag(tag), adoptMsg(msg))
     }
 
-    actual fun logWtf(msg: Any) {
+    actual fun logWtf(msg: Any?) {
         NSLog("%s Wtf: %s", TAG, adoptMsg(msg))
     }
 
@@ -95,6 +95,5 @@ actual object Logger {
         }
     }
 
-    actual val TAG: String
-        get() = TODO("Not yet implemented")
+    actual val TAG: String = "Logger"
 }
