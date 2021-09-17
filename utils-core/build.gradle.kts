@@ -42,6 +42,7 @@ kotlin {
 }
 
 val mppLibs = listOf(
+    common.merseyLib.time,
     multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,

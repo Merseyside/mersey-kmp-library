@@ -4,10 +4,10 @@ package com.merseyside.merseyLib.utils.core.coroutines
 * https://github.com/Kotlin/kotlinx.coroutines/issues/2171
  */
 
-import android.util.Log
 import com.merseyside.merseyLib.time.Seconds
 import com.merseyside.merseyLib.time.TimeUnit
 import com.merseyside.merseyLib.time.minus
+import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.delay
 import kotlinx.coroutines.*
 
@@ -56,14 +56,14 @@ class CountDownTimer(
 
     fun pauseTimer() {
         if (state == CurrentTimerState.PAUSED) {
-            Log.e(TAG, "Already paused, check your code for multiple callers")
+            Logger.logErr(TAG, "Already paused, check your code for multiple callers")
         }
         state = CurrentTimerState.PAUSED
     }
 
     fun continueTimer() {
         if (state == CurrentTimerState.RUNNING) {
-            Log.e(TAG, "Already running, check your code for multiple callers")
+            Logger.logErr(TAG, "Already running, check your code for multiple callers")
         }
         state = CurrentTimerState.RUNNING
         listener.onContinue()
