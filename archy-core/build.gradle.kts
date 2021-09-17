@@ -11,9 +11,6 @@ plugins {
     `maven-publish-config`
 }
 
-group = Application.groupId
-version = Application.version
-
 android {
     compileSdkVersion(Application.compileSdk)
 

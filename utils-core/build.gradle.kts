@@ -10,9 +10,6 @@ plugins {
     `maven-publish-config`
 }
 
-group = Application.groupId
-version = Application.version
-
 android {
     compileSdkVersion(Application.compileSdk)
 
@@ -47,10 +44,6 @@ val mppLibs = listOf(
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
     multiplatformLibs.sqldelight
-)
-
-val merseyModules = listOf(
-    ":utils"
 )
 
 val android = listOf(

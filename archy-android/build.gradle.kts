@@ -7,9 +7,6 @@ plugins {
     `maven-publish-config`
 }
 
-group = Application.groupId
-version = Application.version
-
 android {
     compileSdkVersion(Application.compileSdk)
 
@@ -67,10 +64,10 @@ dependencies {
     androidLibraries.forEach { lib -> implementation(lib) }
 }
 
-//afterEvaluate {
-//    publishing.publications {
-//        create("release", MavenPublication::class.java) {
-//            from(components.getByName("release"))
-//        }
-//    }
-//}
+afterEvaluate {
+    publishing.publications {
+        create("release", MavenPublication::class.java) {
+            from(components.getByName("release"))
+        }
+    }
+}
