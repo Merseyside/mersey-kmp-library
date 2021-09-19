@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    plugin(Plugins.androidLibrary)
-    plugin(Plugins.kotlinMultiplatform)
-    plugin(Plugins.kotlinKapt)
-    plugin(Plugins.mobileMultiplatform)
-    plugin(Plugins.resources)
-    plugin(Plugins.sqldelight)
-    plugin(Plugins.iosFramework)
+    id(Plugins.androidLibrary)
+    id(Plugins.kotlinMultiplatform)
+    id(Plugins.kotlinKapt)
+    id(Plugins.mobileMultiplatform)
+    id(Plugins.resources)
+    id(Plugins.sqldelight)
+    id(Plugins.iosFramework)
     `maven-publish-config`
 }
 
@@ -19,16 +19,10 @@ android {
         targetSdkVersion(Application.targetSdk)
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        languageVersion = "1.4"
-        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-Xopt-in=org.mylibrary.OptInAnnotation")
     }
 }

@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    plugin(Plugins.androidLibrary)
-    plugin(Plugins.kotlinAndroid)
-    plugin(Plugins.kotlinKapt)
+    id(Plugins.androidLibrary)
+    id(Plugins.kotlinAndroid)
+    id(Plugins.kotlinKapt)
     `maven-publish-config`
 }
 
@@ -15,11 +15,6 @@ android {
         targetSdkVersion(Application.targetSdk)
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     buildFeatures {
         dataBinding = true
     }
@@ -27,7 +22,6 @@ android {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
     }
 }
@@ -42,8 +36,8 @@ val androidLibraries = listOf(
 )
 
 val merseyModules = listOf(
-    ":archy",
-    ":utils"
+    Modules.Android.MerseyLibs.archy,
+    Modules.Android.MerseyLibs.utils
 )
 
 val merseyLibs = listOf(

@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    plugin(Plugins.androidLibrary)
-    plugin(Plugins.kotlinMultiplatform)
-    plugin(Plugins.kotlinKapt)
-    plugin(Plugins.mobileMultiplatform)
-    plugin(Plugins.kotlinSerialization)
-    plugin(Plugins.iosFramework)
+    id(Plugins.androidLibrary)
+    id(Plugins.kotlinMultiplatform)
+    id(Plugins.kotlinKapt)
+    id(Plugins.mobileMultiplatform)
+    id(Plugins.kotlinSerialization)
+    id(Plugins.iosFramework)
     `maven-publish-config`
 }
 
@@ -26,7 +26,6 @@ android {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
     }
 }
