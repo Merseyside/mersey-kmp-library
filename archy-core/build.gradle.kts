@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Plugins.androidLibrary)
+    `android-convention`
     id(Plugins.kotlinMultiplatform)
     id(Plugins.kotlinKapt)
     id(Plugins.mobileMultiplatform)
@@ -9,16 +9,6 @@ plugins {
     id(Plugins.sqldelight)
     id(Plugins.iosFramework)
     `maven-publish-config`
-}
-
-android {
-    compileSdkVersion(Application.compileSdk)
-
-    defaultConfig {
-        minSdkVersion(Application.minSdk)
-        targetSdkVersion(Application.targetSdk)
-    }
-
 }
 
 tasks.withType<KotlinCompile> {
@@ -42,7 +32,7 @@ val mppLibs = listOf(
     multiplatformLibs.coroutines,
     multiplatformLibs.serialization,
     multiplatformLibs.moko.mvvm,
-    multiplatformLibs.moko.livedata,
+    multiplatformLibs.moko.mvvm.livedata,
     multiplatformLibs.koin
 )
 
@@ -59,5 +49,5 @@ dependencies {
 
 framework {
     mppModules.forEach { export(it) }
-    mppLibs.forEach { export(it) }
+    mppLibs.forEach { export(it.toProvider()) }
 }

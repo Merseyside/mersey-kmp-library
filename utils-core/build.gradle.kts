@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Plugins.androidLibrary)
+    `android-convention`
     id(Plugins.kotlinMultiplatform)
     id(Plugins.kotlinKapt)
     id(Plugins.mobileMultiplatform)
@@ -16,11 +16,6 @@ android {
     defaultConfig {
         minSdkVersion(Application.minSdk)
         targetSdkVersion(Application.targetSdk)
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -61,5 +56,5 @@ dependencies {
 }
 
 framework {
-    mppLibs.forEach { export(it) }
+    mppLibs.forEach { export(it.toProvider()) }
 }

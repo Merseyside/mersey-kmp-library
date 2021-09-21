@@ -1,4 +1,7 @@
 import org.gradle.api.Project
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.internal.catalog.ExternalModuleDependencyFactory
+import org.gradle.api.provider.Provider
 import org.gradle.internal.impldep.com.amazonaws.services.kms.model.NotFoundException
 
 inline fun <reified T> Project.findTypedProperty(propertyName: String): T {
@@ -20,3 +23,11 @@ fun Project.isLocalDependencies(): Boolean =
 
 fun Project.isLocalAndroidDependencies(): Boolean =
     findTypedProperty("build.localAndroidDependencies")
+
+inline fun <reified T: MinimalExternalModuleDependency> Any.toProvider(): Provider<T> {
+    return when (this) {
+        is Provider<*> -> this as Provider<T>
+        is ExternalModuleDependencyFactory.ProviderConvertible<*> -> this.asProvider() as Provider<T>
+        else -> throw Exception("Wrong type")
+    }
+}

@@ -1,23 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Plugins.androidLibrary)
+    `android-convention`
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinKapt)
     `maven-publish-config`
-}
-
-android {
-    compileSdkVersion(Application.compileSdk)
-
-    defaultConfig {
-        minSdkVersion(Application.minSdk)
-        targetSdkVersion(Application.targetSdk)
-    }
-
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 tasks.withType<KotlinCompile> {
