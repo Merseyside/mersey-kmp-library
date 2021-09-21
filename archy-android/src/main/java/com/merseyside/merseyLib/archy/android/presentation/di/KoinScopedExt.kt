@@ -21,7 +21,6 @@ inline fun <reified T : StateViewModel> ScopeDSL.stateViewModel(
 ): Pair<Module, InstanceFactory<T>> {
 
     return factory(qualifier) {
-        it.values.log(prefix = "kek")
         viewModelDefinition(it).apply {
             val bundle = it.getOrNull<Bundle>()
             if (bundle.isNotNullAndEmpty()) {
