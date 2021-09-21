@@ -10,8 +10,6 @@ android {
         targetSdkVersion(Application.targetSdk)
     }
 
-    android.buildFeatures.dataBinding = true
-
     sourceSets {
         getByName("main") {
             java.srcDir("src/main/kotlin")

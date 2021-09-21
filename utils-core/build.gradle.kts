@@ -10,15 +10,6 @@ plugins {
     `maven-publish-config`
 }
 
-android {
-    compileSdkVersion(Application.compileSdk)
-
-    defaultConfig {
-        minSdkVersion(Application.minSdk)
-        targetSdkVersion(Application.targetSdk)
-    }
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")

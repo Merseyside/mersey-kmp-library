@@ -7,6 +7,12 @@ plugins {
     `maven-publish-config`
 }
 
+android {
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
