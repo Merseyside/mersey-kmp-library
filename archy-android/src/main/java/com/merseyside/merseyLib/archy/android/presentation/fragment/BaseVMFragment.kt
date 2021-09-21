@@ -9,6 +9,7 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.utils.ext.log
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
@@ -71,11 +72,11 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         setHasOptionsMenu(false)
     }
 
-    override fun performInjection(bundle: Bundle?) {
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
         viewModel = scope.getViewModel(
             owner = { ViewModelOwner.from(this)},
             clazz = persistentClass,
-            parameters = { parametersOf(bundle) }
+            parameters = { parametersOf(*params, bundle) }
         )
     }
 

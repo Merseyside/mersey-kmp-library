@@ -66,11 +66,11 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
         observeViewModel()
     }
 
-    override fun performInjection(bundle: Bundle?) {
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
         viewModel = scope.getViewModel(
             owner = { ViewModelOwner.from(this)},
             clazz = persistentClass,
-            parameters = { parametersOf(bundle) }
+            parameters = { parametersOf(*params, bundle) }
         )
     }
 

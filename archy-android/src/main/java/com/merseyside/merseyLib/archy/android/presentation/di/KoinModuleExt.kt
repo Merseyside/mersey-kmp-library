@@ -8,18 +8,19 @@ import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.isNotNullAndEmpty
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
+import org.koin.core.definition.Definition
 import org.koin.core.instance.InstanceFactory
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
-import org.koin.core.scope.Scope
 
 inline fun <reified T : StateViewModel> Module.stateViewModel(
     qualifier: Qualifier? = null,
-    noinline viewModelDefinition: Scope.() -> T
+    noinline viewModelDefinition: Definition<T>
 ): Pair<Module, InstanceFactory<T>> {
 
-    return factory(qualifier) { (bundle: Bundle) ->
-        viewModelDefinition().apply {
+    return factory(qualifier) {
+        viewModelDefinition(it).apply {
+            val bundle = it.getOrNull<Bundle>()
             if (bundle.isNotNullAndEmpty()) {
                 val savedState = SavedState().apply {
                     addAll(bundle.getSerialize(

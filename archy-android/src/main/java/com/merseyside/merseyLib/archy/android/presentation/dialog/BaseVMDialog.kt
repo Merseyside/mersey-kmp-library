@@ -47,10 +47,10 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         setHasOptionsMenu(false)
     }
 
-    override fun performInjection(bundle: Bundle?) {
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
         requireParentFragment().getViewModel(
             clazz = persistentClass,
-            parameters = { parametersOf(bundle) }
+            parameters = { parametersOf(*params, bundle) }
         )
     }
 
