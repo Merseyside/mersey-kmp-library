@@ -32,7 +32,8 @@ val mppLibs = listOf(
 )
 
 val android = listOf(
-    androidLibs.sqldelight
+    androidLibs.sqldelight,
+    androidLibs.lifecycleLiveDataKtx
 )
 
 val merseyLibs = listOf(
@@ -40,6 +41,7 @@ val merseyLibs = listOf(
 )
 
 dependencies {
+    commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }

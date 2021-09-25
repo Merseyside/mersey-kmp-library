@@ -20,9 +20,8 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
         return coroutineScope.launch {
             onPreExecute()
 
-            val deferred = doWorkAsync(params)
-
             try {
+                val deferred = doWorkAsync(params)
                 onComplete(deferred.await())
             } catch (throwable: CancellationException) {
                 Logger.log(this@CoroutineUseCase, "The coroutine had canceled")
