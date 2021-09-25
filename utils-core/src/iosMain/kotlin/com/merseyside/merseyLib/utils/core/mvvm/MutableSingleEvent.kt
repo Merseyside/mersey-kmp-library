@@ -2,9 +2,9 @@ package com.merseyside.merseyLib.utils.core.mvvm
 
 import dev.icerock.moko.mvvm.livedata.LiveData
 
-actual class MutableSingleEvent actual constructor(initialValue: T)<T> : LiveData<T> {
+actual class MutableSingleEvent<T> actual constructor(initialValue: T) : LiveData<T>(initialValue) {
 
-    actual open var value: T
+    actual override var value: T
         get() = TODO("Not yet implemented")
         set(value) {}
 
