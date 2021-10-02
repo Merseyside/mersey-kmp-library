@@ -1,13 +1,7 @@
 package com.merseyside.merseyLib.archy.core.domain.coroutines
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-
-suspend fun <X> CoroutineScope.backgroundAsync(context: CoroutineContext = computationContext, block: suspend () -> X): Deferred<X> {
-    return async(context) {
-        block.invoke()
-    }
-}
+import com.merseyside.merseyLib.archy.core.domain.coroutines.exception.NoParamsException
+import kotlinx.coroutines.delay
 
 suspend fun debounce(
     waitMs: Long = 300L,
@@ -17,4 +11,12 @@ suspend fun debounce(
     destinationFunction.invoke()
 }
 
-class DebounceException(msg: String): CancellationException(msg)
+inline fun <Params, Result> BaseCoroutineUseCase<*, Params>.requireParams(
+    params: Params?,
+    block: Params.() -> Result
+): Result {
+    return if (params != null) {
+        block(params)
+    } else throw NoParamsException()
+}
+

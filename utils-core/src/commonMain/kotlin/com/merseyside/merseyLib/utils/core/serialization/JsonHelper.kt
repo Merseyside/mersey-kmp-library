@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.utils.core.serialization
 
-import com.merseyside.merseyLib.utils.core.ext.toJsonArray
+import com.merseyside.merseyLib.utils.core.serialization.ext.toJsonArray
 import kotlinx.serialization.json.JsonArray
 
 fun ListStringConverter.toJsonArray(): JsonArray {

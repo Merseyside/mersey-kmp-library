@@ -10,9 +10,9 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.JsonBuilder
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonArrayBuilder
 import kotlinx.serialization.json.JsonObjectBuilder
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.serializer
 
@@ -34,8 +34,12 @@ fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
         })
 }
 
-fun HttpRequestBuilder.buildJsonBody(block: JsonObjectBuilder.() -> Unit) {
-    body = buildJsonObject { block() }.toString()
+fun HttpRequestBuilder.buildJsonObjectBody(block: JsonObjectBuilder.() -> Unit) {
+    body = buildJsonObject { block() }.serialize()
+}
+
+fun HttpRequestBuilder.buildJsonArrayBody(block: JsonArrayBuilder.() -> Unit) {
+    body = buildJsonArray { block() }.serialize()
 }
 
 suspend inline fun <reified T: Any> KtorRouter.post(

@@ -31,7 +31,8 @@ inline fun <reified T : Any> T.serializeFloat(
 @OptIn(InternalSerializationApi::class)
 fun <T : Any> T.serialize(
     type: KClass<T>,
-    json: Json = JsonConfigurator.json): String {
+    json: Json = JsonConfigurator.json
+): String {
     return serialize(type.serializer(), json)
 }
 

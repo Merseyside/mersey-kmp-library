@@ -67,6 +67,13 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     abstract fun getBindingVariable(): Int
 
+    open fun initDataBinding(): ViewDataBinding.() -> Unit {
+        return {
+            setVariable(getBindingVariable(), viewModel)
+            executePendingBindings()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
@@ -83,8 +90,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         requireBinding().apply {
-            setVariable(getBindingVariable(), viewModel)
-            executePendingBindings()
+            initDataBinding().invoke(this)
         }
 
         viewModel.apply {

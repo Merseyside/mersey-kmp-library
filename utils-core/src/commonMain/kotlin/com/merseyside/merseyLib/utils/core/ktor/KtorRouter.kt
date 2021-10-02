@@ -1,10 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.*
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.accept
+import io.ktor.client.*
+import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.util.*
 import kotlinx.serialization.json.Json
