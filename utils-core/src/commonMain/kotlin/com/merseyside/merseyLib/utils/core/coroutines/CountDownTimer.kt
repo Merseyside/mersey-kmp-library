@@ -86,10 +86,11 @@ class CountDownTimer(
                 timerLoop@ while (isActive) {
                     countDownTimer -= delay
 
-                    if (countDownTimer.isEmpty()) {
+                    if (countDownTimer <= TimeUnit.getEmpty()) {
                         state = CurrentTimerState.STOPPED
 
                         onTick(TimeUnit.getEmpty())
+                        timerJob?.cancel()
                         listener.onStop()
                     } else {
                         onTick(countDownTimer)
