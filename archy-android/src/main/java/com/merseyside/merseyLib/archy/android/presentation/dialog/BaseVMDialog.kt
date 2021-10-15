@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
-import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.android.presentation.fragment.BaseVMFragment
+import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.utils.reflection.ReflectionUtils
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
@@ -47,12 +45,12 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         setHasOptionsMenu(false)
     }
 
-    override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        requireParentFragment().getViewModel(
-            clazz = persistentClass,
-            parameters = { parametersOf(*params, bundle) }
-        )
-    }
+//    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+//        requireParentFragment().getViewModel(
+//            clazz = persistentClass,
+//            parameters = { parametersOf(*params, bundle) }
+//        )
+//    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -95,6 +93,11 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         }
     }
 
-    private val persistentClass: KClass<M> =
-        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMFragment::class.java, 1).kotlin as KClass<M>
+    protected open fun getPersistentClass(): KClass<M> {
+        return ReflectionUtils.getGenericParameterClass(
+            this.javaClass,
+            BaseVMFragment::class.java,
+            1
+        ).kotlin as KClass<M>
+    }
 }

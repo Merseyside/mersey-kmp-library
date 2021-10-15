@@ -17,6 +17,7 @@ val gradle = "4.2.1"
 val resources = "0.15.1"
 val sqldelight = "1.5.0"
 val nexus = "1.1.0"
+val navigation = "2.3.5"
 
 dependencies {
     implementation("dev.icerock:mobile-multiplatform:$multiplatform")
@@ -26,4 +27,5 @@ dependencies {
     implementation("dev.icerock.moko:resources-generator:$resources")
     implementation("com.squareup.sqldelight:gradle-plugin:$sqldelight")
     implementation("io.github.gradle-nexus:publish-plugin:$nexus")
+    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:$navigation")
 }

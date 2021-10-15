@@ -21,7 +21,7 @@ fun <T, R> List<T>?.isNotNullAndEmpty(block: List<T>.() -> R): R? {
     }
 }
 
-fun <T: Any> Collection<*>?.isEmpty(block: Collection<*>.() -> T): T? {
+fun <T : Any> Collection<*>?.isEmpty(block: Collection<*>.() -> T): T? {
     return if (this != null && this.isEmpty()) {
         this.block()
     } else {
@@ -29,11 +29,11 @@ fun <T: Any> Collection<*>?.isEmpty(block: Collection<*>.() -> T): T? {
     }
 }
 
-fun <T: Any> List<T>.removeEqualItems(): List<T> {
+fun <T : Any> List<T>.removeEqualItems(): List<T> {
     return this.toSet().toList()
 }
 
-fun <T: Any> MutableList<T>.remove(predicate: (T) -> Boolean): Boolean {
+fun <T : Any> MutableList<T>.remove(predicate: (T) -> Boolean): Boolean {
     forEach {
         if (predicate(it)) {
             return remove(it)
@@ -43,7 +43,9 @@ fun <T: Any> MutableList<T>.remove(predicate: (T) -> Boolean): Boolean {
     return false
 }
 
-fun <T: Any> List<T>.unique(predicate: (obj1: T, obj2: T) -> Boolean): List<T> {
+fun <T : Any> List<T>.unique(
+    predicate: (obj1: T, obj2: T) -> Boolean = { obj1, obj2 -> obj1 == obj2 }
+): List<T> {
     return if (isNotEmpty()) {
         val uniqueList = ArrayList<T>()
 
@@ -62,7 +64,7 @@ fun <T: Any> List<T>.unique(predicate: (obj1: T, obj2: T) -> Boolean): List<T> {
     }
 }
 
-fun <T: Any, R : Comparable<R>> List<T>.minByNullable(selector: (T) -> R?): T? {
+fun <T : Any, R : Comparable<R>> List<T>.minByNullable(selector: (T) -> R?): T? {
 
     var minValue: R? = null
     var minElement: T? = null
@@ -86,7 +88,7 @@ fun <T: Any, R : Comparable<R>> List<T>.minByNullable(selector: (T) -> R?): T? {
     return minElement
 }
 
-fun <T: Any> List<T?>.forEachNotNull(action: (T) -> Unit): Unit {
+fun <T : Any> List<T?>.forEachNotNull(action: (T) -> Unit): Unit {
     return this.filterNotNull().forEach(action)
 }
 
@@ -94,7 +96,7 @@ fun List<Boolean>.forEachIsTrue(): Boolean {
     return this.find { !it } != null
 }
 
-fun <T: Any> List<List<T>>.union(): List<T> {
+fun <T : Any> List<List<T>>.union(): List<T> {
     val hasEmptyList = find { it.isEmpty() } != null
 
     if (hasEmptyList || isEmpty()) return emptyList()
@@ -109,7 +111,7 @@ fun <T: Any> List<List<T>>.union(): List<T> {
     return resultList.toList()
 }
 
-fun <T: Any> List<List<T>>.intersect(): List<T> {
+fun <T : Any> List<List<T>>.intersect(): List<T> {
     val hasEmptyList = find { it.isEmpty() } != null
 
     if (hasEmptyList || isEmpty()) return emptyList()

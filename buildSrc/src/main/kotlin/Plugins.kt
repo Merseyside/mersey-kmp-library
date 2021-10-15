@@ -8,6 +8,7 @@ object Plugins {
     val mavenPublish = "maven-publish"
     val mavenPublishConfig = "publication.maven-publish-config"
     val signing = "signing"
+    val navigationArgs = "androidx.navigation.safeargs.kotlin"
     val swiftPackage = "com.chromaticnoise.multiplatform-swiftpackage"
     val kotlinMultiplatform = "org.jetbrains.kotlin.multiplatform"
     val kotlinSerialization = "kotlinx-serialization"

@@ -4,6 +4,7 @@ plugins {
     `android-convention`
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinKapt)
+    id(Plugins.navigationArgs)
     `maven-publish-config`
 }
 
@@ -43,6 +44,7 @@ dependencies {
     }
 
     androidLibraries.forEach { lib -> implementation(lib) }
+    implementation(androidLibs.bundles.navigation)
 }
 
 afterEvaluate {

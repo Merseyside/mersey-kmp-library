@@ -52,6 +52,15 @@ fun Int?.isNotNullAndZero(): Boolean {
 }
 
 @OptIn(ExperimentalContracts::class)
+fun Long?.isNotNullAndZero(): Boolean {
+    contract {
+        returns(true) implies (this@isNotNullAndZero != null)
+    }
+
+    return this != null && this.isNotZero()
+}
+
+@OptIn(ExperimentalContracts::class)
 fun Double?.isNotNullAndZero(): Boolean {
     contract {
         returns(true) implies (this@isNotNullAndZero != null)
