@@ -13,11 +13,10 @@ import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import org.koin.core.component.KoinScopeComponent
 import kotlin.reflect.KClass
 
 abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
-    : BaseBindingActivity<B>(), KoinScopeComponent {
+    : BaseBindingActivity<B>() {
 
     protected abstract val viewModel: M
 
