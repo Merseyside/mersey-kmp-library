@@ -140,3 +140,7 @@ fun <T> List<T>.merge(vararg lists: List<T>): List<T> {
 
     return list
 }
+
+inline fun <T, R> Iterable<T>.flatMapNotNull(transform: (T) -> Iterable<R>?): List<R> {
+    return flatMap { transform(it) ?: emptyList()  }
+}

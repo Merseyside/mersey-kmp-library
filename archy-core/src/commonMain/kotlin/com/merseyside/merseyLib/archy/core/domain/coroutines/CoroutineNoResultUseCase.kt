@@ -10,10 +10,10 @@ abstract class CoroutineNoResultUseCase<Params> : BaseCoroutineUseCase<Unit, Par
 
     fun execute(
         coroutineScope: CoroutineScope = mainScope,
-        onPreExecute: () -> Unit = {},
-        onComplete: () -> Unit = {},
-        onError: (Throwable) -> Unit = {},
-        onPostExecute: () -> Unit = {},
+        onPreExecute: suspend () -> Unit = {},
+        onComplete: suspend () -> Unit = {},
+        onError: suspend (Throwable) -> Unit = {},
+        onPostExecute: suspend () -> Unit = {},
         params: Params? = null
     ): Job {
         job?.let {

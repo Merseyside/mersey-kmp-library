@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
@@ -153,7 +154,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    protected fun getViewModelClass(): KClass<M> {
+    protected fun <M : ViewModel> getViewModelClass(): KClass<M> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
             BaseVMFragment::class.java,

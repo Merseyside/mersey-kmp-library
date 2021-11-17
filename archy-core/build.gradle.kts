@@ -49,5 +49,5 @@ dependencies {
 
 framework {
     mppModules.forEach { export(it) }
-    mppLibs.forEach { export(it.toProvider()) }
+    //mppLibs.forEach { export(it.toProvider()) }
 }
