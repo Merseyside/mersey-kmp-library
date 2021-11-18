@@ -3,7 +3,6 @@ package com.merseyside.merseyLib.archy.core.presentation.model
 import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
-import com.merseyside.merseyLib.utils.core.ext.log
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -50,8 +49,13 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         val isCancelable: Boolean? = null
     )
 
-    open fun handleError(throwable: Throwable) {
+    /**
+     * @return true if
+     * @param throwable have been handled
+     **/
+    open fun handleError(throwable: Throwable): Boolean {
         errorLiveEvent.value = throwable
+        return true
     }
 
     protected fun showMsg(id: StringResource, vararg args: String) {
