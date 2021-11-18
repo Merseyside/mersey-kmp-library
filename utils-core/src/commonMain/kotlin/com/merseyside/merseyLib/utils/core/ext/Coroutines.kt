@@ -7,4 +7,4 @@ import kotlinx.coroutines.async
 
 fun <T> CoroutineScope.asyncIO(ioFun: () -> T) = async(Dispatchers.Default) { ioFun() }
 
-suspend fun CoroutineScope.delay(timeUnit: TimeUnit) = kotlinx.coroutines.delay(timeUnit.millis)
+suspend fun delay(timeUnit: TimeUnit) = kotlinx.coroutines.delay(timeUnit.millis)

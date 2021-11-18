@@ -7,15 +7,12 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
 
     fun execute(
         coroutineScope: CoroutineScope = mainScope,
-        onPreExecute: suspend () -> Unit = {},
-        onComplete: suspend (T) -> Unit = {},
-        onError: suspend (Throwable) -> Unit = {},
-        onPostExecute: suspend () -> Unit = {},
+        onPreExecute: () -> Unit = {},
+        onComplete: (T) -> Unit = {},
+        onError: (Throwable) -> Unit = {},
+        onPostExecute: () -> Unit = {},
         params: Params? = null
     ): Job {
-        job?.let {
-            cancel()
-        }
 
         return coroutineScope.launch {
             onPreExecute()
@@ -24,7 +21,7 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
                 val deferred = doWorkAsync(params)
                 onComplete(deferred.await())
             } catch (throwable: CancellationException) {
-                Logger.log(this@CoroutineUseCase, "The coroutine had canceled")
+                Logger.logErr(this@CoroutineUseCase, "The coroutine had canceled")
             } catch (throwable: Throwable) {
                 Logger.logErr(throwable)
                 onError(throwable)
