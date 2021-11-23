@@ -10,6 +10,7 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.utils.ext.log
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
@@ -29,7 +30,6 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
             } else {
                 showMsg(message)
             }
-            viewModel.messageLiveEvent.value = null
         }
     }
 
@@ -39,8 +39,8 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    private val progressObserver = { isLoading: Boolean ->
-        this.loadingObserver(isLoading)
+    private val progressObserver = { isLoading: Boolean? ->
+        this.loadingObserver(isLoading ?: false)
     }
 
     private val alertDialogModelObserver = { model: BaseViewModel.AlertDialogModel? ->
@@ -55,7 +55,6 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
                 isSingleAction,
                 isCancelable
             )
-            viewModel.alertDialogLiveEvent.value = null
         }
         Unit
     }
@@ -87,11 +86,11 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         }
 
         viewModel.apply {
-            errorLiveEvent.addObserver(errorObserver)
-            messageLiveEvent.addObserver(messageObserver)
-            isInProgress.addObserver(progressObserver)
-            alertDialogLiveEvent.addObserver(alertDialogModelObserver)
-            grantPermissionLiveEvent.addObserver(permissionObserver)
+            errorLiveEvent.ld().observe(viewLifecycleOwner, errorObserver)
+            messageLiveEvent.ld().observe(viewLifecycleOwner, messageObserver)
+            isInProgress.ld().observe(viewLifecycleOwner, progressObserver)
+            alertDialogLiveEvent.ld().observe(viewLifecycleOwner, alertDialogModelObserver)
+            grantPermissionLiveEvent.ld().observe(viewLifecycleOwner, permissionObserver)
         }
 
         super.onViewCreated(view, savedInstanceState)

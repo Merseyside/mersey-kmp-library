@@ -27,8 +27,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
             } else {
                 showMsg(message)
             }
-
-            viewModel.messageLiveEvent.value = null
         }
     }
 
@@ -36,8 +34,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     private val alertDialogModel = { model: BaseViewModel.AlertDialogModel? ->
         model?.apply {
             showAlertDialog(title, message, positiveButtonText, negativeButtonText, onPositiveClick, onNegativeClick, isCancelable)
-
-            viewModel.alertDialogLiveEvent.value = null
         }
 
         Unit
@@ -84,10 +80,10 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
 
     private fun observeViewModel() {
         viewModel.apply {
-            messageLiveEvent.addObserver(messageObserver)
-            isInProgress.addObserver(loadingObserver)
-            alertDialogLiveEvent.addObserver(alertDialogModel)
-            grantPermissionLiveEvent.addObserver(permissionObserver)
+            messageLiveEvent.ld().observe(this@BaseVMActivity, messageObserver)
+            isInProgress.ld().observe(this@BaseVMActivity, loadingObserver)
+            alertDialogLiveEvent.ld().observe(this@BaseVMActivity, alertDialogModel)
+            grantPermissionLiveEvent.ld().observe(this@BaseVMActivity, permissionObserver)
         }
     }
 

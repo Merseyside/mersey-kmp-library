@@ -69,3 +69,8 @@ inline fun <reified T : Any> T.toJsonObject(json: Json = JsonConfigurator.json):
     val string = serialize(json)
     return string.deserialize()
 }
+
+inline fun <reified T : Any> T.toJsonPrimitive(json: Json = JsonConfigurator.json): JsonPrimitive {
+    val string = serialize(json)
+    return string.deserialize()
+}

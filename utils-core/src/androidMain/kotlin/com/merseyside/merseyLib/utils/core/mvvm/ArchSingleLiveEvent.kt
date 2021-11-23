@@ -11,13 +11,19 @@ class ArchSingleLiveEvent<T> : MutableLiveData<T>() {
     override fun getValue(): T? {
         return if (mPending.get()) {
             mPending.set(false)
-            super.getValue()
+            try {
+                super.getValue()
+            } finally {
+                value = null
+            }
         } else null
     }
 
     @MainThread
     override fun setValue(t: T?) {
-        mPending.set(true)
+        if (t != null) {
+            mPending.set(true)
+        }
         super.setValue(t)
     }
 

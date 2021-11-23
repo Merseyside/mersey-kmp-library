@@ -30,8 +30,6 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
             } else {
                 showMsg(it)
             }
-
-            viewModel.messageLiveEvent.value = null
         }
         Unit
     }
@@ -44,13 +42,6 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
 
         setHasOptionsMenu(false)
     }
-
-//    override fun performInjection(bundle: Bundle?, vararg params: Any) {
-//        requireParentFragment().getViewModel(
-//            clazz = persistentClass,
-//            parameters = { parametersOf(*params, bundle) }
-//        )
-//    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -70,8 +61,8 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     ): View? {
 
         viewModel.apply {
-            errorLiveEvent.addObserver(errorObserver)
-            messageLiveEvent.addObserver(messageObserver)
+            errorLiveEvent.ld().observe(viewLifecycleOwner, errorObserver)
+            messageLiveEvent.ld().observe(viewLifecycleOwner, messageObserver)
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
