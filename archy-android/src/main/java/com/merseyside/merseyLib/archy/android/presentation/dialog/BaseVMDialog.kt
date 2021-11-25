@@ -39,18 +39,15 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     override fun onCreate(onSavedInstanceState: Bundle?) {
         performInjection(onSavedInstanceState)
         super.onCreate(onSavedInstanceState)
-
         setHasOptionsMenu(false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-
         requireBinding().apply {
             setVariable(getBindingVariable(), viewModel)
             executePendingBindings()
         }
-
         return dialog
     }
 
@@ -59,12 +56,10 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         viewModel.apply {
-            errorLiveEvent.ld().observe(viewLifecycleOwner, errorObserver)
-            messageLiveEvent.ld().observe(viewLifecycleOwner, messageObserver)
+            errorLiveEvent.ld().observe(this@BaseVMDialog, errorObserver)
+            messageLiveEvent.ld().observe(this@BaseVMDialog, messageObserver)
         }
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -87,8 +82,9 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     protected open fun getPersistentClass(): KClass<M> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
-            BaseVMFragment::class.java,
+            BaseVMDialog::class.java,
             1
         ).kotlin as KClass<M>
     }
+
 }
