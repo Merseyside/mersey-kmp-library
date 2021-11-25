@@ -1,7 +1,9 @@
 package com.merseyside.merseyLib.utils.core.mvvm
 
 import androidx.annotation.MainThread
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ArchSingleLiveEvent<T> : MutableLiveData<T>() {
@@ -10,21 +12,33 @@ class ArchSingleLiveEvent<T> : MutableLiveData<T>() {
 
     override fun getValue(): T? {
         return if (mPending.get()) {
-            mPending.set(false)
             try {
                 super.getValue()
             } finally {
-                value = null
+                clear()
             }
         } else null
     }
 
     @MainThread
     override fun setValue(t: T?) {
-        if (t != null) {
-            mPending.set(true)
-        }
+        mPending.set(true)
         super.setValue(t)
+    }
+
+    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
+        val obs = Observer<T> {
+            if (mPending.get()) {
+                observer.onChanged(it)
+            }
+        }
+        clear()
+        super.observe(owner, obs)
+    }
+
+    private fun clear() {
+        mPending.set(false)
+        super.setValue(null)
     }
 
     /**

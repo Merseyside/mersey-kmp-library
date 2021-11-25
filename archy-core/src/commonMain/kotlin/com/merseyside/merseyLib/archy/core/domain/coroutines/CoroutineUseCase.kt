@@ -12,23 +12,19 @@ abstract class CoroutineUseCase<T, Params> : BaseCoroutineUseCase<T, Params>() {
         onError: (Throwable) -> Unit = {},
         onPostExecute: () -> Unit = {},
         params: Params? = null
-    ): Job {
-
-        return coroutineScope.launch {
-            onPreExecute()
-
-            try {
-                val deferred = doWorkAsync(params)
-                onComplete(deferred.await())
-            } catch (throwable: CancellationException) {
-                Logger.logErr(this@CoroutineUseCase, "The coroutine had canceled")
-            } catch (throwable: Throwable) {
-                Logger.logErr(throwable)
-                onError(throwable)
-                throwable.printStackTrace()
-            }
-
-            onPostExecute()
+    ) = coroutineScope.launch {
+        onPreExecute()
+        try {
+            val deferred = doWorkAsync(params)
+            onComplete(deferred.await())
+        } catch (throwable: CancellationException) {
+            Logger.logErr(this@CoroutineUseCase, "The coroutine had canceled")
+        } catch (throwable: Throwable) {
+            Logger.logErr(throwable)
+            onError(throwable)
+            throwable.printStackTrace()
         }
+
+        onPostExecute()
     }
 }
