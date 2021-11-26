@@ -64,6 +64,10 @@ fun String.snakeToUpperCamelCase(): String {
     return this.snakeToLowerCamelCase().capitalize()
 }
 
+fun String.camelToUpperSnakeCase(): String {
+    return this.camelToSnakeCase().uppercase()
+}
+
 fun String.camelToHumanReadable(): String {
     return this.camelToSnakeCase().replace("_", " ")
 }
