@@ -17,7 +17,7 @@ val gradle = "4.2.1"
 val resources = "0.15.1"
 val sqldelight = "1.5.0"
 val nexus = "1.1.0"
-val navigation = "2.3.5"
+val navigation = "2.4.0-beta02"
 
 dependencies {
     implementation("dev.icerock:mobile-multiplatform:$multiplatform")
