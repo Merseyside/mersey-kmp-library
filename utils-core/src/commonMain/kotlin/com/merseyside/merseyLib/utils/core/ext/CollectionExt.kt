@@ -144,3 +144,15 @@ fun <T> List<T>.merge(vararg lists: List<T>): List<T> {
 inline fun <T, R> Iterable<T>.flatMapNotNull(transform: (T) -> Iterable<R>?): List<R> {
     return flatMap { transform(it) ?: emptyList()  }
 }
+
+inline fun <T> Iterable<T>.separate(predicate: (T) -> Boolean): Pair<List<T>, List<T>> {
+    val trueList = mutableListOf<T>()
+    val falseList = mutableListOf<T>()
+
+    forEach {
+        if (predicate(it)) trueList.add(it)
+        else falseList.add(it)
+    }
+
+    return trueList to falseList
+}
