@@ -1,17 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    `android-convention`
-    id(Plugins.kotlinAndroid)
+    id(Plugins.androidConvention)
+    id(Plugins.kotlinConvention)
     id(Plugins.kotlinKapt)
     id(Plugins.navigationArgs)
     `maven-publish-config`
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
-    }
 }
 
 val androidLibraries = listOf(

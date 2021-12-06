@@ -1,27 +1,19 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    `android-convention`
-    id(Plugins.kotlinMultiplatform)
-    id(Plugins.kotlinKapt)
+    id(Plugins.androidConvention)
+    id(Plugins.kotlinMultiplatformConvention)
     id(Plugins.mobileMultiplatform)
     id(Plugins.kotlinSerialization)
+    id(Plugins.kotlinKapt)
     id(Plugins.iosFramework)
     `maven-publish-config`
 }
 
 android {
-    compileSdkVersion(Application.compileSdk)
+    compileSdk = Application.compileSdk
 
     defaultConfig {
-        minSdkVersion(Application.minSdk)
-        targetSdkVersion(Application.targetSdk)
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
+        minSdk = Application.minSdk
+        targetSdk = Application.targetSdk
     }
 }
 
@@ -46,10 +38,11 @@ val android = listOf(
 )
 
 val merseyLibs = listOf(
-    androidLibs.merseyLib.utils,
+    androidLibs.merseyLib.utils
 )
 
 dependencies {
+    commonMainApi(common.merseyLib.kotlin.ext)
     commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
