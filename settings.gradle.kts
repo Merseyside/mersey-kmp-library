@@ -28,7 +28,7 @@ include(":archy-core")
 include(":utils-core")
 include(":archy-android")
 
-private val isLocalAndroidDependencies = true
+private val isLocalAndroidDependencies = false
 
 if (isLocalAndroidDependencies) {
 
