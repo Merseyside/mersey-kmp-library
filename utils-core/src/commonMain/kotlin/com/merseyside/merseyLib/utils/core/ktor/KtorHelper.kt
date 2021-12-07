@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import com.merseyside.merseyLib.utils.core.serialization.deserialize
-import com.merseyside.merseyLib.utils.core.serialization.serialize
+import com.merseyside.merseyLib.kotlin.serialization.deserialize
+import com.merseyside.merseyLib.kotlin.serialization.serialize
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*

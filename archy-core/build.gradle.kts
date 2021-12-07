@@ -1,20 +1,12 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    `android-convention`
-    id(Plugins.kotlinMultiplatform)
+    id(Plugins.androidConvention)
+    id(Plugins.kotlinMultiplatformConvention)
     id(Plugins.kotlinKapt)
     id(Plugins.mobileMultiplatform)
     id(Plugins.resources)
     id(Plugins.sqldelight)
     id(Plugins.iosFramework)
     `maven-publish-config`
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=org.mylibrary.OptInAnnotation")
-    }
 }
 
 kotlin {

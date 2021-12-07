@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
-import com.merseyside.merseyLib.archy.android.presentation.fragment.BaseVMFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.utils.reflection.ReflectionUtils
 import kotlin.reflect.KClass
