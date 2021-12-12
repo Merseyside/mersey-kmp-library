@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
-import com.merseyside.merseyLib.archy.android.presentation.fragment.BaseVMFragment
 import com.merseyside.utils.reflection.ReflectionUtils
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
@@ -32,8 +29,6 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
             } else {
                 showMsg(it)
             }
-
-            viewModel.messageLiveEvent.value = null
         }
         Unit
     }
@@ -43,25 +38,15 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     override fun onCreate(onSavedInstanceState: Bundle?) {
         performInjection(onSavedInstanceState)
         super.onCreate(onSavedInstanceState)
-
         setHasOptionsMenu(false)
-    }
-
-    override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        requireParentFragment().getViewModel(
-            clazz = persistentClass,
-            parameters = { parametersOf(*params, bundle) }
-        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-
         requireBinding().apply {
             setVariable(getBindingVariable(), viewModel)
             executePendingBindings()
         }
-
         return dialog
     }
 
@@ -70,12 +55,10 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         viewModel.apply {
-            errorLiveEvent.addObserver(errorObserver)
-            messageLiveEvent.addObserver(messageObserver)
+            errorLiveEvent.ld().observe(this@BaseVMDialog, errorObserver)
+            messageLiveEvent.ld().observe(this@BaseVMDialog, messageObserver)
         }
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -95,6 +78,12 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         }
     }
 
-    private val persistentClass: KClass<M> =
-        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMFragment::class.java, 1).kotlin as KClass<M>
+    protected open fun getPersistentClass(): KClass<M> {
+        return ReflectionUtils.getGenericParameterClass(
+            this.javaClass,
+            BaseVMDialog::class.java,
+            1
+        ).kotlin as KClass<M>
+    }
+
 }

@@ -4,31 +4,23 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.SavedState
-import com.merseyside.utils.ext.log
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import org.koin.androidx.scope.fragmentScope
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.scope.getViewModel
-import org.koin.core.component.KoinScopeComponent
-import org.koin.core.parameter.parametersOf
-import org.koin.core.scope.Scope
 import kotlin.reflect.KClass
 
 abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
-    : BaseBindingFragment<B>(), KoinScopeComponent {
+    : BaseBindingFragment<B>() {
 
-    override val scope: Scope by fragmentScope()
-
-    protected lateinit var viewModel: M
+    protected abstract val viewModel: M
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -37,7 +29,6 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
             } else {
                 showMsg(message)
             }
-            viewModel.messageLiveEvent.value = null
         }
     }
 
@@ -47,14 +38,22 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    private val progressObserver = { isLoading: Boolean ->
-        this.loadingObserver(isLoading)
+    private val progressObserver = { isLoading: Boolean? ->
+        this.loadingObserver(isLoading ?: false)
     }
 
     private val alertDialogModelObserver = { model: BaseViewModel.AlertDialogModel? ->
         model?.apply {
-            showAlertDialog(title, message, positiveButtonText, negativeButtonText, onPositiveClick, onNegativeClick, isSingleAction, isCancelable)
-            viewModel.alertDialogLiveEvent.value = null
+            showAlertDialog(
+                title,
+                message,
+                positiveButtonText,
+                negativeButtonText,
+                onPositiveClick,
+                onNegativeClick,
+                isSingleAction,
+                isCancelable
+            )
         }
         Unit
     }
@@ -67,32 +66,30 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     abstract fun getBindingVariable(): Int
 
+    open fun initDataBinding(): ViewDataBinding.() -> Unit {
+        return {
+            setVariable(getBindingVariable(), viewModel)
+            executePendingBindings()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
     }
 
-    override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        viewModel = scope.getViewModel(
-            owner = { ViewModelOwner.from(this)},
-            clazz = persistentClass,
-            parameters = { parametersOf(*params, bundle) }
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         requireBinding().apply {
-            setVariable(getBindingVariable(), viewModel)
-            executePendingBindings()
+            initDataBinding().invoke(this)
         }
 
         viewModel.apply {
-            errorLiveEvent.addObserver(errorObserver)
-            messageLiveEvent.addObserver(messageObserver)
-            isInProgress.addObserver(progressObserver)
-            alertDialogLiveEvent.addObserver(alertDialogModelObserver)
-            grantPermissionLiveEvent.addObserver(permissionObserver)
+            errorLiveEvent.ld().observe(viewLifecycleOwner, errorObserver)
+            messageLiveEvent.ld().observe(viewLifecycleOwner, messageObserver)
+            isInProgress.ld().observe(viewLifecycleOwner, progressObserver)
+            alertDialogLiveEvent.ld().observe(viewLifecycleOwner, alertDialogModelObserver)
+            grantPermissionLiveEvent.ld().observe(viewLifecycleOwner, permissionObserver)
         }
 
         super.onViewCreated(view, savedInstanceState)
@@ -105,8 +102,10 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
             val bundle = SavedState()
 
             (viewModel as StateViewModel).onSaveState(bundle)
-            outState.putSerialize(INSTANCE_STATE_KEY, bundle.getAll(),
-                MapSerializer(String.serializer(), String.serializer()))
+            outState.putSerialize(
+                INSTANCE_STATE_KEY, bundle.getAll(),
+                MapSerializer(String.serializer(), String.serializer())
+            )
         }
     }
 
@@ -153,6 +152,11 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    internal val persistentClass: KClass<M> =
-        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMFragment::class.java, 1).kotlin as KClass<M>
+    protected fun <M : ViewModel> getViewModelClass(): KClass<M> {
+        return ReflectionUtils.getGenericParameterClass(
+            this.javaClass,
+            BaseVMFragment::class.java,
+            1
+        ).kotlin as KClass<M>
+    }
 }

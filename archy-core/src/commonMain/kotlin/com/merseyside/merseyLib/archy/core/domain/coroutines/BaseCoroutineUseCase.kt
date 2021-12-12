@@ -21,21 +21,24 @@ abstract class BaseCoroutineUseCase<T, Params> {
         }
 
     val isActive: Boolean
-        get() { return job?.isActive ?: false }
+        get() {
+            return job?.isActive ?: false
+        }
 
     protected abstract suspend fun executeOnBackground(params: Params?): T
 
     protected suspend fun doWorkAsync(params: Params?): Deferred<T> = coroutineScope {
-            async {
-                withContext(asyncJob) {
-                    executeOnBackground(params)
-                }
-            }.also { job = it }
-        }
+        async(asyncJob) {
+            executeOnBackground(params)
+        }.also { job = it }
+    }
 
-    fun cancel(cause: CancellationException? = null) {
-        job?.cancel(cause)
-        job = null
+    fun cancel(cause: CancellationException? = null): Boolean {
+        return job?.let {
+            it.cancel(cause)
+            job = null
+            true
+        } ?: false
     }
 
     suspend operator fun invoke(params: Params? = null) = executeOnBackground(params)

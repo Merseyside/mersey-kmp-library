@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import com.merseyside.merseyLib.utils.core.ext.toUtf8
+import com.merseyside.merseyLib.kotlin.extensions.toUtf8
 
 class URIQueryBuilder(private val isEncoding: Boolean) {
 

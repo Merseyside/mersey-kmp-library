@@ -1,36 +1,36 @@
 package com.merseyside.merseyLib.archy.core.presentation.model
 
-import com.merseyside.merseyLib.utils.core.Logger
+import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
-import com.merseyside.merseyLib.utils.core.ext.log
+import com.merseyside.merseyLib.utils.core.mvvm.MutableSingleEvent
 import dev.icerock.moko.mvvm.livedata.LiveData
-import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.resources.StringResource
 
 abstract class BaseViewModel protected constructor() : ViewModel() {
 
-    private val _isInProgress = MutableLiveData(false)
-    val isInProgress: LiveData<Boolean> = _isInProgress
+    private val mutProgress = MutableSingleEvent(false)
+    val isInProgress: LiveData<Boolean> = mutProgress
 
     protected var progress: Boolean
-        get() { return _isInProgress.value }
-        set(value) { _isInProgress.value = value }
+        get() { return mutProgress.value }
+        set(value) { mutProgress.value = value }
 
-    val progressText = MutableLiveData<String?>(null)
+    private val mutProgressText = MutableSingleEvent<String?>(null)
+    val progressText: LiveData<String?> = mutProgressText
 
-    val errorLiveEvent: MutableLiveData<Throwable?> =
-        MutableLiveData(null)
+    private val mutErrorLiveEvent = MutableSingleEvent<Throwable?>(null)
+    val errorLiveEvent: LiveData<Throwable?> = mutErrorLiveEvent
 
-    val messageLiveEvent: MutableLiveData<TextMessage?> =
-        MutableLiveData(null)
+    private val mutMessageLiveEvent = MutableSingleEvent<TextMessage?>(null)
+    val messageLiveEvent: LiveData<TextMessage?> = mutMessageLiveEvent
 
-    val alertDialogLiveEvent: MutableLiveData<AlertDialogModel?> =
-        MutableLiveData(null)
+    private val mutAlertDialogLiveEvent = MutableSingleEvent<AlertDialogModel?>(null)
+    val alertDialogLiveEvent: LiveData<AlertDialogModel?> = mutAlertDialogLiveEvent
 
-    val grantPermissionLiveEvent: MutableLiveData<Pair<Array<String>, Int>?> =
-        MutableLiveData(null)
+    private val mutGrantPermissionLiveEvent = MutableSingleEvent<Pair<Array<String>, Int>?>(null)
+    val grantPermissionLiveEvent: LiveData<Pair<Array<String>, Int>?> = mutGrantPermissionLiveEvent
 
     data class TextMessage(
         val isError: Boolean = false,
@@ -50,8 +50,13 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         val isCancelable: Boolean? = null
     )
 
-    open fun handleError(throwable: Throwable) {
-        errorLiveEvent.value = throwable
+    /**
+     * @return true if
+     * @param throwable have been handled
+     **/
+    open fun handleError(throwable: Throwable): Boolean {
+        mutErrorLiveEvent.value = throwable
+        return true
     }
 
     protected fun showMsg(id: StringResource, vararg args: String) {
@@ -70,7 +75,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
                 msg = msg
             )
 
-        messageLiveEvent.value = textMessage
+        mutMessageLiveEvent.value = textMessage
     }
 
     protected fun showErrorMsg(msg: String) {
@@ -81,7 +86,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
                 msg = msg
             )
 
-        messageLiveEvent.value = textMessage
+        mutMessageLiveEvent.value = textMessage
     }
 
     protected fun showMsg(msg: String, actionMsg: String, onClick: () -> Unit = {}) {
@@ -94,7 +99,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
                 onClick = onClick
             )
 
-        messageLiveEvent.value = textMessage
+        mutMessageLiveEvent.value = textMessage
     }
 
     protected fun showErrorMsg(msg: String, actionMsg: String, onClick: () -> Unit = {}) {
@@ -107,7 +112,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
                 onClick = onClick
             )
 
-        messageLiveEvent.value = textMessage
+        mutMessageLiveEvent.value = textMessage
     }
 
     open fun onError(throwable: Throwable) {}
@@ -117,7 +122,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         Logger.log(this, text ?: "Empty")
 
         progress = true
-        progressText.value = text
+        mutProgressText.value = text
 
         progress = true
     }
@@ -125,7 +130,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
     fun hideProgress() {
         if (progress) {
             progress = false
-            progressText.value = null
+            mutProgressText.value = null
 
             progress = false
         }
@@ -141,7 +146,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         isSingleAction: Boolean? = null,
         isCancelable: Boolean? = null
     ) {
-        alertDialogLiveEvent.value =
+        mutAlertDialogLiveEvent.value =
             AlertDialogModel(
                 title,
                 message,

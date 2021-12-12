@@ -13,20 +13,12 @@ import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import org.koin.androidx.scope.activityScope
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.scope.getViewModel
-import org.koin.core.component.KoinScopeComponent
-import org.koin.core.parameter.parametersOf
-import org.koin.core.scope.Scope
 import kotlin.reflect.KClass
 
 abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
-    : BaseBindingActivity<B>(), KoinScopeComponent {
+    : BaseBindingActivity<B>() {
 
-    override val scope: Scope by activityScope()
-
-    protected lateinit var viewModel: M
+    protected abstract val viewModel: M
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -35,8 +27,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
             } else {
                 showMsg(message)
             }
-
-            viewModel.messageLiveEvent.value = null
         }
     }
 
@@ -44,8 +34,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     private val alertDialogModel = { model: BaseViewModel.AlertDialogModel? ->
         model?.apply {
             showAlertDialog(title, message, positiveButtonText, negativeButtonText, onPositiveClick, onNegativeClick, isCancelable)
-
-            viewModel.alertDialogLiveEvent.value = null
         }
 
         Unit
@@ -64,14 +52,6 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
         //viewModel.updateLanguage(this)
 
         observeViewModel()
-    }
-
-    override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        viewModel = scope.getViewModel(
-            owner = { ViewModelOwner.from(this)},
-            clazz = persistentClass,
-            parameters = { parametersOf(*params, bundle) }
-        )
     }
 
     abstract fun getBindingVariable(): Int
@@ -100,10 +80,10 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
 
     private fun observeViewModel() {
         viewModel.apply {
-            messageLiveEvent.addObserver(messageObserver)
-            isInProgress.addObserver(loadingObserver)
-            alertDialogLiveEvent.addObserver(alertDialogModel)
-            grantPermissionLiveEvent.addObserver(permissionObserver)
+            messageLiveEvent.ld().observe(this@BaseVMActivity, messageObserver)
+            isInProgress.ld().observe(this@BaseVMActivity, loadingObserver)
+            alertDialogLiveEvent.ld().observe(this@BaseVMActivity, alertDialogModel)
+            grantPermissionLiveEvent.ld().observe(this@BaseVMActivity, permissionObserver)
         }
     }
 
@@ -133,6 +113,11 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    internal val persistentClass: KClass<M> =
-        ReflectionUtils.getGenericParameterClass(this.javaClass, BaseVMActivity::class.java, 1).kotlin as KClass<M>
+    protected fun getPersistentClass(): KClass<M> {
+        return ReflectionUtils.getGenericParameterClass(
+            this.javaClass,
+            BaseVMActivity::class.java,
+            1
+        ).kotlin as KClass<M>
+    }
 }

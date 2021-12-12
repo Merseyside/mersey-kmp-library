@@ -1,9 +1,8 @@
 package com.merseyside.merseyLib.utils.core
 
-import com.merseyside.merseyLib.utils.core.serialization.serialize
+import com.merseyside.merseyLib.kotlin.serialization.serialize
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-
 
 class SavedState {
 

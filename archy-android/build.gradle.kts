@@ -1,21 +1,14 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    `android-convention`
-    id(Plugins.kotlinAndroid)
+    id(Plugins.androidConvention)
+    id(Plugins.kotlinConvention)
     id(Plugins.kotlinKapt)
+    id(Plugins.navigationArgs)
     `maven-publish-config`
 }
 
 android {
     buildFeatures {
         dataBinding = true
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=org.mylibrary.OptInAnnotation")
     }
 }
 
@@ -49,6 +42,7 @@ dependencies {
     }
 
     androidLibraries.forEach { lib -> implementation(lib) }
+    implementation(androidLibs.bundles.navigation)
 }
 
 afterEvaluate {

@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import com.merseyside.merseyLib.utils.core.serialization.deserialize
-import com.merseyside.merseyLib.utils.core.serialization.serialize
+import com.merseyside.merseyLib.kotlin.serialization.deserialize
+import com.merseyside.merseyLib.kotlin.serialization.serialize
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
@@ -10,10 +10,7 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.JsonBuilder
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonObjectBuilder
-import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
 
 typealias Response = Any
@@ -34,8 +31,24 @@ fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
         })
 }
 
-fun HttpRequestBuilder.buildJsonBody(block: JsonObjectBuilder.() -> Unit) {
-    body = buildJsonObject { block() }.toString()
+inline fun <reified T : Any> HttpRequestBuilder.body(obj: T) {
+    body = obj.serialize()
+}
+
+fun HttpRequestBuilder.setJsonObjectAsBody(obj: JsonObject) {
+    body = obj.serialize()
+}
+
+fun HttpRequestBuilder.setJsonArrayAsBody(array: JsonArray) {
+    body = array.serialize()
+}
+
+fun HttpRequestBuilder.buildJsonObjectBody(block: JsonObjectBuilder.() -> Unit) {
+    setJsonObjectAsBody(buildJsonObject { block() })
+}
+
+fun HttpRequestBuilder.buildJsonArrayBody(block: JsonArrayBuilder.() -> Unit) {
+    setJsonArrayAsBody(buildJsonArray { block() })
 }
 
 suspend inline fun <reified T: Any> KtorRouter.post(
