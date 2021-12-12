@@ -16,7 +16,6 @@ dependencyResolutionManagement {
 
         val androidLibs by creating {
             from("$group:catalog-version-android:$catalogVersions")
-            version("merseyLib", "1.7.1")
         }
 
         val common by creating {
