@@ -4,10 +4,10 @@ package com.merseyside.merseyLib.utils.core.coroutines
 * https://github.com/Kotlin/kotlinx.coroutines/issues/2171
  */
 
+import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.time.Seconds
 import com.merseyside.merseyLib.time.TimeUnit
 import com.merseyside.merseyLib.time.minus
-import com.merseyside.merseyLib.utils.core.Logger
 import com.merseyside.merseyLib.utils.core.ext.delay
 import kotlinx.coroutines.*
 

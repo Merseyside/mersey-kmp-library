@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.archy.core.domain.coroutines
 
-import com.merseyside.merseyLib.utils.core.Logger
+import com.merseyside.merseyLib.kotlin.Logger
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect

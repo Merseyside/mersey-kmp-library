@@ -1,6 +1,7 @@
 package com.merseyside.merseyLib.archy.core.domain.coroutines
 
-import com.merseyside.merseyLib.utils.core.Logger
+import com.merseyside.merseyLib.archy.core.domain.coroutines.exception.NoParamsException
+import com.merseyside.merseyLib.kotlin.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -21,8 +22,10 @@ abstract class CoroutineNoResultUseCase<Params> : BaseCoroutineUseCase<Unit, Par
             val deferred = doWorkAsync(params)
             deferred.await()
             onComplete.invoke()
-        } catch (throwable: CancellationException) {
+        } catch (exception: CancellationException) {
             Logger.log(this@CoroutineNoResultUseCase, "The coroutine had canceled")
+        } catch (exception: NoParamsException) {
+            throw exception
         } catch (throwable: Throwable) {
             Logger.logErr(throwable)
             onError(throwable)

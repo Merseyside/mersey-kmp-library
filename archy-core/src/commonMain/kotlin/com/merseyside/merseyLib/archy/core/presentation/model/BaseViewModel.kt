@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.archy.core.presentation.model
 
-import com.merseyside.merseyLib.utils.core.Logger
+import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
 import com.merseyside.merseyLib.utils.core.mvvm.MutableSingleEvent
