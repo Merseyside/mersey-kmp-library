@@ -6,6 +6,12 @@ plugins {
     `maven-publish-config`
 }
 
+android {
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
 val androidLibraries = listOf(
     common.serialization,
     androidLibs.appCompat,
