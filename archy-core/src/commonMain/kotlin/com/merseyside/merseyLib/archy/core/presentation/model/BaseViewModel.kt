@@ -14,8 +14,12 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
     val isInProgress: LiveData<Boolean> = mutProgress
 
     protected var progress: Boolean
-        get() { return mutProgress.value }
-        set(value) { mutProgress.value = value }
+        get() {
+            return mutProgress.value
+        }
+        set(value) {
+            mutProgress.value = value
+        }
 
     private val mutProgressText = MutableSingleEvent<String?>(null)
     val progressText: LiveData<String?> = mutProgressText
@@ -31,6 +35,9 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
 
     private val mutGrantPermissionLiveEvent = MutableSingleEvent<Pair<Array<String>, Int>?>(null)
     val grantPermissionLiveEvent: LiveData<Pair<Array<String>, Int>?> = mutGrantPermissionLiveEvent
+
+    private val mutQueryRestoreEvent = MutableSingleEvent<String?>(null)
+    val queryRestoreEvent: LiveData<String?> = mutQueryRestoreEvent
 
     data class TextMessage(
         val isError: Boolean = false,
@@ -182,7 +189,11 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         )
     }
 
-    open fun onBack() : Boolean {
+    fun restoreQuery(query: String) {
+        mutQueryRestoreEvent.value = query
+    }
+
+    open fun onBack(): Boolean {
         return true
     }
 }

@@ -24,6 +24,9 @@ fun Project.isLocalDependencies(): Boolean =
 fun Project.isLocalAndroidDependencies(): Boolean =
     findTypedProperty("build.localAndroidDependencies")
 
+fun Project.isLocalKotlinExtLibrary(): Boolean =
+    findTypedProperty("build.localKotlinExtLibrary")
+
 inline fun <reified T: MinimalExternalModuleDependency> Any.toProvider(): Provider<T> {
     return when (this) {
         is Provider<*> -> this as Provider<T>

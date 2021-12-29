@@ -42,7 +42,11 @@ val merseyLibs = listOf(
 )
 
 dependencies {
-    commonMainApi(common.merseyLib.kotlin.ext)
+    if (isLocalKotlinExtLibrary()) {
+        commonMainApi(project(Modules.MultiPlatform.MerseyLibs.kotlinExt))
+    } else {
+        commonMainApi(common.merseyLib.kotlin.ext)
+    }
     commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
