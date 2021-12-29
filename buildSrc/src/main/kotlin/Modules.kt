@@ -15,6 +15,7 @@ object Modules {
         object MerseyLibs {
             val archy = ":archy-core"
             val utils = ":utils-core"
+            val kotlinExt = ":kotlin-ext"
         }
 
         val mppLibrary = ":mpp-library"

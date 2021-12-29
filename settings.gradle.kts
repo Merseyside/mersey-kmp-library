@@ -1,13 +1,16 @@
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+private val isLocalAndroidDependencies = false
+private val isLocalKotlinExtLibrary = false
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
         mavenLocal()
     }
 
-    val catalogVersions = "1.2.1"
+    val catalogVersions = "1.2.2"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
@@ -16,7 +19,6 @@ dependencyResolutionManagement {
 
         val androidLibs by creating {
             from("$group:catalog-version-android:$catalogVersions")
-            version("merseyLib", "1.7.4")
         }
 
         val common by creating {
@@ -28,8 +30,6 @@ dependencyResolutionManagement {
 include(":archy-core")
 include(":utils-core")
 include(":archy-android")
-
-private val isLocalAndroidDependencies = false
 
 if (isLocalAndroidDependencies) {
 
@@ -49,6 +49,12 @@ if (isLocalAndroidDependencies) {
     project(":animators").projectDir =
         File(rootDir.parent, "mersey-android-library/animators")
 
+}
+
+if (isLocalKotlinExtLibrary) {
+    include(":kotlin-ext")
+    project(":kotlin-ext").projectDir =
+        File(rootDir.parent, "mersey-kotlin-ext/kotlin-ext")
 }
 
 rootProject.name = "kmm-support-library"
