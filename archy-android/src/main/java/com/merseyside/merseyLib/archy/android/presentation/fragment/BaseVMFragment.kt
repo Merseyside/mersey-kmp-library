@@ -133,7 +133,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     protected open fun loadingObserver(isLoading: Boolean) {}
 
-    private fun showErrorMsg(textMessage: BaseViewModel.TextMessage) {
+    fun showErrorMsg(textMessage: BaseViewModel.TextMessage) {
         if (textMessage.actionMsg.isNullOrEmpty()) {
             showErrorMsg(textMessage.msg)
         } else {
