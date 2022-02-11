@@ -5,16 +5,19 @@ package com.merseyside.merseyLib.utils.core.coroutines
  */
 
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.time.Seconds
-import com.merseyside.merseyLib.time.TimeUnit
-import com.merseyside.merseyLib.time.minus
+import com.merseyside.merseyLib.time.units.Seconds
+import com.merseyside.merseyLib.time.units.TimeUnit
+import com.merseyside.merseyLib.time.units.minus
 import com.merseyside.merseyLib.utils.core.ext.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
+import kotlinx.coroutines.withContext
 
 class CountDownTimer(
     private val listener: CoroutineTimerListener,
     private val delay: TimeUnit = Seconds(1),
-    private val scope: CoroutineScope = CoroutineScope(Job() + Dispatchers.Unconfined)) {
+    private val scope: CoroutineScope = CoroutineScope(Job() + Dispatchers.Unconfined)
+) {
 
     private var timerJob: Job? = null
     private var countDownTimer: TimeUnit = TimeUnit.getEmpty()
@@ -48,7 +51,9 @@ class CountDownTimer(
     fun stopTimer() {
         val error = if (state == CurrentTimerState.STOPPED) {
             TimerException(TimerErrorTypes.NO_TIMER_RUNNING)
-        } else { null }
+        } else {
+            null
+        }
         timerJob?.cancel()
         state = CurrentTimerState.STOPPED
         listener.onStop(error)
@@ -77,6 +82,7 @@ class CountDownTimer(
 
     private fun timerCanStart() {
         timerJob = scope.launch {
+
             withContext(Dispatchers.Unconfined) {
                 state = CurrentTimerState.RUNNING
 
@@ -106,9 +112,10 @@ class CountDownTimer(
         }
     }
 
-    private suspend fun onTick(timeLeft: TimeUnit, error: Exception? = null) = withContext(Dispatchers.Main) {
-        listener.onTick(timeLeft, error)
-    }
+    private suspend fun onTick(timeLeft: TimeUnit, error: Exception? = null) =
+        withContext(Dispatchers.Main) {
+            listener.onTick(timeLeft, error)
+        }
 
     companion object {
         const val TAG = "CoroutineTimer"
@@ -134,4 +141,4 @@ enum class TimerErrorTypes(val message: String) {
     DESTROYED("This timer is destroyed and can't be used anymore")
 }
 
-private class TimerException(val type: TimerErrorTypes): Exception(type.message)
+private class TimerException(val type: TimerErrorTypes) : Exception(type.message)

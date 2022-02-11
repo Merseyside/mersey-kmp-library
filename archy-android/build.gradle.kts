@@ -17,7 +17,6 @@ val androidLibraries = listOf(
     androidLibs.appCompat,
     androidLibs.fragment,
     androidLibs.lifecycleViewModelSavedState,
-    androidLibs.annotation,
     androidLibs.koin
 )
 

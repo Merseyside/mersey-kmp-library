@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
-import com.merseyside.merseyLib.time.TimeUnit
+import com.merseyside.merseyLib.time.units.TimeUnit
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.put
