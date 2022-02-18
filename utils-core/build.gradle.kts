@@ -47,7 +47,7 @@ dependencies {
     } else {
         commonMainApi(common.merseyLib.kotlin.ext)
     }
-    commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
+    commonMainApi(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }
@@ -55,5 +55,6 @@ dependencies {
 }
 
 framework {
-    //mppLibs.forEach { export(it.toProvider()) }
+    export(multiplatformLibs.moko.mvvm.asProvider())
+    export(multiplatformLibs.moko.mvvm.livedata)
 }
