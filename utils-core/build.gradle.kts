@@ -17,13 +17,6 @@ android {
     }
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-
 val mppLibs = listOf(
     common.merseyLib.time,
     multiplatformLibs.serialization,

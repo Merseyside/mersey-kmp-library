@@ -9,13 +9,6 @@ plugins {
     `maven-publish-config`
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-
 multiplatformResources {
     multiplatformResourcesPackage = Application.applicationId // required
 }

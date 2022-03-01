@@ -1,3 +1,4 @@
+import dev.icerock.gradle.FrameworkConfig
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.internal.catalog.ExternalModuleDependencyFactory
@@ -15,7 +16,7 @@ inline fun <reified T> Project.findTypedProperty(propertyName: String): T {
             Float::class -> stringProperty
             else -> it
         }
-    } as? T ?: throw NotFoundException("Property $propertyName not found")
+    } as? T ?: throw Exception("Property $propertyName not found")
 }
 
 fun Project.isLocalDependencies(): Boolean =
@@ -27,10 +28,14 @@ fun Project.isLocalAndroidDependencies(): Boolean =
 fun Project.isLocalKotlinExtLibrary(): Boolean =
     findTypedProperty("build.localKotlinExtLibrary")
 
-inline fun <reified T: MinimalExternalModuleDependency> Any.toProvider(): Provider<T> {
-    return when (this) {
-        is Provider<*> -> this as Provider<T>
-        is ExternalModuleDependencyFactory.ProviderConvertible<*> -> this.asProvider() as Provider<T>
-        else -> throw Exception("Wrong type")
+fun FrameworkConfig.exportVersionCatalogLib(library: Any) {
+    when(library) {
+        is Provider<*> -> {
+            if (library.get() is MinimalExternalModuleDependency) export(library as Provider<MinimalExternalModuleDependency>)
+            else throw IllegalArgumentException()
+        }
+
+        is ExternalModuleDependencyFactory.DependencyNotationSupplier -> library.asProvider()
+        else -> throw Exception()
     }
 }
