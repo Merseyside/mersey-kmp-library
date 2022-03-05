@@ -18,6 +18,7 @@ val mppLibs = listOf(
     multiplatformLibs.serialization,
     multiplatformLibs.moko.mvvm,
     multiplatformLibs.moko.mvvm.livedata,
+    multiplatformLibs.moko.resources,
     multiplatformLibs.koin
 )
 
@@ -35,4 +36,5 @@ framework {
 
     export(multiplatformLibs.moko.mvvm.asProvider())
     export(multiplatformLibs.moko.mvvm.livedata)
+    export(multiplatformLibs.moko.resources)
 }

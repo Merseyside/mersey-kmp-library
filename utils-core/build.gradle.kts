@@ -50,4 +50,5 @@ dependencies {
 framework {
     export(multiplatformLibs.moko.mvvm.asProvider())
     export(multiplatformLibs.moko.mvvm.livedata)
+    export(multiplatformLibs.moko.resources)
 }
