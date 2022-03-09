@@ -10,8 +10,8 @@ repositories {
 }
 
 val multiplatform = "0.12.0"
-val kotlin = "1.6.20-M1"
-val gradle = "7.3.0-alpha03"
+val kotlin = "1.6.20-RC"
+val gradle = "7.3.0-alpha05"
 val resources = "0.18.0"
 val sqldelight = "1.5.3"
 val nexus = "1.1.0"
