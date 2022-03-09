@@ -1,7 +1,5 @@
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.6.0"
-    kotlin("plugin.serialization") version "1.6.0"
 }
 
 repositories {
@@ -12,12 +10,12 @@ repositories {
 }
 
 val multiplatform = "0.12.0"
-val kotlin = "1.6.0"
-val gradle = "7.0.3"
-val resources = "0.15.1"
+val kotlin = "1.6.20-RC"
+val gradle = "7.3.0-alpha05"
+val resources = "0.18.0"
 val sqldelight = "1.5.3"
 val nexus = "1.1.0"
-val navigation = "2.4.0-beta02"
+val navigation = "2.5.0-alpha01"
 
 dependencies {
     implementation("dev.icerock:mobile-multiplatform:$multiplatform")

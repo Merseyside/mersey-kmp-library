@@ -9,13 +9,6 @@ plugins {
     `maven-publish-config`
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-
 multiplatformResources {
     multiplatformResourcesPackage = Application.applicationId // required
 }
@@ -25,6 +18,7 @@ val mppLibs = listOf(
     multiplatformLibs.serialization,
     multiplatformLibs.moko.mvvm,
     multiplatformLibs.moko.mvvm.livedata,
+    multiplatformLibs.moko.resources,
     multiplatformLibs.koin
 )
 
@@ -33,13 +27,14 @@ val mppModules = listOf(
 )
 
 dependencies {
-    mppModules.forEach { module -> commonMainImplementation(module) }
+    mppModules.forEach { module -> commonMainApi(module) }
     mppLibs.forEach { commonMainApi(it) }
-
-    compileOnly("javax.annotation:jsr250-api:1.0")
 }
 
 framework {
     mppModules.forEach { export(it) }
-    //mppLibs.forEach { export(it.toProvider()) }
+
+    export(multiplatformLibs.moko.mvvm.asProvider())
+    export(multiplatformLibs.moko.mvvm.livedata)
+    export(multiplatformLibs.moko.resources)
 }

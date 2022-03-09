@@ -17,13 +17,6 @@ android {
     }
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-
 val mppLibs = listOf(
     common.merseyLib.time,
     multiplatformLibs.serialization,
@@ -47,7 +40,7 @@ dependencies {
     } else {
         commonMainApi(common.merseyLib.kotlin.ext)
     }
-    commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
+    commonMainApi(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }
@@ -55,5 +48,7 @@ dependencies {
 }
 
 framework {
-    //mppLibs.forEach { export(it.toProvider()) }
+    export(multiplatformLibs.moko.mvvm.asProvider())
+    export(multiplatformLibs.moko.mvvm.livedata)
+    export(multiplatformLibs.moko.resources)
 }
