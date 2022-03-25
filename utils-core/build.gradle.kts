@@ -31,13 +31,6 @@ kotlinConvention {
     setCompilerArgs( "-Xinline-classes", "-Xskip-prerelease-check")
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-
 val mppLibs = listOf(
     common.merseyLib.time,
     multiplatformLibs.serialization,
@@ -61,7 +54,7 @@ dependencies {
     } else {
         commonMainApi(common.merseyLib.kotlin.ext)
     }
-    commonMainImplementation(multiplatformLibs.bundles.moko.mvvm)
+    commonMainApi(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }

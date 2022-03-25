@@ -45,6 +45,7 @@ val mppLibs = listOf(
     multiplatformLibs.moko.resources,
     multiplatformLibs.moko.mvvm,
     multiplatformLibs.moko.mvvm.livedata,
+    multiplatformLibs.moko.resources,
     multiplatformLibs.koin
 )
 
@@ -53,6 +54,6 @@ val mppModules = listOf(
 )
 
 dependencies {
-    mppModules.forEach { module -> commonMainImplementation(module) }
+    mppModules.forEach { module -> commonMainApi(module) }
     mppLibs.forEach { commonMainApi(it) }
 }
