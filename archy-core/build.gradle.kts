@@ -32,6 +32,15 @@ kotlin {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
+
+    ios()
+    iosSimulatorArm64()
+
+    sourceSets {
+        val iosMain by getting
+        val iosSimulatorArm64Main by getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
+    }
 }
 
 kotlinConvention {
