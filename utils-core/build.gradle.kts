@@ -1,10 +1,14 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(Plugins.androidConvention)
-    id(Plugins.kotlinMultiplatformConvention)
-    id(Plugins.mobileMultiplatform)
-    id(Plugins.kotlinSerialization)
-    id(Plugins.kotlinKapt)
-    id(Plugins.iosFramework)
+    with(catalogPlugins.plugins) {
+        plugin(android.library)
+        plugin(kotlin.multiplatform)
+        plugin(moko.multiplatform)
+        id(mersey.android.convention.id())
+        id(mersey.kotlin.convention.id())
+        plugin(kotlin.serialization)
+        plugin(kotlin.kapt)
+    }
     `maven-publish-config`
 }
 
@@ -15,6 +19,16 @@ android {
         minSdk = Application.minSdk
         targetSdk = Application.targetSdk
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+kotlinConvention {
+    debug = true
+    setCompilerArgs( "-Xinline-classes", "-Xskip-prerelease-check")
 }
 
 kotlin {
@@ -52,8 +66,4 @@ dependencies {
 
     android.forEach { lib -> implementation(lib) }
     merseyLibs.forEach { lib -> implementation(lib) }
-}
-
-framework {
-    //mppLibs.forEach { export(it.toProvider()) }
 }

@@ -1,12 +1,30 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(Plugins.androidConvention)
-    id(Plugins.kotlinMultiplatformConvention)
-    id(Plugins.kotlinKapt)
-    id(Plugins.mobileMultiplatform)
-    id(Plugins.resources)
-    id(Plugins.sqldelight)
-    id(Plugins.iosFramework)
+    with(catalogPlugins.plugins) {
+        plugin(android.library)
+        plugin(kotlin.multiplatform)
+        id(mersey.android.convention.id())
+        id(mersey.kotlin.convention.id())
+        plugin(kotlin.serialization)
+        plugin(kotlin.kapt)
+        plugin(moko.multiplatform)
+        plugin(sqldelight)
+    }
     `maven-publish-config`
+}
+
+android {
+    compileSdk = Application.compileSdk
+
+    defaultConfig {
+        minSdk = Application.minSdk
+        targetSdk = Application.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
 
 kotlin {
@@ -16,13 +34,15 @@ kotlin {
     }
 }
 
-multiplatformResources {
-    multiplatformResourcesPackage = Application.applicationId // required
+kotlinConvention {
+    debug = true
+    setCompilerArgs("-Xinline-classes", "-Xskip-prerelease-check")
 }
 
 val mppLibs = listOf(
     multiplatformLibs.coroutines,
     multiplatformLibs.serialization,
+    multiplatformLibs.moko.resources,
     multiplatformLibs.moko.mvvm,
     multiplatformLibs.moko.mvvm.livedata,
     multiplatformLibs.koin
@@ -35,11 +55,4 @@ val mppModules = listOf(
 dependencies {
     mppModules.forEach { module -> commonMainImplementation(module) }
     mppLibs.forEach { commonMainApi(it) }
-
-    compileOnly("javax.annotation:jsr250-api:1.0")
-}
-
-framework {
-    mppModules.forEach { export(it) }
-    //mppLibs.forEach { export(it.toProvider()) }
 }

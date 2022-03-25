@@ -5,9 +5,9 @@ package com.merseyside.merseyLib.utils.core.coroutines
  */
 
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.time.Seconds
-import com.merseyside.merseyLib.time.TimeUnit
-import com.merseyside.merseyLib.time.minus
+import com.merseyside.merseyLib.time.units.Seconds
+import com.merseyside.merseyLib.time.units.TimeUnit
+import com.merseyside.merseyLib.time.units.minus
 import com.merseyside.merseyLib.utils.core.ext.delay
 import kotlinx.coroutines.*
 

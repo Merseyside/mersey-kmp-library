@@ -1,15 +1,37 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(Plugins.androidConvention)
-    id(Plugins.kotlinConvention)
-    id(Plugins.kotlinKapt)
-    id(Plugins.navigationArgs)
+    with(catalogPlugins.plugins) {
+        plugin(android.library)
+        plugin(kotlin.android)
+        id(mersey.android.convention.id())
+        id(mersey.kotlin.convention.id())
+        plugin(kotlin.kapt)
+        plugin(android.navigation.args)
+    }
     `maven-publish-config`
 }
 
 android {
+    compileSdk = Application.compileSdk
+
+    defaultConfig {
+        minSdk = Application.minSdk
+        targetSdk = Application.targetSdk
+    }
+    
     buildFeatures {
         dataBinding = true
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+kotlinConvention {
+    debug = true
+    setCompilerArgs("-Xinline-classes", "-Xskip-prerelease-check")
 }
 
 val androidLibraries = listOf(
@@ -17,7 +39,6 @@ val androidLibraries = listOf(
     androidLibs.appCompat,
     androidLibs.fragment,
     androidLibs.lifecycleViewModelSavedState,
-    androidLibs.annotation,
     androidLibs.koin
 )
 
