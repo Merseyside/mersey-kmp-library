@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy
+package com.merseyside.merseyLib.archy.core.presentation.di
 
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass

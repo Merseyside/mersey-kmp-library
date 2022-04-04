@@ -16,7 +16,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 
-    val catalogVersions = "1.3.9"
+    val catalogVersions = "1.4.1"
     val group = "io.github.merseyside"
     versionCatalogs {
 
