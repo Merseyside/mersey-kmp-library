@@ -113,7 +113,7 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    protected fun getPersistentClass(): KClass<M> {
+    protected fun getViewModelClass(): KClass<M> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
             BaseVMActivity::class.java,
