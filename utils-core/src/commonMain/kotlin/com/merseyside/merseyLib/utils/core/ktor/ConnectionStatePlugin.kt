@@ -1,11 +1,11 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
 import io.ktor.client.*
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.util.*
 
-class ConnectionStateFeature private constructor(
+class ConnectionStatePlugin private constructor(
     private val isConnected: () -> Boolean,
     private val onNoConnection: () -> Exception
 ) {
@@ -13,20 +13,20 @@ class ConnectionStateFeature private constructor(
     class Config {
         var checkConnection: () -> Boolean = { false }
         var onNoConnection: () -> Exception = { throw Exception() }
-        fun build() = ConnectionStateFeature(
+        fun build() = ConnectionStatePlugin(
             isConnected = checkConnection,
             onNoConnection = onNoConnection
         )
     }
 
-    companion object Feature : HttpClientFeature<Config, ConnectionStateFeature> {
-        override val key = AttributeKey<ConnectionStateFeature>("ConnectionStateFeature")
+    companion object Plugin : HttpClientPlugin<Config, ConnectionStatePlugin> {
+        override val key = AttributeKey<ConnectionStatePlugin>("ConnectionStatePlugin")
 
         override fun prepare(block: Config.() -> Unit) = Config().apply(block).build()
 
-        override fun install(feature: ConnectionStateFeature, scope: HttpClient) {
+        override fun install(plugin: ConnectionStatePlugin, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
-                with(feature) {
+                with(plugin) {
                     if (!isConnected()) {
                         onNoConnection()
                     }
