@@ -12,6 +12,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
+import io.ktor.client.request.setBody as builderSetBody
 
 typealias Response = Any
 
@@ -31,8 +32,8 @@ fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
     )
 }
 
-inline fun <reified T : Any> HttpRequestBuilder.body(obj: T) {
-    setBody(obj.serialize())
+inline fun <reified T : Any> HttpRequestBuilder.setBody(obj: T) {
+    builderSetBody(obj.serialize())
 }
 
 fun HttpRequestBuilder.setJsonObjectAsBody(obj: JsonObject) {

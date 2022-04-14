@@ -8,6 +8,7 @@ plugins {
         id(mersey.kotlin.convention.id())
         plugin(kotlin.serialization)
         plugin(kotlin.kapt)
+        id(cocoapods.id())
     }
     `maven-publish-config`
 }
@@ -34,6 +35,18 @@ kotlin {
         val iosMain by getting
         val iosSimulatorArm64Main by getting
         iosSimulatorArm64Main.dependsOn(iosMain)
+    }
+
+    cocoapods {
+        summary = "A Kotlin multiplatform mobile library with useful utils"
+        homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
+
+        version = multiplatformLibs.versions.kmmLibrary.get()
+
+        // https://github.com/tonymillion/Reachability
+        pod("Reachability") {
+            version = "3.2"
+        }
     }
 }
 

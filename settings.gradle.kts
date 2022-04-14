@@ -1,7 +1,7 @@
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-private val isLocalAndroidDependencies = false
+private val isLocalAndroidDependencies = true
 private val isLocalKotlinExtLibrary = false
 
 dependencyResolutionManagement {
@@ -15,10 +15,12 @@ dependencyResolutionManagement {
     versionCatalogs {
         val multiplatformLibs by creating {
             from("$group:catalog-version-multiplatform:$catalogVersions")
+            version("ktor", "2.0.0")
         }
 
         val androidLibs by creating {
             from("$group:catalog-version-android:$catalogVersions")
+            version("ktor", "2.0.0")
         }
 
         val common by creating {
