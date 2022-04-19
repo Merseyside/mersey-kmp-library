@@ -7,12 +7,12 @@ import io.ktor.util.*
 
 class ConnectionStatePlugin private constructor(
     private val isConnected: () -> Boolean,
-    private val onNoConnection: () -> Exception
+    private val onNoConnection: () -> Unit
 ) {
 
     class Config {
         var checkConnection: () -> Boolean = { false }
-        var onNoConnection: () -> Exception = { throw Exception() }
+        var onNoConnection: () -> Unit = { throw Exception() }
         fun build() = ConnectionStatePlugin(
             isConnected = checkConnection,
             onNoConnection = onNoConnection

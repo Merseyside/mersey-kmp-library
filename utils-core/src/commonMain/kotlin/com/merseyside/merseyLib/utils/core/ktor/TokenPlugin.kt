@@ -19,7 +19,7 @@ class TokenPlugin private constructor(
         )
     }
 
-    companion object Feature : HttpClientPlugin<Config, TokenPlugin> {
+    companion object Plugin : HttpClientPlugin<Config, TokenPlugin> {
         override val key = AttributeKey<TokenPlugin>("TokenPlugin")
 
         override fun prepare(block: Config.() -> Unit) = Config().apply(block).build()

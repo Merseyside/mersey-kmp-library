@@ -25,7 +25,7 @@ fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
 }
 
 fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
-    setBody(FormDataContent(
+    builderSetBody(FormDataContent(
         Parameters.build {
             pairs.forEach { pair -> append(pair.first, pair.second.toString()) }
         })
@@ -37,11 +37,11 @@ inline fun <reified T : Any> HttpRequestBuilder.setBody(obj: T) {
 }
 
 fun HttpRequestBuilder.setJsonObjectAsBody(obj: JsonObject) {
-    setBody(obj.serialize())
+    builderSetBody(obj.serialize())
 }
 
 fun HttpRequestBuilder.setJsonArrayAsBody(array: JsonArray) {
-    setBody(array.serialize())
+    builderSetBody(array.serialize())
 }
 
 fun HttpRequestBuilder.buildJsonObjectBody(builder: JsonObjectBuilder.() -> Unit) {

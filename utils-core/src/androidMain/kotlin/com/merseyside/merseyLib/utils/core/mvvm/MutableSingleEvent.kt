@@ -9,9 +9,7 @@ actual class MutableSingleEvent<T> : LiveData<T> {
 
     @Suppress("UNCHECKED_CAST")
     actual override var value: T
-        get() {
-            return archLiveData.value as T
-        }
+        get() = archLiveData.value as T
         set(value) {
             (archLiveData as ArchSingleLiveEvent<T>).value = value
         }

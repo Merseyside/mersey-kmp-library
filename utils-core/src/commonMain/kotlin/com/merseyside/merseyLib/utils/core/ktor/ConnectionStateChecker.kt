@@ -2,15 +2,17 @@ package com.merseyside.merseyLib.utils.core.ktor
 
 import kotlinx.coroutines.flow.Flow
 
+
 expect class ConnectionStateChecker {
 
-    fun start(): Flow<Boolean>
+    val networkStateFlow: Flow<Boolean>
+
+    fun start()
     fun stop()
 
     /**
      * Check network connectivity
      */
     fun isOnline(): Boolean
-
-    protected fun getState(callback: (Boolean) -> Unit)
+    fun addNetworkStateCallback(callback: (Boolean) -> Unit)
 }

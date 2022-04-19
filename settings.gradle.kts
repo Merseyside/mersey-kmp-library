@@ -10,17 +10,15 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 
-    val catalogVersions = "1.4.3"
+    val catalogVersions = "1.4.4"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
             from("$group:catalog-version-multiplatform:$catalogVersions")
-            version("ktor", "2.0.0")
         }
 
         val androidLibs by creating {
             from("$group:catalog-version-android:$catalogVersions")
-            version("ktor", "2.0.0")
         }
 
         val common by creating {
@@ -36,6 +34,9 @@ dependencyResolutionManagement {
 include(":archy-core")
 include(":utils-core")
 include(":archy-android")
+
+include(":sample:mpp-library")
+include(":sample:androidApp")
 
 if (isLocalAndroidDependencies) {
 

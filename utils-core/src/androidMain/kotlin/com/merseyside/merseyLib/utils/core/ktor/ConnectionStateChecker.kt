@@ -1,47 +1,43 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
 import android.annotation.SuppressLint
-import android.os.Build
-import com.merseyside.utils.BuildConfig
 import com.merseyside.utils.network.InternetConnectionObserver
 import com.merseyside.utils.network.NetworkStateListener
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 @SuppressLint("MissingPermission")
 actual class ConnectionStateChecker(
     private val connectionObserver: InternetConnectionObserver
 ) {
-
-    private val networkStateFlow = MutableStateFlow(false)
-
-    //private val connectionObserver: InternetConnectionObserver
-    private var currentState: Boolean = false
-    private var isStarted: Boolean = false
+    private val mutFlow = MutableStateFlow(false)
+    actual val networkStateFlow: Flow<Boolean> = mutFlow
 
     private val listener = object : NetworkStateListener {
         override fun onConnectionState(state: Boolean) {
-            networkStateFlow.value = state
+            mutFlow.value = state
         }
     }
 
     actual fun isOnline(): Boolean {
-        return networkStateFlow.value
+        return connectionObserver.isOnline()
     }
 
-    actual fun start(): Flow<Boolean> {
-        connectionObserver.registerReceiver(listener)
-        isStarted = true
-        return networkStateFlow
+    actual fun start() {
+        connectionObserver.addNetworkStateListener(listener)
     }
 
     actual fun stop() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            connectionObserver.unregisterReceiver(listener)
-        }
-        isStarted = false
+        connectionObserver.removeNetworkStateListeners()
     }
 
-    protected actual fun getState(callback: (Boolean) -> Unit) {
+    actual fun addNetworkStateCallback(callback: (Boolean) -> Unit) {
+        MainScope().launch {
+            networkStateFlow.collect {
+                callback(it)
+            }
+        }
     }
 }

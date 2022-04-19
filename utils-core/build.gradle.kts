@@ -38,10 +38,13 @@ kotlin {
     }
 
     cocoapods {
-        summary = "A Kotlin multiplatform mobile library with useful utils"
-        homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
 
-        version = multiplatformLibs.versions.kmmLibrary.get()
+        framework {
+            summary = "A Kotlin multiplatform mobile library with useful utils"
+            homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
+
+            version = multiplatformLibs.versions.kmmLibrary.get()
+        }
 
         // https://github.com/tonymillion/Reachability
         pod("Reachability") {
@@ -52,7 +55,11 @@ kotlin {
 
 kotlinConvention {
     debug = true
-    setCompilerArgs( "-Xinline-classes", "-Xskip-prerelease-check")
+    setCompilerArgs(
+        "-Xinline-classes",
+        "-Xskip-prerelease-check",
+        "-Xbinary=memoryModel=experimental"
+    )
 }
 
 val mppLibs = listOf(
@@ -82,5 +89,10 @@ dependencies {
     mppLibs.forEach { commonMainImplementation(it) }
 
     android.forEach { lib -> implementation(lib) }
-    merseyLibs.forEach { lib -> implementation(lib) }
+
+    if (isLocalAndroidDependencies()) {
+        implementation(project(Modules.Android.MerseyLibs.utils))
+    } else {
+        merseyLibs.forEach { lib -> implementation(lib) }
+    }
 }
