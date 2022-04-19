@@ -58,6 +58,7 @@ kotlinConvention {
     setCompilerArgs(
         "-Xinline-classes",
         "-Xskip-prerelease-check",
+        "-opt-in=kotlin.RequiresOptIn",
         "-Xbinary=memoryModel=experimental"
     )
 }
