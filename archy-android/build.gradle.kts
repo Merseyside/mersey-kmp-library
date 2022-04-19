@@ -26,7 +26,11 @@ android {
 
 kotlinConvention {
     debug = true
-    setCompilerArgs("-Xinline-classes", "-Xskip-prerelease-check")
+    setCompilerArgs(
+        "-Xinline-classes",
+        "-opt-in=kotlin.RequiresOptIn",
+        "-Xskip-prerelease-check"
+    )
 }
 
 val androidLibraries = listOf(

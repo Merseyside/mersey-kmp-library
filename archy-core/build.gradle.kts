@@ -29,18 +29,22 @@ kotlin {
     }
 
     ios()
-//    iosSimulatorArm64()
-//
-//    sourceSets {
-//        val iosMain by getting
-//        val iosSimulatorArm64Main by getting
-//        iosSimulatorArm64Main.dependsOn(iosMain)
-//    }
+    iosSimulatorArm64()
+
+    sourceSets {
+        val iosMain by getting
+        val iosSimulatorArm64Main by getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
+    }
 }
 
 kotlinConvention {
     debug = true
-    setCompilerArgs("-Xinline-classes", "-Xskip-prerelease-check")
+    setCompilerArgs(
+        "-Xinline-classes",
+        "-opt-in=kotlin.RequiresOptIn",
+        "-Xskip-prerelease-check"
+    )
 }
 
 val mppLibs = listOf(
