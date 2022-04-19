@@ -16,8 +16,7 @@ abstract class KtorRouter(
 
     open fun handleResponse(response: Response) {}
 
-    @OptIn(InternalAPI::class)
-    fun HttpRequestBuilder.buildUrl(
+    inline fun HttpRequestBuilder.buildUrl(
         method: HttpMethod,
         path: String,
         vararg queryParams: Pair<String, String>

@@ -1,0 +1,23 @@
+PODS:
+  - mpp_library (1.4.8)
+  - Reachability (3.2)
+
+DEPENDENCIES:
+  - mpp_library (from `../mpp-library`)
+  - Reachability
+
+SPEC REPOS:
+  trunk:
+    - Reachability
+
+EXTERNAL SOURCES:
+  mpp_library:
+    :path: "../mpp-library"
+
+SPEC CHECKSUMS:
+  mpp_library: 680c6d9fdce134722cb13b9e389951a07bebda13
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+
+PODFILE CHECKSUM: 984fdf42b2cd57b5e14197719552245436d87e71
+
+COCOAPODS: 1.11.3

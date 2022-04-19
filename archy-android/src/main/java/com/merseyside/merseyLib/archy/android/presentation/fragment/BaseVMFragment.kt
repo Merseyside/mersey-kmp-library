@@ -177,4 +177,3 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
         ).kotlin as KClass<M>
     }
 }
-

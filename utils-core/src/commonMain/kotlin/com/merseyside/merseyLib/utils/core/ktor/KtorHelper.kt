@@ -2,16 +2,17 @@ package com.merseyside.merseyLib.utils.core.ktor
 
 import com.merseyside.merseyLib.kotlin.serialization.deserialize
 import com.merseyside.merseyLib.kotlin.serialization.serialize
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
-import io.ktor.util.*
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
+import io.ktor.client.request.setBody as builderSetBody
 
 typealias Response = Any
 
@@ -23,45 +24,45 @@ fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
     pairs.forEach { pair -> addHeader(pair.first, pair.second) }
 }
 
-@OptIn(InternalAPI::class)
 fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {
-    body = FormDataContent(
+    builderSetBody(FormDataContent(
         Parameters.build {
             pairs.forEach { pair -> append(pair.first, pair.second.toString()) }
         })
+    )
 }
 
-inline fun <reified T : Any> HttpRequestBuilder.body(obj: T) {
-    body = obj.serialize()
+inline fun <reified T : Any> HttpRequestBuilder.setBody(obj: T) {
+    builderSetBody(obj.serialize())
 }
 
 fun HttpRequestBuilder.setJsonObjectAsBody(obj: JsonObject) {
-    body = obj.serialize()
+    builderSetBody(obj.serialize())
 }
 
 fun HttpRequestBuilder.setJsonArrayAsBody(array: JsonArray) {
-    body = array.serialize()
+    builderSetBody(array.serialize())
 }
 
-fun HttpRequestBuilder.buildJsonObjectBody(block: JsonObjectBuilder.() -> Unit) {
-    setJsonObjectAsBody(buildJsonObject { block() })
+fun HttpRequestBuilder.buildJsonObjectBody(builder: JsonObjectBuilder.() -> Unit) {
+    setJsonObjectAsBody(buildJsonObject { builder() })
 }
 
-fun HttpRequestBuilder.buildJsonArrayBody(block: JsonArrayBuilder.() -> Unit) {
-    setJsonArrayAsBody(buildJsonArray { block() })
+fun HttpRequestBuilder.buildJsonArrayBody(builder: JsonArrayBuilder.() -> Unit) {
+    setJsonArrayAsBody(buildJsonArray { builder() })
 }
 
 suspend inline fun <reified T: Any> KtorRouter.post(
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<T>? = null,
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): T {
     return request(
         HttpMethod.Post,
         path, *queryParams,
         deserializationStrategy = deserializationStrategy,
-        block = block
+        builder = builder
     )
 }
 
@@ -70,13 +71,13 @@ suspend inline fun <reified T: Any> KtorRouter.get(
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<T>? = null,
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): T {
     return request(
         HttpMethod.Get,
         path, *queryParams,
         deserializationStrategy = deserializationStrategy,
-        block = block
+        builder = builder
     )
 }
 
@@ -86,14 +87,14 @@ suspend inline fun <reified T: Any> KtorRouter.getList(
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<List<T>>? = ListSerializer(T::class.serializer()),
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): List<T> {
 
     return request(
         HttpMethod.Get,
         path, *queryParams,
         deserializationStrategy = deserializationStrategy,
-        block = block
+        builder = builder
     )
 }
 
@@ -102,13 +103,13 @@ suspend inline fun <reified T: Any> KtorRouter.delete(
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<T>? = null,
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): T {
     return request(
         HttpMethod.Delete,
         path, *queryParams,
         deserializationStrategy = deserializationStrategy,
-        block = block
+        builder = builder
     )
 }
 
@@ -116,30 +117,29 @@ suspend inline fun <reified T: Any> KtorRouter.put(
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<T>? = null,
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): T {
     return request(
         HttpMethod.Put,
         path, *queryParams,
         deserializationStrategy = deserializationStrategy,
-        block = block
+        builder = builder
     )
 }
 
-@OptIn(InternalSerializationApi::class)
 suspend inline fun <reified T: Any> KtorRouter.request(
     httpMethod: HttpMethod,
     path: String,
     vararg queryParams: Pair<String, String>,
     deserializationStrategy: DeserializationStrategy<T>? = null,
-    block: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {}
 ): T {
-    val call = client().request<String> {
+    val call = client().request {
         buildUrl(httpMethod, path, *queryParams)
-        block()
+        builder()
     }
     
-    return deserialize(call, deserializationStrategy).also { handleResponse(it) }
+    return deserialize(call.body(), deserializationStrategy).also { handleResponse(it) }
 }
 
 inline fun <reified T: Any> KtorRouter.deserialize(
