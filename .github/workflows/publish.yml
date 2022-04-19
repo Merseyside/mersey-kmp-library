@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: 1.11
 
+      - name: Install Cocoapods
+        run: gem install cocoapods-generate
+
       - name: Build and publish to mavenCentral
         run: ./gradlew publish
         env:
