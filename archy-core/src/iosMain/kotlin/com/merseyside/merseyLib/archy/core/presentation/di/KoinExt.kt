@@ -11,7 +11,7 @@ fun Koin.get(objCClass: ObjCClass): Any {
     return get(kClazz)
 }
 
-fun Koin.get(objCClass: ObjCClass, parameter: Any): Any {
+fun Koin.get(objCClass: ObjCClass, parameter: Any?): Any {
     val kClazz = getOriginalKotlinClass(objCClass)!!
     return get(kClazz, null) { parametersOf(parameter) }
 }
@@ -21,7 +21,7 @@ fun Koin.get(objCClass: ObjCClass, qualifier: Qualifier?): Any {
     return get(kClazz, qualifier, null)
 }
 
-fun Koin.get(objCClass: ObjCClass, qualifier: Qualifier?, parameter: Any): Any {
+fun Koin.get(objCClass: ObjCClass, qualifier: Qualifier?, parameter: Any?): Any {
     val kClazz = getOriginalKotlinClass(objCClass)!!
     return get(kClazz, qualifier) { parametersOf(parameter) }
 }

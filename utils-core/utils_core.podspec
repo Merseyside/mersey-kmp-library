@@ -1,19 +1,19 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'utils_core'
-    spec.version                  = '1.4.5'
-    spec.homepage                 = 'https://github.com/Merseyside/mersey-kmp-time'
+    spec.version                  = '1.4.8'
+    spec.homepage                 = 'https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'KMM Time library'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/KotlinTime.framework'
+    spec.summary                  = 'A Kotlin multiplatform mobile library with useful utils'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/utils_core.framework'
     spec.libraries                = 'c++'
                 
-                
+    spec.dependency 'Reachability', '3.2'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':utils-core',
-        'PRODUCT_MODULE_NAME' => 'KotlinTime',
+        'PRODUCT_MODULE_NAME' => 'utils_core',
     }
                 
     spec.script_phases = [

@@ -4,13 +4,12 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 
 actual class MutableSingleEvent<T> : LiveData<T> {
 
-    actual constructor(initialValue: T) : super(ArchSingleLiveEvent<T>().apply { value = initialValue })
+    actual constructor(initialValue: T)
+            : super(ArchSingleLiveEvent<T>().apply { value = initialValue })
 
     @Suppress("UNCHECKED_CAST")
     actual override var value: T
-        get() {
-            return archLiveData.value as T
-        }
+        get() = archLiveData.value as T
         set(value) {
             (archLiveData as ArchSingleLiveEvent<T>).value = value
         }
