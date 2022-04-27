@@ -42,3 +42,7 @@ local.properties
 app/src/main/obj/
 
 buildSrc/build
+
+xcuserdata
+
+Pods
