@@ -42,10 +42,7 @@ local.properties
 app/src/main/obj/
 
 buildSrc/build
-sample/ios-app/Pods/Pods.xcodeproj/xcuserdata/andrey.xcuserdatad/xcschemes/mpp_library.xcscheme
 
-sample/ios-app/Pods/Pods.xcodeproj/xcuserdata/andrey.xcuserdatad/xcschemes/Pods-ios-app.xcscheme
+xcschemes
 
-sample/ios-app/Pods/Pods.xcodeproj/xcuserdata/andrey.xcuserdatad/xcschemes/Reachability.xcscheme
-
-sample/ios-app/Pods/Pods.xcodeproj/xcuserdata/andrey.xcuserdatad/xcschemes/xcschememanagement.plist
+Pods
