@@ -43,6 +43,6 @@ app/src/main/obj/
 
 buildSrc/build
 
-xcschemes
+xcuserdata
 
 Pods
