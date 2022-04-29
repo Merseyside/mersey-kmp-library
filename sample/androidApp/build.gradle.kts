@@ -22,6 +22,8 @@ android {
         versionName = Application.version
     }
 
+    buildFeatures.dataBinding = true
+
 
     lint {
         lintConfig = rootProject.file(".lint/config.xml")
@@ -38,5 +40,41 @@ android {
                 "META-INF/NOTICE.txt"
             )
         )
+    }
+}
+
+kotlinConvention {
+    debug = true
+    setCompilerArgs(
+        "-Xinline-classes",
+        "-opt-in=kotlin.RequiresOptIn",
+        "-Xskip-prerelease-check"
+    )
+}
+
+val android = listOf(
+    androidLibs.appCompat,
+    androidLibs.material,
+    androidLibs.koin
+)
+
+val merseyLibs = listOf(
+    androidLibs.merseyLib.archy,
+    androidLibs.merseyLib.utils
+)
+
+val merseyModules = listOf(
+    Modules.Android.MerseyLibs.archy,
+    Modules.Android.MerseyLibs.utils
+)
+
+dependencies {
+    implementation(project(":sample:mpp-library"))
+    android.forEach { lib -> implementation(lib) }
+
+    if (isLocalAndroidDependencies()) {
+        merseyModules.forEach { module -> implementation(project(module)) }
+    } else {
+        merseyLibs.forEach { lib -> implementation(lib) }
     }
 }

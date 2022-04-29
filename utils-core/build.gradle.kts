@@ -68,7 +68,8 @@ val mppLibs = listOf(
     multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
-    multiplatformLibs.sqldelight
+    multiplatformLibs.sqldelight,
+    multiplatformLibs.koin
 )
 
 val android = listOf(
