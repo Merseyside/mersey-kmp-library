@@ -18,10 +18,10 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlin.reflect.KClass
 
-abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
-    : BaseBindingFragment<B>() {
+abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
+    : BaseBindingFragment<Binding>() {
 
-    protected abstract val viewModel: M
+    protected abstract val viewModel: Model
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -67,8 +67,8 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     abstract fun getBindingVariable(): Int
 
-    open fun initDataBinding(): ViewDataBinding.() -> Unit {
-        return {
+    open fun initDataBinding(binding: Binding) {
+        binding.apply {
             setVariable(getBindingVariable(), viewModel)
             executePendingBindings()
         }
@@ -81,9 +81,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, M : BaseViewModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        requireBinding().apply {
-            initDataBinding().invoke(this)
-        }
+        initDataBinding(requireBinding())
 
         viewModel.apply {
             errorLiveEvent.ld().observe(viewLifecycleOwner, errorObserver)

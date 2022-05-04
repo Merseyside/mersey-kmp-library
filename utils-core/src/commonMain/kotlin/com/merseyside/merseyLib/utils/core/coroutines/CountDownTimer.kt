@@ -83,29 +83,27 @@ class CountDownTimer(
     private fun timerCanStart() {
         timerJob = scope.launch {
 
-            withContext(Dispatchers.Unconfined) {
-                state = CurrentTimerState.RUNNING
+            state = CurrentTimerState.RUNNING
 
-                onTick(countDownTimer)
-                delay(delay)
+            onTick(countDownTimer)
+            delay(delay)
 
-                timerLoop@ while (isActive) {
-                    countDownTimer -= delay
+            timerLoop@ while (isActive) {
+                countDownTimer -= delay
 
-                    if (countDownTimer <= TimeUnit.getEmpty()) {
-                        state = CurrentTimerState.STOPPED
+                if (countDownTimer <= TimeUnit.getEmpty()) {
+                    state = CurrentTimerState.STOPPED
 
-                        onTick(TimeUnit.getEmpty())
-                        timerJob?.cancel()
-                        listener.onStop()
+                    onTick(TimeUnit.getEmpty())
+                    timerJob?.cancel()
+                    listener.onStop()
+                } else {
+                    onTick(countDownTimer)
+
+                    if (countDownTimer < delay) {
+                        delay(countDownTimer)
                     } else {
-                        onTick(countDownTimer)
-
-                        if (countDownTimer < delay) {
-                            delay(countDownTimer)
-                        } else {
-                            delay(delay)
-                        }
+                        delay(delay)
                     }
                 }
             }
