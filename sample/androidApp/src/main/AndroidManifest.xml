@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.merseyside.merseyLib.sample" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.merseyside.sample">
+
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="false"
+        android:label="MerseyKmm">
+
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Sample">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
