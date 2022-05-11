@@ -23,6 +23,7 @@ dependencyResolutionManagement {
 
         val common by creating {
             from("$group:catalog-version-common:$catalogVersions")
+            version("kotlin-ext", "1.1.5")
         }
 
         val catalogPlugins by creating {
