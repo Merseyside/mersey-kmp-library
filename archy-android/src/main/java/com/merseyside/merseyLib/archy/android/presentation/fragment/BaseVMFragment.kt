@@ -9,6 +9,7 @@ import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.merseyLib.kotlin.extensions.log
 import com.merseyside.merseyLib.utils.core.SavedState
 import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.putSerialize
@@ -112,13 +113,10 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         val savedState = SavedState().apply {
             savedInstanceState?.getSerialize(
                 INSTANCE_STATE_KEY, MapSerializer(String.serializer(), String.serializer())
-            )?.let {
-                addAll(
-                    it
-                )
-            }
+            )?.let { addAll(it) }
         }
         if (viewModel is StateViewModel) {
+            "here!!!".log()
             (viewModel as StateViewModel).onRestoreState(savedState)
         }
         super.onViewStateRestored(savedInstanceState)

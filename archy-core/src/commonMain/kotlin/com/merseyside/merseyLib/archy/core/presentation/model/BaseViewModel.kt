@@ -76,11 +76,10 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
 
     protected fun showMsg(msg: String) {
         Logger.log(this, msg)
-        val textMessage =
-            TextMessage(
-                isError = false,
-                msg = msg
-            )
+        val textMessage = TextMessage(
+            isError = false,
+            msg = msg
+        )
 
         mutMessageLiveEvent.value = textMessage
     }
