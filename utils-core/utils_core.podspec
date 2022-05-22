@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'utils_core'
-    spec.version                  = '1.4.8'
+    spec.version                  = '1.4.9'
     spec.homepage                 = 'https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
