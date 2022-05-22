@@ -116,7 +116,6 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
             )?.let { addAll(it) }
         }
         if (viewModel is StateViewModel) {
-            "here!!!".log()
             (viewModel as StateViewModel).onRestoreState(savedState)
         }
         super.onViewStateRestored(savedInstanceState)
