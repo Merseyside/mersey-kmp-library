@@ -47,6 +47,10 @@ kotlinConvention {
     )
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+    kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+}
+
 val mppLibs = listOf(
     multiplatformLibs.coroutines,
     multiplatformLibs.serialization,

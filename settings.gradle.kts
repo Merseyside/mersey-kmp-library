@@ -1,7 +1,7 @@
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-private val isLocalAndroidDependencies = false
+private val isLocalAndroidDependencies = true
 private val isLocalKotlinExtLibrary = false
 
 dependencyResolutionManagement {
@@ -10,7 +10,7 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 
-    val catalogVersions = "1.4.5"
+    val catalogVersions = "1.4.8"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
@@ -23,7 +23,6 @@ dependencyResolutionManagement {
 
         val common by creating {
             from("$group:catalog-version-common:$catalogVersions")
-            version("kotlin-ext", "1.1.5")
         }
 
         val catalogPlugins by creating {

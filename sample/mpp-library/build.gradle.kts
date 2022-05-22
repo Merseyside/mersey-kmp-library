@@ -26,9 +26,9 @@ val merseyModules = listOf(
 
 kotlinConvention {
     debug = true
-    setCompilerArgs(
-        "-Xbinary=memoryModel=experimental"
-    )
+//    setCompilerArgs(
+//
+//    )
 }
 
 val multiplatform = listOf(

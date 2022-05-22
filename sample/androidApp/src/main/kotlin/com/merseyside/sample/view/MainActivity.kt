@@ -3,7 +3,6 @@ package com.merseyside.sample.view
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
-import com.merseyside.sample.ObservableFieldTest
 import com.merseyside.sample.R
 import com.merseyside.sample.databinding.ActivityMainBinding
 import com.merseyside.sample.notifications.NotificationTest
