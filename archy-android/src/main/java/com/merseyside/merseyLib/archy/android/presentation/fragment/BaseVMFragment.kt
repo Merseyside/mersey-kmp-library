@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
+import androidx.databinding.ViewStubProxy
 import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
-import com.merseyside.merseyLib.kotlin.extensions.log
 import com.merseyside.merseyLib.utils.core.SavedState
 import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.putSerialize
@@ -180,6 +180,13 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
             isInProgress.removeObserver(progressObserver)
             alertDialogLiveEvent.removeObserver(alertDialogModelObserver)
             grantPermissionLiveEvent.removeObserver(permissionObserver)
+        }
+    }
+
+    //TODO move it to baseFragment please
+    protected fun ViewStubProxy.inflateViewStub() {
+        if (!isInflated) {
+            viewStub?.inflate()
         }
     }
 
