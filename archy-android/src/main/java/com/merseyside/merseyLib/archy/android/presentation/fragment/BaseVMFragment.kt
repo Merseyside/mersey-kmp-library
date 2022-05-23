@@ -3,8 +3,10 @@ package com.merseyside.merseyLib.archy.android.presentation.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
@@ -18,6 +20,7 @@ import com.merseyside.utils.requestPermissions
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlin.reflect.KClass
+
 
 abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     : BaseBindingFragment<Binding>() {
@@ -142,6 +145,22 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         } else {
             showMsg(textMessage.msg, null, textMessage.actionMsg, textMessage.onClick)
         }
+    }
+
+    fun showInteractSnack(
+        @StringRes text: Int,
+        @StringRes clickButtonText: Int,
+        onClick: () -> Unit
+    ) {
+        Snackbar.make(
+            requireView(),
+            getString(text),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(
+            getString(clickButtonText)
+        ) {
+            onClick()
+        }.show()
     }
 
     protected fun showProgress() {
