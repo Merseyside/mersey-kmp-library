@@ -16,12 +16,8 @@ import io.ktor.client.request.setBody as builderSetBody
 
 typealias Response = Any
 
-fun HttpRequestBuilder.addHeader(key: String, value: Any) {
-    header(key, value)
-}
-
-fun HttpRequestBuilder.addHeaders(vararg pairs: Pair<String, Any>) {
-    pairs.forEach { pair -> addHeader(pair.first, pair.second) }
+fun HttpMessageBuilder.headers(vararg pairs: Pair<String, Any?>) {
+    pairs.forEach { pair -> header(pair.first, pair.second) }
 }
 
 fun HttpRequestBuilder.setFormData(vararg pairs: Pair<String, Any>) {

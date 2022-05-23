@@ -30,6 +30,8 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requireBinding().showNotification.onClick { test.showNotification() }
+        requireBinding().showNotification.onClick {
+            test.showNotification()
+        }
     }
 }

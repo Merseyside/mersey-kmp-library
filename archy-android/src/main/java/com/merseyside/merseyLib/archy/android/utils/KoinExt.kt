@@ -4,9 +4,6 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.fragment.findNavController
-import org.koin.androidx.viewmodel.ViewModelOwner
-import org.koin.androidx.viewmodel.scope.getViewModel
 import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.GlobalContext
@@ -17,11 +14,12 @@ fun <VM : ViewModel> Fragment.navGraphViewModel(
     @IdRes navGraphId: Int,
     clazz: KClass<VM>
 ): VM {
-    val backStackEntry: NavBackStackEntry by lazy { findNavController().getBackStackEntry(navGraphId) }
-    return getKoinScope(this).getViewModel(
-        owner = { ViewModelOwner(backStackEntry.viewModelStore) },
-        clazz = clazz
-    )
+    TODO()
+//    val backStackEntry: NavBackStackEntry by lazy { findNavController().getBackStackEntry(navGraphId) }
+//    return getKoinScope(this).getViewModel(
+//        owner = { ViewModelOwner(backStackEntry.viewModelStore) },
+//        clazz = clazz
+//    )
 }
 
 @OptIn(KoinInternalApi::class)
