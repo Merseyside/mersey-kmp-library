@@ -1,12 +1,13 @@
-package com.merseyside.merseyLib.archy.android.presentation.fragment
+package com.merseyside.merseyLib.archy.android.presentation.dialog
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
+import com.merseyside.merseyLib.archy.android.presentation.fragment.VMFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 
-abstract class BaseVMEventsFragment<B : ViewDataBinding, M, Listener : Any>
-    : BaseVMFragment<B, M>() where M : BaseViewModel {
+abstract class VMEventsDialog<B : ViewDataBinding, M, Listener : Any>
+    : VMFragment<B, M>() where M : BaseViewModel {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

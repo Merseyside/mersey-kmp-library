@@ -7,7 +7,7 @@ import com.merseyside.archy.presentation.activity.BaseBindingActivity
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
-import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
@@ -15,7 +15,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlin.reflect.KClass
 
-abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
+abstract class VMActivity<B : ViewDataBinding, M : BaseViewModel>
     : BaseBindingActivity<B>() {
 
     protected abstract val viewModel: M
@@ -80,10 +80,10 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
 
     private fun observeViewModel() {
         viewModel.apply {
-            messageLiveEvent.ld().observe(this@BaseVMActivity, messageObserver)
-            isInProgress.ld().observe(this@BaseVMActivity, loadingObserver)
-            alertDialogLiveEvent.ld().observe(this@BaseVMActivity, alertDialogModel)
-            grantPermissionLiveEvent.ld().observe(this@BaseVMActivity, permissionObserver)
+            messageLiveEvent.ld().observe(this@VMActivity, messageObserver)
+            isInProgress.ld().observe(this@VMActivity, loadingObserver)
+            alertDialogLiveEvent.ld().observe(this@VMActivity, alertDialogModel)
+            grantPermissionLiveEvent.ld().observe(this@VMActivity, permissionObserver)
         }
     }
 
@@ -116,7 +116,7 @@ abstract class BaseVMActivity<B : ViewDataBinding, M : BaseViewModel>
     protected fun getViewModelClass(): KClass<M> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
-            BaseVMActivity::class.java,
+            VMActivity::class.java,
             1
         ).kotlin as KClass<M>
     }

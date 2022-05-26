@@ -23,9 +23,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
     val isInProgress: LiveData<Boolean> = mutProgress
 
     protected var progress: Boolean
-        get() {
-            return mutProgress.value
-        }
+        get() = mutProgress.value
         set(value) {
             mutProgress.value = value
         }

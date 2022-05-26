@@ -11,7 +11,7 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.utils.reflection.ReflectionUtils
 import kotlin.reflect.KClass
 
-abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
+abstract class VMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
 
     protected lateinit var viewModel: M
 
@@ -56,8 +56,8 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
         savedInstanceState: Bundle?
     ): View? {
         viewModel.apply {
-            errorLiveEvent.ld().observe(this@BaseVMDialog, errorObserver)
-            messageLiveEvent.ld().observe(this@BaseVMDialog, messageObserver)
+            errorLiveEvent.ld().observe(this@VMDialog, errorObserver)
+            messageLiveEvent.ld().observe(this@VMDialog, messageObserver)
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -81,7 +81,7 @@ abstract class BaseVMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindin
     protected open fun getPersistentClass(): KClass<M> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
-            BaseVMDialog::class.java,
+            VMDialog::class.java,
             1
         ).kotlin as KClass<M>
     }

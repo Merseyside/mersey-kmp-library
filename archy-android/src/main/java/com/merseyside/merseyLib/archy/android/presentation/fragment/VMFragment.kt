@@ -5,27 +5,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.kotlin.extensions.log
-import com.merseyside.merseyLib.utils.core.SavedState
+import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
-
-abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
+abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     : BaseBindingFragment<Binding>() {
 
-    protected abstract val viewModel: Model
+    protected lateinit var viewModel: Model
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -81,6 +84,27 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
+    }
+
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+        loadKoinModules(getKoinModules())
+        viewModel = provideViewModel(bundle, params)
+    }
+
+    open fun getKoinModules(): List<Module> {
+        return emptyList<Module>().also { Logger.logInfo("VMFragment", "Empty fragment's koin modules") }
+    }
+
+    protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
+        return getViewModel(
+            clazz = getViewModelClass(),
+            parameters = {
+                parametersOf(
+                    *params,
+                    bundle
+                )
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -183,11 +207,11 @@ abstract class BaseVMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         }
     }
 
-    protected fun <M : ViewModel> getViewModelClass(): KClass<M> {
+    protected fun getViewModelClass(): KClass<Model> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
-            BaseVMFragment::class.java,
+            VMFragment::class.java,
             1
-        ).kotlin as KClass<M>
+        ).kotlin as KClass<Model>
     }
 }

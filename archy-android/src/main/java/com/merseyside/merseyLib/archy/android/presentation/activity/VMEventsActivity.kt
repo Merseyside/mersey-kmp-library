@@ -5,8 +5,8 @@ import androidx.databinding.ViewDataBinding
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 
-abstract class BaseVMEventsActivity<B: ViewDataBinding, M, Listener : Any>
-    : BaseVMActivity<B, M>() where M : BaseViewModel, M: EventsDispatcherOwner<Listener> {
+abstract class VMEventsActivity<B: ViewDataBinding, M, Listener : Any>
+    : VMActivity<B, M>() where M : BaseViewModel, M: EventsDispatcherOwner<Listener> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
