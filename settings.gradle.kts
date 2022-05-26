@@ -1,7 +1,7 @@
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-private val isLocalAndroidDependencies = true
+private val isLocalAndroidDependencies = false
 private val isLocalKotlinExtLibrary = false
 
 dependencyResolutionManagement {
