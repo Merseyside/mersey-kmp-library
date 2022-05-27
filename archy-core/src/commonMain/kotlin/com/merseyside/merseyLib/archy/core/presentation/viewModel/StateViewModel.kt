@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.presentation.model
+package com.merseyside.merseyLib.archy.core.presentation.viewModel
 
 import com.merseyside.merseyLib.utils.core.state.DummySavedState
 import com.merseyside.merseyLib.utils.core.state.SavedState

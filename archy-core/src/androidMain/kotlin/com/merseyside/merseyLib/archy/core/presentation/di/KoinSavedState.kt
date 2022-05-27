@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.archy.core.presentation.di
 
 import android.os.Bundle
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer

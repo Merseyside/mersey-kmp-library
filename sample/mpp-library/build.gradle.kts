@@ -26,21 +26,17 @@ val merseyModules = listOf(
 
 kotlinConvention {
     debug = true
-//    setCompilerArgs(
-//
-//    )
 }
 
 val multiplatform = listOf(
     multiplatformLibs.koin
 )
 
-//val android = listOf(
-//
-//)
 
 dependencies {
     commonMainApi(common.merseyLib.kotlin.ext)
+    commonMainImplementation(projects.archyCore)
+    commonMainImplementation(projects.utilsCore)
 
     multiplatform.forEach { lib ->
         commonMainImplementation(lib)

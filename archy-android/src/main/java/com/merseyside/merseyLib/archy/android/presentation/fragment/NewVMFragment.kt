@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.NewBaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
@@ -24,7 +25,7 @@ import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
-abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
+abstract class NewVMFragment<Binding : ViewDataBinding, Model : NewBaseViewModel>
     : BaseBindingFragment<Binding>() {
 
     protected lateinit var viewModel: Model
@@ -209,7 +210,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     protected fun getViewModelClass(): KClass<Model> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
-            VMFragment::class.java,
+            NewVMFragment::class.java,
             1
         ).kotlin as KClass<Model>
     }

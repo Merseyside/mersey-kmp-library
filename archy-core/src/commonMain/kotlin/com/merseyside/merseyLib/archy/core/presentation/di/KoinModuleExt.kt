@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.archy.core.presentation.di
 
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import org.koin.core.definition.Definition
 import org.koin.core.instance.InstanceFactory

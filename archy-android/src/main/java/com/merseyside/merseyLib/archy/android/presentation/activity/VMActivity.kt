@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
-import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils

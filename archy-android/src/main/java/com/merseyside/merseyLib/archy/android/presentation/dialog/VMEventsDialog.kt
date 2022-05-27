@@ -3,7 +3,7 @@ package com.merseyside.merseyLib.archy.android.presentation.dialog
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.merseyLib.archy.android.presentation.fragment.VMFragment
-import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 
 abstract class VMEventsDialog<B : ViewDataBinding, M, Listener : Any>

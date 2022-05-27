@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.presentation.model
+package com.merseyside.merseyLib.archy.core.presentation.viewModel
 
 import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.kotlin.coroutines.ext.mapState

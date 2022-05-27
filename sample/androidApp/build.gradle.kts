@@ -77,4 +77,8 @@ dependencies {
     } else {
         merseyLibs.forEach { lib -> implementation(lib) }
     }
+
+    implementation(projects.archyCore)
+    implementation(projects.utilsCore)
+    implementation(projects.archyAndroid)
 }
