@@ -29,7 +29,7 @@ import kotlin.reflect.KClass
 abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     : BaseBindingFragment<Binding>() {
 
-    protected lateinit var viewModel: Model
+    lateinit var viewModel: Model
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -90,11 +90,16 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     @CallSuper
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
         loadKoinModules(getKoinModules())
-        viewModel = provideViewModel(bundle, params)
+        viewModel = provideViewModel(bundle, *params)
     }
 
     open fun getKoinModules(): List<Module> {
-        return emptyList<Module>().also { Logger.logInfo("VMFragment", "Empty fragment's koin modules") }
+        return emptyList<Module>().also {
+            Logger.logInfo(
+                "VMFragment",
+                "Empty fragment's koin modules"
+            )
+        }
     }
 
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
