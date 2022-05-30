@@ -12,7 +12,6 @@ import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.kotlin.extensions.log
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.utils.ext.getSerialize
 import com.merseyside.utils.ext.putSerialize
