@@ -66,6 +66,7 @@ val mppModules = listOf(
 )
 
 dependencies {
+    commonMainImplementation(common.kotlin.stdlib)
     commonMainImplementation(common.merseyLib.kotlin.ext)
     androidMainImplementation(androidLibs.merseyLib.utils)
 

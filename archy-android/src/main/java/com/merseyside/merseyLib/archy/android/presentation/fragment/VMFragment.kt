@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.archy.android.presentation.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
@@ -86,6 +87,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         setHasOptionsMenu(false)
     }
 
+    @CallSuper
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
         loadKoinModules(getKoinModules())
         viewModel = provideViewModel(bundle, params)
