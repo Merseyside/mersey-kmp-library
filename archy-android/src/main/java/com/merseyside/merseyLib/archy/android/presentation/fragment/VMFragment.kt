@@ -92,7 +92,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         viewModel = provideViewModel(bundle, *params)
     }
 
-    open fun getKoinModules(): List<Module> {
+    open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
         return emptyList<Module>().also {
             Logger.logInfo(
                 "VMFragment",
