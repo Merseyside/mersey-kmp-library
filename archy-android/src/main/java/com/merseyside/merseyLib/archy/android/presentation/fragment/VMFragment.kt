@@ -13,7 +13,7 @@ import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.state.SavedState
-import com.merseyside.utils.ext.getSerialize
+import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
@@ -88,11 +88,11 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
 
     @CallSuper
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        loadKoinModules(getKoinModules())
+        loadKoinModules(getKoinModules(bundle, params))
         viewModel = provideViewModel(bundle, params)
     }
 
-    open fun getKoinModules(): List<Module> {
+    open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
         return emptyList<Module>().also { Logger.logInfo("VMFragment", "Empty fragment's koin modules") }
     }
 
@@ -126,27 +126,15 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        if (viewModel is StateViewModel) {
+        if (viewModel is StateSaver) {
             val bundle = SavedState()
 
-            (viewModel as StateViewModel).onSaveState(bundle)
+            (viewModel as StateSaver).onSaveState(bundle)
             outState.putSerialize(
                 INSTANCE_STATE_KEY, bundle.getAll(),
                 MapSerializer(String.serializer(), String.serializer())
             )
         }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        val savedState = SavedState().apply {
-            savedInstanceState?.getSerialize(
-                INSTANCE_STATE_KEY, MapSerializer(String.serializer(), String.serializer())
-            )?.let { addAll(it) }
-        }
-        if (viewModel is StateViewModel) {
-            (viewModel as StateViewModel).onRestoreState(savedState)
-        }
-        super.onViewStateRestored(savedInstanceState)
     }
 
     override fun updateLanguage(context: Context) {
