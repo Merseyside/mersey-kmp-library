@@ -9,7 +9,6 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
 import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.state.SavedState
@@ -167,15 +166,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         @StringRes clickButtonText: Int,
         onClick: () -> Unit
     ) {
-        Snackbar.make(
-            requireView(),
-            getString(text),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(
-            getString(clickButtonText)
-        ) {
-            onClick()
-        }.show()
+        showMsg(getString(text), null, getString(clickButtonText), onClick)
     }
 
     protected fun showProgress() {
