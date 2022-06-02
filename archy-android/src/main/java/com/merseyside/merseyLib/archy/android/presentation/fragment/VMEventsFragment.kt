@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.archy.android.presentation.fragment
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
+import com.merseyside.merseyLib.kotlin.extensions.log
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
@@ -20,15 +21,10 @@ abstract class VMEventsFragment<Binding : ViewDataBinding, Model, Listener : Any
     }
 
     override fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return getViewModel(
-            clazz = getViewModelClass(),
-            parameters = {
-                parametersOf(
-                    *params,
-                    bundle,
-                    eventsDispatcherOnMain<EventsDispatcher<Listener>>()
-                )
-            }
+        return super.provideViewModel(
+            bundle,
+            *params,
+            eventsDispatcherOnMain<EventsDispatcher<Listener>>()
         )
     }
 }

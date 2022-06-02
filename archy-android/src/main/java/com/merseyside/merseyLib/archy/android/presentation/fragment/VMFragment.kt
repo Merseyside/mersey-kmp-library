@@ -8,17 +8,13 @@ import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
+import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel
-import com.merseyside.merseyLib.archy.core.presentation.model.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.utils.core.state.SavedState
+import com.merseyside.merseyLib.archy.core.di.state.saveState
 import com.merseyside.merseyLib.utils.core.state.StateSaver
-import com.merseyside.utils.ext.putSerialize
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
@@ -101,12 +97,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
         return getViewModel(
             clazz = getViewModelClass(),
-            parameters = {
-                parametersOf(
-                    *params,
-                    bundle
-                )
-            }
+            parameters = { parametersOf(*params, bundle) }
         )
     }
 
@@ -127,16 +118,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        if (viewModel is StateSaver) {
-            val bundle = SavedState()
-
-            (viewModel as StateSaver).onSaveState(bundle)
-            outState.putSerialize(
-                INSTANCE_STATE_KEY, bundle.getAll(),
-                MapSerializer(String.serializer(), String.serializer())
-            )
-        }
+        (viewModel as? StateSaver)?.saveState(outState, getStateKey(getViewModelClass()))
     }
 
     override fun updateLanguage(context: Context) {
