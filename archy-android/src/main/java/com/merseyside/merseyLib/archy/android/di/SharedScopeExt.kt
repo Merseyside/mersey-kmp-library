@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.archy.android.di
 
 import androidx.fragment.app.Fragment
-import com.merseyside.merseyLib.archy.core.presentation.di.SharedScopeHolder
+import com.merseyside.merseyLib.archy.core.di.SharedScopeHolder
 import org.koin.core.scope.ScopeID
 
 fun Fragment.findParentSharedScopeHolder(scopeID: ScopeID? = null): SharedScopeHolder? {
