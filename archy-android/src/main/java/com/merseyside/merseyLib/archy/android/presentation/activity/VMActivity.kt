@@ -2,53 +2,29 @@ package com.merseyside.merseyLib.archy.android.presentation.activity
 
 import android.content.Context
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
 import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.di.state.saveState
+import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
-import com.merseyside.utils.requestPermissions
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
     : BaseBindingActivity<Binding>() {
 
-    protected abstract val viewModel: Model
-
-    private val messageObserver = { message: BaseViewModel.TextMessage? ->
-        if (message != null) {
-            if (message.isError) {
-                showErrorMsg(message)
-            } else {
-                showMsg(message)
-            }
-        }
-    }
-
-    private val loadingObserver = { isLoading: Boolean -> this.loadingObserver(isLoading) }
-    private val alertDialogModel = { model: BaseViewModel.AlertDialogModel? ->
-        model?.apply {
-            showAlertDialog(title, message, positiveButtonText, negativeButtonText, onPositiveClick, onNegativeClick, isCancelable)
-        }
-
-        Unit
-    }
-
-    private val permissionObserver = { pair: Pair<Array<String>, Int>? ->
-        if (pair != null) {
-            requestPermissions(*pair.first, requestCode = pair.second)
-        }
-    }
+    protected lateinit var viewModel: Model
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBindingVariable()
-
-        //viewModel.updateLanguage(this)
-
-        observeViewModel()
     }
 
     abstract fun getBindingVariable(): Int
@@ -60,22 +36,32 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
         }
     }
 
+    protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
+        return getViewModel(
+            clazz = getViewModelClass(),
+            parameters = { parametersOf(bundle, *params) }
+        )
+    }
+
+    @CallSuper
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+        loadKoinModules(getKoinModules(bundle, *params))
+        viewModel = provideViewModel(bundle, *params)
+    }
+
+    open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
+        return emptyList<Module>().also {
+            Logger.logInfo("VMFragment", "Empty fragment's koin modules")
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         (viewModel as? StateSaver)?.saveState(outState, getStateKey(getViewModelClass()))
     }
 
-    private fun observeViewModel() {
-        viewModel.apply {
-            messageLiveEvent.ld().observe(this@VMActivity, messageObserver)
-            isInProgress.ld().observe(this@VMActivity, loadingObserver)
-            alertDialogLiveEvent.ld().observe(this@VMActivity, alertDialogModel)
-            grantPermissionLiveEvent.ld().observe(this@VMActivity, permissionObserver)
-        }
-    }
-
-    override fun handleError(throwable: Throwable) {
-        viewModel.onError(throwable)
+    override fun handleError(throwable: Throwable): Boolean {
+        return viewModel.onError(throwable)
     }
 
     override fun updateLanguage(context: Context) {
@@ -84,22 +70,7 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
 
     protected abstract fun loadingObserver(isLoading: Boolean)
 
-    private fun showErrorMsg(textMessage: BaseViewModel.TextMessage) {
-        if (textMessage.actionMsg.isNullOrEmpty()) {
-            showErrorMsg(textMessage.msg)
-        } else {
-            showErrorMsg(textMessage.msg, null, textMessage.actionMsg!!, textMessage.onClick)
-        }
-    }
-
-    private fun showMsg(textMessage: BaseViewModel.TextMessage) {
-        if (textMessage.actionMsg.isNullOrEmpty()) {
-            showMsg(textMessage.msg)
-        } else {
-            showMsg(textMessage.msg, null, textMessage.actionMsg!!, textMessage.onClick)
-        }
-    }
-
+    @Suppress("UNCHECKED_CAST")
     protected fun getViewModelClass(): KClass<Model> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,

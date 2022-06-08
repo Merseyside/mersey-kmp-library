@@ -8,7 +8,7 @@ import com.merseyside.merseyLib.utils.core.ext.getStringNull
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.resources.StringResource
 
-abstract class EventsViewModel : NewBaseViewModel() {
+abstract class EventsViewModel : BaseViewModel() {
 
     abstract val eventsDispatcher: EventsDispatcher<out BaseEventsListener>
 

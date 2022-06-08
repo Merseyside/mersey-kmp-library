@@ -2,36 +2,23 @@ package com.merseyside.merseyLib.archy.android.presentation.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
+import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.extensions.isNotNullAndEmpty
 import com.merseyside.utils.reflection.ReflectionUtils
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
-abstract class VMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
+abstract class VMDialog<Binding : ViewDataBinding, Model : BaseViewModel>
+    : BaseBindingDialog<Binding>() {
 
-    protected lateinit var viewModel: M
-
-    private val errorObserver = { throwable: Throwable? ->
-        throwable?.let {
-            this.handleError(it)
-        }
-        Unit
-    }
-
-    private val messageObserver = { message: BaseViewModel.TextMessage? ->
-        message?.let {
-            if (it.isError) {
-                showErrorMsg(it)
-            } else {
-                showMsg(it)
-            }
-        }
-        Unit
-    }
+    protected lateinit var viewModel: Model
 
     abstract fun getBindingVariable(): Int
 
@@ -50,40 +37,51 @@ abstract class VMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDia
         return dialog
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewModel.apply {
-            errorLiveEvent.ld().observe(this@VMDialog, errorObserver)
-            messageLiveEvent.ld().observe(this@VMDialog, messageObserver)
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+        loadKoinModules(getKoinModules())
+        viewModel = provideViewModel(bundle, params)
     }
 
-    private fun showMsg(textMessage: BaseViewModel.TextMessage) {
-        if (textMessage.actionMsg.isNullOrEmpty()) {
-            showMsg(textMessage.msg)
-        } else {
-            showMsg(textMessage.msg, null, textMessage.actionMsg, textMessage.onClick)
+    open fun getKoinModules(): List<Module> {
+        return emptyList<Module>().also {
+            Logger.logInfo("VMFragment", "Empty fragment's koin modules")
         }
     }
 
-    private fun showErrorMsg(textMessage: BaseViewModel.TextMessage) {
-        if (textMessage.actionMsg.isNullOrEmpty()) {
-            showErrorMsg(textMessage.msg)
-        } else {
-            showErrorMsg(textMessage.msg, null, textMessage.actionMsg, textMessage.onClick)
+    protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
+        return getViewModel(
+            clazz = getViewModelClass(),
+            parameters = { parametersOf(bundle, *params) }
+        )
+    }
+
+    private fun showErrorMsg(textMessage: TextMessage) {
+        with(textMessage) {
+            if (actionMsg.isNotNullAndEmpty()) {
+                showErrorMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
+            } else {
+                showErrorMsg(textMessage.msg)
+            }
         }
     }
 
-    protected open fun getPersistentClass(): KClass<M> {
+    private fun showMsg(textMessage: TextMessage) {
+        with(textMessage) {
+            if (actionMsg.isNotNullAndEmpty()) {
+                showMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
+            } else {
+                showMsg(textMessage.msg)
+            }
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    protected open fun getViewModelClass(): KClass<Model> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
             VMDialog::class.java,
             1
-        ).kotlin as KClass<M>
+        ).kotlin as KClass<Model>
     }
 
 }
