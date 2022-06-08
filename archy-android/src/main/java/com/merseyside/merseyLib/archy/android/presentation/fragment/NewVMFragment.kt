@@ -9,8 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.NewBaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.utils.ext.getSerialize

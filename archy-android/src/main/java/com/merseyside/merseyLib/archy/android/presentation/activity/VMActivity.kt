@@ -4,21 +4,18 @@ import android.content.Context
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
+import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
-import com.merseyside.merseyLib.utils.core.state.SavedState
-import com.merseyside.utils.ext.putSerialize
+import com.merseyside.merseyLib.archy.core.di.state.saveState
+import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
 import kotlin.reflect.KClass
 
-abstract class VMActivity<B : ViewDataBinding, M : BaseViewModel>
-    : BaseBindingActivity<B>() {
+abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
+    : BaseBindingActivity<Binding>() {
 
-    protected abstract val viewModel: M
+    protected abstract val viewModel: Model
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -65,17 +62,7 @@ abstract class VMActivity<B : ViewDataBinding, M : BaseViewModel>
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        if (viewModel is StateViewModel) {
-            val savedState = SavedState()
-
-            (viewModel as StateViewModel).onSaveState(savedState)
-            outState.putSerialize(
-                INSTANCE_STATE_KEY,
-                savedState.getAll(),
-                MapSerializer(String.serializer(), String.serializer())
-            )
-        }
+        (viewModel as? StateSaver)?.saveState(outState, getStateKey(getViewModelClass()))
     }
 
     private fun observeViewModel() {
@@ -113,11 +100,11 @@ abstract class VMActivity<B : ViewDataBinding, M : BaseViewModel>
         }
     }
 
-    protected fun getViewModelClass(): KClass<M> {
+    protected fun getViewModelClass(): KClass<Model> {
         return ReflectionUtils.getGenericParameterClass(
             this.javaClass,
             VMActivity::class.java,
             1
-        ).kotlin as KClass<M>
+        ).kotlin as KClass<Model>
     }
 }

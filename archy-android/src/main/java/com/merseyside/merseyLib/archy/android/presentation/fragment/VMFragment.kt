@@ -3,21 +3,18 @@ package com.merseyside.merseyLib.archy.android.presentation.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
+import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.StateViewModel.Companion.INSTANCE_STATE_KEY
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.utils.core.state.SavedState
-import com.merseyside.utils.ext.getSerialize
-import com.merseyside.utils.ext.putSerialize
+import com.merseyside.merseyLib.archy.core.di.state.saveState
+import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
 import com.merseyside.utils.requestPermissions
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
@@ -27,7 +24,7 @@ import kotlin.reflect.KClass
 abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     : BaseBindingFragment<Binding>() {
 
-    protected lateinit var viewModel: Model
+    lateinit var viewModel: Model
 
     private val messageObserver = { message: BaseViewModel.TextMessage? ->
         if (message != null) {
@@ -85,24 +82,22 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         setHasOptionsMenu(false)
     }
 
+    @CallSuper
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        loadKoinModules(getKoinModules())
-        viewModel = provideViewModel(bundle, params)
+        loadKoinModules(getKoinModules(bundle, params))
+        viewModel = provideViewModel(bundle, *params)
     }
 
-    open fun getKoinModules(): List<Module> {
-        return emptyList<Module>().also { Logger.logInfo("VMFragment", "Empty fragment's koin modules") }
+    open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
+        return emptyList<Module>().also {
+            Logger.logInfo("VMFragment", "Empty fragment's koin modules")
+        }
     }
 
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
         return getViewModel(
             clazz = getViewModelClass(),
-            parameters = {
-                parametersOf(
-                    *params,
-                    bundle
-                )
-            }
+            parameters = { parametersOf(*params, bundle) }
         )
     }
 
@@ -123,28 +118,7 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        if (viewModel is StateViewModel) {
-            val bundle = SavedState()
-
-            (viewModel as StateViewModel).onSaveState(bundle)
-            outState.putSerialize(
-                INSTANCE_STATE_KEY, bundle.getAll(),
-                MapSerializer(String.serializer(), String.serializer())
-            )
-        }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        val savedState = SavedState().apply {
-            savedInstanceState?.getSerialize(
-                INSTANCE_STATE_KEY, MapSerializer(String.serializer(), String.serializer())
-            )?.let { addAll(it) }
-        }
-        if (viewModel is StateViewModel) {
-            (viewModel as StateViewModel).onRestoreState(savedState)
-        }
-        super.onViewStateRestored(savedInstanceState)
+        (viewModel as? StateSaver)?.saveState(outState, getStateKey(getViewModelClass()))
     }
 
     override fun updateLanguage(context: Context) {

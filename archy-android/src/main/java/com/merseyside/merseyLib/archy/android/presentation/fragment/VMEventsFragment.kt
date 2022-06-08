@@ -6,8 +6,6 @@ import com.merseyside.merseyLib.archy.core.presentation.viewModel.EventsViewMode
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
 abstract class VMEventsFragment<Binding : ViewDataBinding, Model, Listener> :
     NewVMFragment<Binding, Model>(), EventsViewModel.BaseEventsListener
@@ -26,19 +24,10 @@ abstract class VMEventsFragment<Binding : ViewDataBinding, Model, Listener> :
     }
 
     override fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return getViewModel(
-            clazz = getViewModelClass(),
-            parameters = {
-                parametersOf(
-                    *params,
-                    bundle,
-                    eventsDispatcherOnMain<EventsDispatcher<Listener>>()
-                )
-            }
+        return super.provideViewModel(
+            bundle,
+            *params,
+            eventsDispatcherOnMain<EventsDispatcher<Listener>>()
         )
-    }
-
-    override fun onError() {
-        showMsg("Error")
     }
 }

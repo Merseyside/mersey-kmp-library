@@ -6,6 +6,7 @@ import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
 import com.merseyside.merseyLib.utils.core.mvvm.MutableSingleEvent
 import dev.icerock.moko.mvvm.livedata.LiveData
+import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
     internal val scope: CoroutineScope
         get() { return viewModelScope }
 
-    private val mutProgress = MutableSingleEvent(false)
+    private val mutProgress = MutableLiveData(false)
     val isInProgress: LiveData<Boolean> = mutProgress
 
     protected var progress: Boolean
