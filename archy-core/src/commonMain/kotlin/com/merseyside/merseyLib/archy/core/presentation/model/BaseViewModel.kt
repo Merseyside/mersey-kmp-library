@@ -18,7 +18,9 @@ import kotlinx.coroutines.flow.stateIn
 abstract class BaseViewModel protected constructor() : ViewModel() {
 
     internal val scope: CoroutineScope
-        get() { return viewModelScope }
+        get() {
+            return viewModelScope
+        }
 
     private val mutProgress = MutableLiveData(false)
     val isInProgress: LiveData<Boolean> = mutProgress
@@ -204,10 +206,6 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         return true
     }
 
-
-
-
-
     fun <T, K> StateFlow<T>.mapState(
         transform: (data: T) -> K
     ): StateFlow<K> {
@@ -234,8 +232,8 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         scope: CoroutineScope = viewModelScope,
         sharingStarted: SharingStarted = SharingStarted.Eagerly,
         transform: (T1, T2) -> R
-    ): StateFlow<R> = combine(flow1, flow2) {
-            o1, o2 -> transform.invoke(o1, o2)
+    ): StateFlow<R> = combine(flow1, flow2) { o1, o2 ->
+        transform.invoke(o1, o2)
     }.stateIn(scope, sharingStarted, transform.invoke(flow1.value, flow2.value))
 
     fun <T1, T2, T3, R> combineState(
@@ -245,8 +243,8 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         scope: CoroutineScope = viewModelScope,
         sharingStarted: SharingStarted = SharingStarted.Eagerly,
         transform: (T1, T2, T3) -> R
-    ): StateFlow<R> = combine(flow1, flow2, flow3) {
-            o1, o2, o3 -> transform.invoke(o1, o2, o3)
+    ): StateFlow<R> = combine(flow1, flow2, flow3) { o1, o2, o3 ->
+        transform.invoke(o1, o2, o3)
     }.stateIn(scope, sharingStarted, transform.invoke(flow1.value, flow2.value, flow3.value))
 
     fun <T1, T2, T3, T4, R> combineState(
@@ -257,7 +255,11 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         scope: CoroutineScope = viewModelScope,
         sharingStarted: SharingStarted = SharingStarted.Eagerly,
         transform: (T1, T2, T3, T4) -> R
-    ): StateFlow<R> = combine(flow1, flow2, flow3, flow4) {
-            o1, o2, o3, o4 -> transform.invoke(o1, o2, o3, o4)
-    }.stateIn(scope, sharingStarted, transform.invoke(flow1.value, flow2.value, flow3.value, flow4.value))
+    ): StateFlow<R> = combine(flow1, flow2, flow3, flow4) { o1, o2, o3, o4 ->
+        transform.invoke(o1, o2, o3, o4)
+    }.stateIn(
+        scope,
+        sharingStarted,
+        transform.invoke(flow1.value, flow2.value, flow3.value, flow4.value)
+    )
 }
