@@ -9,6 +9,8 @@ import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
 import com.merseyside.merseyLib.archy.core.presentation.model.BaseViewModel
 import com.merseyside.utils.reflection.ReflectionUtils
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class VMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDialog<B>() {
@@ -39,6 +41,17 @@ abstract class VMDialog<B : ViewDataBinding, M : BaseViewModel> : BaseBindingDia
         performInjection(onSavedInstanceState)
         super.onCreate(onSavedInstanceState)
         setHasOptionsMenu(false)
+    }
+
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+        viewModel = provideViewModel(bundle, *params)
+    }
+
+    protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): M {
+        return getViewModel(
+            clazz = getPersistentClass(),
+            parameters = { parametersOf(*params, bundle) }
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
