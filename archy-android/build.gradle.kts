@@ -12,6 +12,7 @@ plugins {
 }
 
 android {
+    namespace = "com.merseyside.merseyLib.archy.android"
     compileSdk = Application.compileSdk
 
     defaultConfig {

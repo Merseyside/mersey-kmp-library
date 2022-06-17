@@ -14,6 +14,7 @@ plugins {
 }
 
 android {
+    namespace = "com.merseyside.merseyLib.utils.core"
     compileSdk = Application.compileSdk
 
     defaultConfig {
