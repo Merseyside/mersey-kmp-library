@@ -13,18 +13,9 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
     private val test by inject<NotificationTest>()
 
-    override fun getFragmentContainer(): Int? {
-        return null
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
-
-    override fun getToolbar(): Toolbar? {
-        return null
-    }
-
+    override fun getFragmentContainer() = null
+    override fun getLayoutId() = R.layout.activity_main
+    override fun getToolbar() = null
     override fun performInjection(bundle: Bundle?, vararg params: Any) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {

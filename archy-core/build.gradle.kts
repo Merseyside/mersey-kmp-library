@@ -14,6 +14,7 @@ plugins {
 }
 
 android {
+    namespace = "com.merseyside.merseyLib.archy.core"
     compileSdk = Application.compileSdk
 
     defaultConfig {
@@ -66,6 +67,7 @@ val mppModules = listOf(
 )
 
 dependencies {
+    commonMainImplementation(common.kotlin.stdlib)
     commonMainImplementation(common.merseyLib.kotlin.ext)
     androidMainImplementation(androidLibs.merseyLib.utils)
 
