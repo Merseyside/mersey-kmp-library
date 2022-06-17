@@ -38,11 +38,11 @@ abstract class VMDialog<Binding : ViewDataBinding, Model : BaseViewModel>
     }
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        loadKoinModules(getKoinModules())
+        loadKoinModules(getKoinModules(bundle, *params))
         viewModel = provideViewModel(bundle, params)
     }
 
-    open fun getKoinModules(): List<Module> {
+    open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
         return emptyList<Module>().also {
             Logger.logInfo("VMFragment", "Empty fragment's koin modules")
         }
