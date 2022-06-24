@@ -9,6 +9,7 @@ import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.di.state.saveState
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.extensions.log
 import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -38,11 +39,11 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
         loadKoinModules(getKoinModules(bundle, *params))
-        viewModel = provideViewModel(bundle, params)
+        viewModel = provideViewModel(bundle, *params)
     }
 
     open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
-        return emptyList<Module>().also { Logger.logInfo("VMFragment", "Empty fragment's koin modules") }
+        return emptyList<Module>().also { Logger.logInfo("$this", "Empty fragment's koin modules") }
     }
 
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
