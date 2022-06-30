@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'utils_core'
-    spec.version                  = '1.5.0'
+    spec.version                  = '1.5.1'
     spec.homepage                 = 'https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 fi
                 set -ev
                 REPO_ROOT="$PODS_TARGET_SRCROOT"
-                "$REPO_ROOT/../../gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
+                "$REPO_ROOT/../gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
                     -Pkotlin.native.cocoapods.configuration="$CONFIGURATION"

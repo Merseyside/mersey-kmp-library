@@ -26,6 +26,7 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
 
 
     fun showProgress(text: String? = null) {
+        viewModelScope
         mutProgressText.value = text
         progress = true
     }
@@ -62,6 +63,14 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
             initialValue = initialValue,
             transform = transform
         )
+    }
+
+    fun <T, R> Flow<T>.mapState(
+        initialValue: R,
+        started: SharingStarted = SharingStarted.Eagerly,
+        transform: suspend (data: T) -> R
+    ): StateFlow<R> {
+        return map(transform).stateIn(viewModelScope, started, initialValue)
     }
 
     fun <T1, T2, R> combineState(
