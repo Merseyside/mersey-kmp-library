@@ -44,7 +44,7 @@ kotlin {
             summary = "A Kotlin multiplatform mobile library with useful utils"
             homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
 
-            version = multiplatformLibs.versions.kmmLibrary.get()
+            version = multiplatformLibs.versions.mersey.kmm.get()
         }
 
         // https://github.com/tonymillion/Reachability
@@ -64,7 +64,7 @@ kotlinConvention {
 }
 
 val mppLibs = listOf(
-    common.merseyLib.time,
+    common.mersey.time,
     multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
@@ -78,14 +78,14 @@ val android = listOf(
 )
 
 val merseyLibs = listOf(
-    androidLibs.merseyLib.utils
+    androidLibs.mersey.utils
 )
 
 dependencies {
     if (isLocalKotlinExtLibrary()) {
         commonMainApi(project(Modules.MultiPlatform.MerseyLibs.kotlinExt))
     } else {
-        commonMainApi(common.merseyLib.kotlin.ext)
+        commonMainApi(common.mersey.kotlin.ext)
     }
     commonMainApi(multiplatformLibs.bundles.moko.mvvm)
     mppLibs.forEach { commonMainImplementation(it) }

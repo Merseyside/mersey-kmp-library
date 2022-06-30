@@ -8,7 +8,7 @@ plugins {
         plugin(kotlin.kapt)
         plugin(android.navigation.args)
     }
-    `maven-publish-config`
+    `android-maven-publish-config`
 }
 
 android {
@@ -48,8 +48,8 @@ val merseyModules = listOf(
 )
 
 val merseyLibs = listOf(
-    androidLibs.merseyLib.archy,
-    androidLibs.merseyLib.utils
+    androidLibs.mersey.archy,
+    androidLibs.mersey.utils
 )
 
 dependencies {
@@ -64,12 +64,4 @@ dependencies {
 
     androidLibraries.forEach { lib -> implementation(lib) }
     implementation(androidLibs.bundles.navigation)
-}
-
-afterEvaluate {
-    publishing.publications {
-        create("release", MavenPublication::class.java) {
-            from(components.getByName("release"))
-        }
-    }
 }

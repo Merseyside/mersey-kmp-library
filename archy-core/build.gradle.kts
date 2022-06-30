@@ -68,8 +68,8 @@ val mppModules = listOf(
 
 dependencies {
     commonMainImplementation(common.kotlin.stdlib)
-    commonMainImplementation(common.merseyLib.kotlin.ext)
-    androidMainImplementation(androidLibs.merseyLib.utils)
+    commonMainImplementation(common.mersey.kotlin.ext)
+    androidMainImplementation(androidLibs.mersey.utils)
 
     mppModules.forEach { module -> commonMainApi(module) }
     mppLibs.forEach { commonMainApi(it) }

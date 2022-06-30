@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'mpp_library'
-    spec.version                  = '1.5.0'
+    spec.version                  = '1.5.1'
     spec.homepage                 = 'https://github.com/Merseyside/mersey-kmp-library'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''

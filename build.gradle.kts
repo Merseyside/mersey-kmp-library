@@ -9,14 +9,8 @@ plugins {
 }
 
 allprojects {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-
-        google()
-
-        maven("https://jitpack.io")
-    }
+    group = "io.github.merseyside"
+    version = "1.5.1"
 }
 
 tasks.register("clean", Delete::class).configure {
