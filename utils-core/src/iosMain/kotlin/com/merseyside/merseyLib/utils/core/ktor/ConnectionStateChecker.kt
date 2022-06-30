@@ -1,7 +1,7 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
 import cocoapods.Reachability.Reachability
-import com.merseyside.merseyLib.kotlin.coroutines.uiDispatcher
+import com.merseyside.merseyLib.kotlin.coroutines.utils.uiDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

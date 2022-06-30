@@ -18,8 +18,8 @@ android {
 
         applicationId = Application.applicationId
 
-        versionCode = Application.versionCode
-        versionName = Application.version
+        versionCode = 1
+        versionName = "0.1.0"
     }
 
     buildFeatures.dataBinding = true
@@ -59,8 +59,8 @@ val android = listOf(
 )
 
 val merseyLibs = listOf(
-    androidLibs.merseyLib.archy,
-    androidLibs.merseyLib.utils
+    androidLibs.mersey.archy,
+    androidLibs.mersey.utils
 )
 
 val merseyModules = listOf(

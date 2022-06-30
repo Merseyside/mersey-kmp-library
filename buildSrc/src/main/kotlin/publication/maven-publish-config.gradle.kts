@@ -1,19 +1,17 @@
 import java.util.Base64
 
 plugins {
+    id("javadoc-stub-convention")
     `maven-publish`
     signing
 }
 
-group = Metadata.groupId
-version = Metadata.version
-
 publishing {
     publications.withType<MavenPublication>().all {
         pom {
-            name.set("Mersey Gradle Catalog")
-            description.set("Version Catalog from Gradle 7.0")
-            url.set("https://github.com/Merseyside/mersey-version_catalog")
+            name.set("Mersey kotlin multiplatform library")
+            description.set("Library contains useful tools for kotlin multiplatform development")
+            url.set("https://github.com/Merseyside/mersey-kmp-library")
 
             licenses {
                 license {
@@ -29,7 +27,7 @@ publishing {
                 }
             }
             scm {
-                url.set("https://github.com/Merseyside/mersey-version-catalog")
+                url.set("https://github.com/Merseyside/mersey-kmp-library")
             }
         }
     }

@@ -34,7 +34,7 @@ val multiplatform = listOf(
 
 
 dependencies {
-    commonMainApi(common.merseyLib.kotlin.ext)
+    commonMainApi(common.mersey.kotlin.ext)
     commonMainImplementation(projects.archyCore)
     commonMainImplementation(projects.utilsCore)
 
@@ -69,10 +69,10 @@ kotlin {
             summary = "KMM Mersey library"
             homepage = "https://github.com/Merseyside/mersey-kmp-library"
             baseName = "MultiPlatformLibrary"
-            version = multiplatformLibs.versions.kmmLibrary.get()
+            version = multiplatformLibs.versions.mersey.kmm.get()
             podfile = project.file("../ios-app/Podfile")
 
-            export(common.merseyLib.kotlin.ext)
+            export(common.mersey.kotlin.ext)
             merseyModules.forEach { module ->
                 export(project(module))
             }
