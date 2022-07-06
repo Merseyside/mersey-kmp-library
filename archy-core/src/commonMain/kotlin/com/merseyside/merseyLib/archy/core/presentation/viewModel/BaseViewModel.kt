@@ -42,9 +42,6 @@ abstract class BaseViewModel protected constructor() : ViewModel() {
         return true
     }
 
-
-
-
     fun <T, K> StateFlow<T>.mapState(
         transform: (data: T) -> K
     ): StateFlow<K> {
