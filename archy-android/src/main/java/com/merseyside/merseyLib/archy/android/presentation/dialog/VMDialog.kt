@@ -4,10 +4,10 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.dialog.BaseBindingDialog
+import com.merseyside.merseyLib.archy.android.presentation.extensions.getString
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.kotlin.extensions.isNotNullAndEmpty
 import com.merseyside.utils.reflection.ReflectionUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
@@ -57,20 +57,30 @@ abstract class VMDialog<Binding : ViewDataBinding, Model : BaseViewModel>
 
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showErrorMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showErrorMsg(textMessage.msg)
+            actionMsg?.let {
+                showErrorMsg(
+                    msg.getString(this@VMDialog.requireContext()),
+                    null,
+                    it.getString(this@VMDialog.requireContext()),
+                    onClick
+                )
+            } ?: run {
+                showErrorMsg(msg.getString(this@VMDialog.requireContext()))
             }
         }
     }
 
     private fun showMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showMsg(textMessage.msg)
+            actionMsg?.let {
+                showMsg(
+                    msg.getString(this@VMDialog.requireContext()),
+                    null,
+                    it.getString(this@VMDialog.requireContext()),
+                    onClick
+                )
+            } ?: run {
+                showMsg(msg.getString(this@VMDialog.requireContext()))
             }
         }
     }

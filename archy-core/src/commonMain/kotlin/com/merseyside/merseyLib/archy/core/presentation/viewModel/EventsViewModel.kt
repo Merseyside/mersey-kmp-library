@@ -2,11 +2,12 @@ package com.merseyside.merseyLib.archy.core.presentation.viewModel
 
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
+import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextValue
 import com.merseyside.merseyLib.kotlin.Logger
-import com.merseyside.merseyLib.utils.core.ext.getString
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.resources.StringResource
+import dev.icerock.moko.resources.desc.StringDesc
 
 abstract class EventsViewModel : BaseViewModel() {
 
@@ -19,19 +20,25 @@ abstract class EventsViewModel : BaseViewModel() {
         return true
     }
 
-    protected fun showMsg(id: StringResource, vararg args: String) {
-        showMsg(getString(id, *args))
+    protected fun showMsg(msg: StringDesc) {
+        TextMessage(
+            isError = false,
+            msg = TextValue(msg)
+        ).also { showMessage(it) }
     }
 
-    protected fun showErrorMsg(id: StringResource, vararg args: String) {
-        showErrorMsg(getString(id, *args))
+    protected fun showErrorMsg(msg: StringDesc) {
+        TextMessage(
+            isError = false,
+            msg = TextValue(msg)
+        ).also { showMessage(it) }
     }
 
     protected fun showMsg(msg: String) {
         Logger.log(this, msg)
         TextMessage(
             isError = false,
-            msg = msg
+            msg = TextValue(msg)
         ).also { showMessage(it) }
     }
 
@@ -39,7 +46,7 @@ abstract class EventsViewModel : BaseViewModel() {
         Logger.logErr(this, msg)
         TextMessage(
             isError = true,
-            msg = msg
+            msg = TextValue(msg)
         ).also { showMessage(it) }
     }
 
@@ -47,8 +54,8 @@ abstract class EventsViewModel : BaseViewModel() {
         Logger.log(this, msg)
         TextMessage(
             isError = false,
-            msg = msg,
-            actionMsg = actionMsg,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
             onClick = onClick
         ).also { showMessage(it) }
     }
@@ -57,8 +64,38 @@ abstract class EventsViewModel : BaseViewModel() {
         Logger.logErr(this, msg)
         TextMessage(
             isError = true,
-            msg = msg,
-            actionMsg = actionMsg,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
+            onClick = onClick
+        ).also { showMessage(it) }
+    }
+
+    protected fun showMsg(msg: StringDesc, actionMsg: StringDesc, onClick: () -> Unit = {}) {
+        Logger.log(this, msg)
+        TextMessage(
+            isError = false,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
+            onClick = onClick
+        ).also { showMessage(it) }
+    }
+
+    protected fun showErrorMsg(msg: StringDesc, actionMsg: String, onClick: () -> Unit = {}) {
+        Logger.logErr(this, msg)
+        TextMessage(
+            isError = true,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
+            onClick = onClick
+        ).also { showMessage(it) }
+    }
+
+    protected fun showErrorMsg(msg: String, actionMsg: StringDesc, onClick: () -> Unit = {}) {
+        Logger.logErr(this, msg)
+        TextMessage(
+            isError = true,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
             onClick = onClick
         ).also { showMessage(it) }
     }

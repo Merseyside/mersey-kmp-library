@@ -2,6 +2,7 @@ package com.merseyside.merseyLib.archy.android.presentation.dialog
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
+import com.merseyside.merseyLib.archy.android.presentation.extensions.getString
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.EventsViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
@@ -59,20 +60,30 @@ abstract class VMEventsDialog<Binding : ViewDataBinding, Model, Listener> :
 
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showErrorMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showErrorMsg(textMessage.msg)
+            actionMsg?.let {
+                showErrorMsg(
+                    msg.getString(this@VMEventsDialog.requireContext()),
+                    null,
+                    it.getString(this@VMEventsDialog.requireContext()),
+                    onClick
+                )
+            } ?: run {
+                showErrorMsg(msg.getString(this@VMEventsDialog.requireContext()))
             }
         }
     }
 
     private fun showMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showMsg(textMessage.msg)
+            actionMsg?.let {
+                showMsg(
+                    msg.getString(this@VMEventsDialog.requireContext()),
+                    null,
+                    it.getString(this@VMEventsDialog.requireContext()),
+                    onClick
+                )
+            } ?: run {
+                showMsg(msg.getString(this@VMEventsDialog.requireContext()))
             }
         }
     }
