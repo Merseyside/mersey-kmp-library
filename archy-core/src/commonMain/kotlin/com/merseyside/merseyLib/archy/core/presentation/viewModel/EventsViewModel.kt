@@ -111,10 +111,10 @@ abstract class EventsViewModel : BaseViewModel() {
         isCancelable: Boolean? = null
     ) {
         Alert(
-            title,
-            message,
-            positiveButtonText,
-            negativeButtonText,
+            title?.let { TextValue(it) },
+            message?.let { TextValue(it) },
+            positiveButtonText?.let { TextValue(it) },
+            negativeButtonText?.let { TextValue(it) },
             onPositiveClick,
             onNegativeClick,
             isSingleAction,
@@ -123,25 +123,25 @@ abstract class EventsViewModel : BaseViewModel() {
     }
 
     fun showAlertDialog(
-        titleRes: StringResource? = null,
-        messageRes: StringResource? = null,
-        positiveButtonTextRes: StringResource? = null,
-        negativeButtonTextRes: StringResource? = null,
+        title: StringDesc? = null,
+        message: StringDesc? = null,
+        positiveButtonText: StringDesc? = null,
+        negativeButtonText: StringDesc? = null,
         onPositiveClick: () -> Unit = {},
         onNegativeClick: () -> Unit = {},
         isSingleAction: Boolean? = null,
         isCancelable: Boolean? = null
     ) {
-        showAlert(
-            getStringNull(titleRes),
-            getStringNull(messageRes),
-            getStringNull(positiveButtonTextRes),
-            getStringNull(negativeButtonTextRes),
+        Alert(
+            title?.let { TextValue(it) },
+            message?.let { TextValue(it) },
+            positiveButtonText?.let { TextValue(it) },
+            negativeButtonText?.let { TextValue(it) },
             onPositiveClick,
             onNegativeClick,
             isSingleAction,
             isCancelable
-        )
+        ).also { showAlert(it) }
     }
 
     protected fun showMessage(message: TextMessage) {

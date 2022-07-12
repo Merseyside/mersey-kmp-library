@@ -36,10 +36,10 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
     override fun onAlert(alert: Alert) {
         with(alert) {
             showAlertDialog(
-                title,
-                message,
-                positiveButtonText,
-                negativeButtonText,
+                title?.getString(this@VMEventsActivity),
+                message?.getString(this@VMEventsActivity),
+                positiveButtonText?.getString(this@VMEventsActivity),
+                negativeButtonText?.getString(this@VMEventsActivity),
                 onPositiveClick,
                 onNegativeClick,
                 isSingleAction,

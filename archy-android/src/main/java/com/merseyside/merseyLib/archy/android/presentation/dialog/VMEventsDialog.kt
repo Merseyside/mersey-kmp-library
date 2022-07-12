@@ -34,10 +34,10 @@ abstract class VMEventsDialog<Binding : ViewDataBinding, Model, Listener> :
     override fun onAlert(alert: Alert) {
         with(alert) {
             showAlertDialog(
-                title,
-                message,
-                positiveButtonText,
-                negativeButtonText,
+                title?.getString(requireContext()),
+                message?.getString(requireContext()),
+                positiveButtonText?.getString(requireContext()),
+                negativeButtonText?.getString(requireContext()),
                 onPositiveClick,
                 onNegativeClick,
                 isSingleAction,
