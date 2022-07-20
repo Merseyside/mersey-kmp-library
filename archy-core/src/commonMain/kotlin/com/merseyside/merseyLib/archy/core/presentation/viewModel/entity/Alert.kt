@@ -1,10 +1,10 @@
 package com.merseyside.merseyLib.archy.core.presentation.viewModel.entity
 
 data class Alert(
-    val title: String? = null,
-    val message: String? = null,
-    val positiveButtonText: String? = null,
-    val negativeButtonText: String? = null,
+    val title: TextValue? = null,
+    val message: TextValue? = null,
+    val positiveButtonText: TextValue? = null,
+    val negativeButtonText: TextValue? = null,
     val onPositiveClick: () -> Unit = {},
     val onNegativeClick: () -> Unit = {},
     val isSingleAction: Boolean? = null,
