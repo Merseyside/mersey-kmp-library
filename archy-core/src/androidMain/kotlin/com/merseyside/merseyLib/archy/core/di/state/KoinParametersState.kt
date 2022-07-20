@@ -1,7 +1,6 @@
 package com.merseyside.merseyLib.archy.core.di.state
 
 import android.os.Bundle
-import com.merseyside.merseyLib.kotlin.logger.log
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import org.koin.core.parameter.ParametersHolder
 
