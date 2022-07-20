@@ -8,7 +8,7 @@ import com.merseyside.archy.presentation.activity.BaseBindingActivity
 import com.merseyside.merseyLib.archy.core.di.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.di.state.saveState
-import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModel
