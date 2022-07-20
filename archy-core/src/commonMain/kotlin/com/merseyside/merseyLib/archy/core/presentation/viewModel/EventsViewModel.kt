@@ -3,7 +3,7 @@ package com.merseyside.merseyLib.archy.core.presentation.viewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextValue
-import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.utils.core.ext.getStringNull
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.resources.StringResource

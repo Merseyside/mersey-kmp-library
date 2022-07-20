@@ -7,7 +7,7 @@ import com.merseyside.archy.presentation.dialog.BaseBindingDialog
 import com.merseyside.merseyLib.archy.android.presentation.extensions.getString
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
-import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.utils.reflection.ReflectionUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
