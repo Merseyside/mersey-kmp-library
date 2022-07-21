@@ -11,6 +11,7 @@ open class KoinModuleLoader internal constructor(
     moduleDeclaration: ModuleDeclaration
 ) {
 
+    var isLoaded: Boolean = false
     protected val declarations: MutableList<ModuleDeclaration> = mutableListOf(moduleDeclaration)
 
     lateinit var currentModule: Module
@@ -18,10 +19,14 @@ open class KoinModuleLoader internal constructor(
     open fun load() {
         currentModule = createModule(createdAtStart)
         loadKoinModules(currentModule)
+        isLoaded = true
     }
 
     open fun unload() {
-        unloadKoinModules(currentModule)
+        if (isLoaded) {
+            unloadKoinModules(currentModule)
+            isLoaded = false
+        }
     }
 
     private fun createModule(

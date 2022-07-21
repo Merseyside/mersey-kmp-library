@@ -68,7 +68,7 @@ val mppModules = listOf(
 
 dependencies {
     commonMainImplementation(common.kotlin.stdlib)
-    if (isLocalDependencies()) {
+    if (isLocalKotlinExtLibrary()) {
         commonMainImplementation(project(Modules.MultiPlatform.MerseyLibs.kotlinExt))
     } else {
         commonMainImplementation(common.mersey.kotlin.ext)
