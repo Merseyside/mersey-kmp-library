@@ -100,6 +100,16 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    protected fun showErrorMsg(msg: StringDesc, actionMsg: StringDesc, onClick: () -> Unit = {}) {
+        Logger.logErr(this, msg)
+        TextMessage(
+            isError = true,
+            msg = TextValue(msg),
+            actionMsg = TextValue(actionMsg),
+            onClick = onClick
+        ).also { showMessage(it) }
+    }
+
     fun showAlert(
         title: String? = null,
         message: String? = null,
