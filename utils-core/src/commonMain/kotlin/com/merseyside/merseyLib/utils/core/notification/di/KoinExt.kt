@@ -10,14 +10,14 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.ext.getFullName
 
-val notificationPluginQualifier = named("notification_plugin_qualifier")
+val notificationConverterQualifier = named("notification_converter_qualifier")
 
 /**
  * Adds converter to multibinding.
  */
 fun Module.declareNotificationConverter(converter: Converter<*>) {
     intoMultibinding(
-        notificationPluginQualifier,
+        notificationConverterQualifier,
         key = converter::class.getFullName(),
         value = converter
     )
@@ -27,11 +27,11 @@ fun Module.declareNotificationConverter(converter: Converter<*>) {
  * Creates single notification builder with converters provided through multibinding feature.
  */
 fun Module.singleNotificationBuilder() {
-    declareMultibinding<String, Converter<*>>(notificationPluginQualifier)
+    declareMultibinding<String, Converter<*>>(notificationConverterQualifier)
     single {
         NotificationBuilder(
             get(),
-            getMultibindingList(notificationPluginQualifier)
+            getMultibindingList(notificationConverterQualifier)
         ).apply {
             getOrNull<NotificationInterceptor>()?.let { setInterceptor(it) }
         }
