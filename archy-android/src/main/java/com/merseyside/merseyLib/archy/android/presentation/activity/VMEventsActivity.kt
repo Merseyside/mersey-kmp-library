@@ -2,11 +2,10 @@ package com.merseyside.merseyLib.archy.android.presentation.activity
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
+import com.merseyside.merseyLib.archy.android.presentation.extensions.getString
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.EventsViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
-import com.merseyside.merseyLib.kotlin.extensions.isNotNullAndEmpty
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
@@ -37,10 +36,10 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
     override fun onAlert(alert: Alert) {
         with(alert) {
             showAlertDialog(
-                title,
-                message,
-                positiveButtonText,
-                negativeButtonText,
+                title?.getString(this@VMEventsActivity),
+                message?.getString(this@VMEventsActivity),
+                positiveButtonText?.getString(this@VMEventsActivity),
+                negativeButtonText?.getString(this@VMEventsActivity),
                 onPositiveClick,
                 onNegativeClick,
                 isSingleAction,
@@ -63,20 +62,30 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
 
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showErrorMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showErrorMsg(textMessage.msg)
+            actionMsg?.let {
+                showErrorMsg(
+                    msg.getString(this@VMEventsActivity),
+                    null,
+                    it.getString(this@VMEventsActivity),
+                    onClick
+                )
+            } ?: run {
+                showErrorMsg(msg.getString(this@VMEventsActivity))
             }
         }
     }
 
     private fun showMsg(textMessage: TextMessage) {
         with(textMessage) {
-            if (actionMsg.isNotNullAndEmpty()) {
-                showMsg(textMessage.msg, null, actionMsg, textMessage.onClick)
-            } else {
-                showMsg(textMessage.msg)
+            actionMsg?.let {
+                showMsg(
+                    msg.getString(this@VMEventsActivity),
+                    null,
+                    it.getString(this@VMEventsActivity),
+                    onClick
+                )
+            } ?: run {
+                showMsg(msg.getString(this@VMEventsActivity))
             }
         }
     }

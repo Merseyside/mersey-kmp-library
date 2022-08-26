@@ -68,8 +68,17 @@ val mppModules = listOf(
 
 dependencies {
     commonMainImplementation(common.kotlin.stdlib)
-    commonMainImplementation(common.mersey.kotlin.ext)
-    androidMainImplementation(androidLibs.mersey.utils)
+    if (isLocalKotlinExtLibrary()) {
+        commonMainImplementation(project(Modules.MultiPlatform.MerseyLibs.kotlinExt))
+    } else {
+        commonMainImplementation(common.mersey.kotlin.ext)
+    }
+
+    if (isLocalAndroidDependencies()) {
+        androidMainImplementation(project(Modules.Android.MerseyLibs.utils))
+    } else {
+        androidMainImplementation(androidLibs.mersey.utils)
+    }
 
     mppModules.forEach { module -> commonMainApi(module) }
     mppLibs.forEach { commonMainApi(it) }

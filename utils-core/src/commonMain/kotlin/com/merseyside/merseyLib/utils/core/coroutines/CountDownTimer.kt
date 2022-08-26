@@ -4,7 +4,7 @@ package com.merseyside.merseyLib.utils.core.coroutines
 * https://github.com/Kotlin/kotlinx.coroutines/issues/2171
  */
 
-import com.merseyside.merseyLib.kotlin.Logger
+import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.time.units.Seconds
 import com.merseyside.merseyLib.time.units.TimeUnit
 import com.merseyside.merseyLib.time.units.minus

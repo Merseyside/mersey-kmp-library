@@ -26,11 +26,11 @@ class NotificationBuilder(
     }
 
     inline fun <reified T : Any> create(data: T): Notification {
-        val plugin = findResponsiblePlugin(T::class)
-        return createWithPlugin(plugin, data)
+        val converter = findResponsibleConverter(T::class)
+        return createWithConverter(converter, data)
     }
 
-    fun <T> createWithPlugin(converter: Converter<T>, data: T): Notification {
+    fun <T> createWithConverter(converter: Converter<T>, data: T): Notification {
         return converter.createNotification(data).also { notification ->
             notification.setAdapter(notificationAdapter)
             notificationInterceptor?.let { notification.setInterceptor(it) }
@@ -38,10 +38,10 @@ class NotificationBuilder(
     }
 
     @Throws(IllegalArgumentException::class)
-    fun <T : Any> findResponsiblePlugin(clazz: KClass<T>): Converter<T> {
+    fun <T : Any> findResponsibleConverter(clazz: KClass<T>): Converter<T> {
         return converters.find { it.isResponsibleFor(clazz) } as? Converter<T>
             ?: throw IllegalArgumentException(
-                "Plugin for ${clazz} not found! Are you sure you add it?"
+                "Converter for $clazz not found! Are you sure you added it?"
             )
     }
 }
