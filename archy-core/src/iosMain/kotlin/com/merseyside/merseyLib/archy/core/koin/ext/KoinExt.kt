@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.di.ext
+package com.merseyside.merseyLib.archy.core.koin.ext
 
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass

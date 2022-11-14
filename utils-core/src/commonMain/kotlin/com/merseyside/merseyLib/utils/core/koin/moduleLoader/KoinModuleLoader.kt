@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.di.moduleLoader
+package com.merseyside.merseyLib.utils.core.koin.moduleLoader
 
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules

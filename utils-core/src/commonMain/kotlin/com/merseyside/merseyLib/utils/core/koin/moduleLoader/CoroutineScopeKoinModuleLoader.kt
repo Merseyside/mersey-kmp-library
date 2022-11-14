@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.di.moduleLoader
+package com.merseyside.merseyLib.utils.core.koin.moduleLoader
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel

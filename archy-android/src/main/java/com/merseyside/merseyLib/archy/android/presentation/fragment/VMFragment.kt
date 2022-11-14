@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.fragment.BaseBindingFragment
-import com.merseyside.merseyLib.archy.core.di.state.getStateKey
-import com.merseyside.merseyLib.archy.core.di.state.saveState
+import com.merseyside.merseyLib.utils.core.koin.state.getStateKey
+import com.merseyside.merseyLib.utils.core.koin.state.saveState
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.utils.core.state.StateSaver

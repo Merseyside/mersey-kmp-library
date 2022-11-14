@@ -1,16 +1,15 @@
-package com.merseyside.merseyLib.archy.core.di
+package com.merseyside.merseyLib.utils.core.koin
 
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
-import org.koin.dsl.ModuleDeclaration
 import org.koin.dsl.module
 
-abstract class KoinModuleLoader(val createdAtStart: Boolean = false) {
+abstract class KoinModuleLoader(private val createdAtStart: Boolean = false) {
 
     abstract val moduleDefinition: Module.() -> Unit
 
-    private val module = module(createdAtStart, moduleDefinition)
+    private val module by lazy { module(createdAtStart, moduleDefinition) }
 
     fun load() {
         loadKoinModules(module)

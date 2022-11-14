@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.di.state
+package com.merseyside.merseyLib.utils.core.koin.state
 
 import android.os.Bundle
 import com.merseyside.merseyLib.utils.core.state.SavedState

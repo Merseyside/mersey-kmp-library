@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.di
+package com.merseyside.merseyLib.utils.core.koin
 
 import org.koin.core.scope.Scope
 import org.koin.core.scope.ScopeID
