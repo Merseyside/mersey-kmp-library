@@ -74,7 +74,8 @@ val mppLibs = listOf(
 
 val android = listOf(
     androidLibs.sqldelight,
-    androidLibs.lifecycleLiveDataKtx
+    androidLibs.lifecycleLiveDataKtx,
+    androidLibs.koin
 )
 
 val merseyLibs = listOf(

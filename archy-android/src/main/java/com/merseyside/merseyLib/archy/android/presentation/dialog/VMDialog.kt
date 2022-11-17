@@ -9,7 +9,7 @@ import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.utils.reflection.ReflectionUtils
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModelForClass
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
@@ -49,10 +49,10 @@ abstract class VMDialog<Binding : ViewDataBinding, Model : BaseViewModel>
     }
 
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return getViewModel(
+        return viewModelForClass(
             clazz = getViewModelClass(),
             parameters = { parametersOf(bundle, *params) }
-        )
+        ).value
     }
 
     private fun showErrorMsg(textMessage: TextMessage) {

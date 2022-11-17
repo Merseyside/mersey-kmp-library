@@ -38,7 +38,7 @@ interface AndroidKoinScopeState : AndroidScopeComponent {
 //        )
 //    }
 
-    fun getKoinStateHolder(): KoinStateHolder = scope.get()
+    fun getKoinStateHolder(): KoinStateHolder = scope?.get() ?: throw NullPointerException("Scope is null")
 
 }
 
