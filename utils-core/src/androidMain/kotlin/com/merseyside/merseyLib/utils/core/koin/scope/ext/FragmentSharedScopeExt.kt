@@ -9,14 +9,21 @@ fun Fragment.sharedScope(
     scopeID: ScopeID,
     qualifier: Qualifier
 ): LifecycleSharedScopeDelegate {
-    return sharedScope(lazy {scopeID}, lazy {qualifier})
+    return sharedScope(lazy { scopeID }, lazy { qualifier })
 }
 
 fun Fragment.sharedScope(
     scopeID: Lazy<ScopeID>,
     qualifier: Lazy<Qualifier>
 ): LifecycleSharedScopeDelegate {
-    return LifecycleSharedScopeDelegate(getKoin(), this) { koin ->
-        koin.getScopeOrNull(scopeID.value) ?: koin.createScope(scopeID.value, qualifier.value, this)
-    }
+    return LifecycleSharedScopeDelegate(
+        koin = getKoin(),
+        lifecycleOwner = this,
+        provideScope = { koin ->
+            koin.getScopeOrNull(scopeID.value)
+        },
+        createScope = { koin ->
+            koin.createScope(scopeID.value, qualifier.value, this)
+        }
+    )
 }
