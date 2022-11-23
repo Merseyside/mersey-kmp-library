@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.utils.core.koin.module.dsl
+package org.koin.core.module.dsl.ext
 
 import org.koin.core.module.KoinDefinition
 import org.koin.dsl.ScopeDSL

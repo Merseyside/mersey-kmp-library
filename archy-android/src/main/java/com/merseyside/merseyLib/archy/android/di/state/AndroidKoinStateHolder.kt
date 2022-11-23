@@ -2,9 +2,9 @@ package com.merseyside.merseyLib.archy.android.di.state
 
 import android.os.Bundle
 import com.merseyside.merseyLib.utils.core.koin.state.KoinStateHolder
+import com.merseyside.merseyLib.utils.core.koin.state.toBundle
 import com.merseyside.merseyLib.utils.core.koin.state.toSavedState
 import com.merseyside.merseyLib.utils.core.state.SavedState
-import com.merseyside.merseyLib.utils.core.koin.state.toBundle
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.core.context.loadKoinModules
 import org.koin.core.qualifier.Qualifier
@@ -31,14 +31,7 @@ interface AndroidKoinScopeState : AndroidScopeComponent {
         }
     }
 
-//    private fun getKoinStateScope(): Scope {
-//        return getKoin().getOrCreateScope(
-//            scopeId = linkableScope.id,
-//            qualifier = qualifier
-//        )
-//    }
-
-    fun getKoinStateHolder(): KoinStateHolder = scope?.get() ?: throw NullPointerException("Scope is null")
+    fun getKoinStateHolder(): KoinStateHolder = scope.get()
 
 }
 
