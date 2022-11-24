@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.utils.core.koin.module.dsl
+package com.merseyside.merseyLib.utils.core.koin.scope.dsl
 
 import com.merseyside.merseyLib.utils.core.koin.ext.getSavedStateFromParams
 import com.merseyside.merseyLib.utils.core.koin.state.StateDefinition

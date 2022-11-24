@@ -1,11 +1,10 @@
-package com.merseyside.merseyLib.utils.core.koin.module.dsl
+package com.merseyside.merseyLib.utils.core.koin.scope.dsl
 
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.merseyLib.utils.core.state.StateSaver
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import org.koin.core.module.KoinDefinition
 import org.koin.dsl.ScopeDSL
-import com.merseyside.merseyLib.utils.core.koin.module.dsl.newSavedState as new
+import com.merseyside.merseyLib.utils.core.koin.scope.newSavedState as new
 
 inline fun <reified R> ScopeDSL.savedScopedOf(
     crossinline constructor: (SavedState) -> R,

@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.utils.core.koin.module.dsl
+package com.merseyside.merseyLib.utils.core.koin.scope
 
 import com.merseyside.merseyLib.utils.core.koin.ext.getKoinStateHolder
 import com.merseyside.merseyLib.utils.core.koin.ext.getSavedStateFromStateHolder
@@ -87,5 +87,29 @@ inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified 
 inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11, reified T12, reified T13> Scope.newSavedState(
     constructor: (SavedState, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) -> R,
 ): R = constructor(getSavedStateFromStateHolder<R>(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()).also {
+    getKoinStateHolder()?.addStateSaver(it)
+}
+
+inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11, reified T12, reified T13, reified T14> Scope.newSavedState(
+    constructor: (SavedState, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) -> R,
+): R = constructor(getSavedStateFromStateHolder<R>(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()).also {
+    getKoinStateHolder()?.addStateSaver(it)
+}
+
+inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11, reified T12, reified T13, reified T14, reified T15> Scope.newSavedState(
+    constructor: (SavedState, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) -> R,
+): R = constructor(getSavedStateFromStateHolder<R>(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()).also {
+    getKoinStateHolder()?.addStateSaver(it)
+}
+
+inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11, reified T12, reified T13, reified T14, reified T15, reified T16> Scope.newSavedState(
+    constructor: (SavedState, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) -> R,
+): R = constructor(getSavedStateFromStateHolder<R>(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()).also {
+    getKoinStateHolder()?.addStateSaver(it)
+}
+
+inline fun <reified R : StateSaver, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11, reified T12, reified T13, reified T14, reified T15, reified T16, reified T17> Scope.newSavedState(
+    constructor: (SavedState, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) -> R,
+): R = constructor(getSavedStateFromStateHolder<R>(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()).also {
     getKoinStateHolder()?.addStateSaver(it)
 }

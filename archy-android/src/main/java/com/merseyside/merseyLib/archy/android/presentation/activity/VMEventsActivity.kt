@@ -60,6 +60,8 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
         }
     }
 
+    override fun onConnectionStateChanged(state: Boolean) {}
+
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
             actionMsg?.let {
