@@ -5,42 +5,21 @@ import kotlinx.coroutines.cancel
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.ModuleDeclaration
 
-class CoroutineScopeKoinModuleLoader internal constructor(
+class CoroutineScopeKoinModuleLoader(
+    private val scopeQualifier: Qualifier,
+    val coroutineScope: CoroutineScope,
     createdAtStart: Boolean = false,
-    private val scopeQualifier: Qualifier? = null,
-    private val coroutineScope: () -> CoroutineScope,
     moduleDeclaration: ModuleDeclaration
 ) : KoinModuleLoader(createdAtStart, moduleDeclaration) {
 
-    private var currentScope: CoroutineScope? = null
-
     init {
         declarations.add {
-            single(scopeQualifier) { coroutineScope().also {
-                currentScope = it
-            }}
+            single(scopeQualifier) { coroutineScope }
         }
     }
 
     override fun unload() {
-        currentScope?.run {
-            cancel("Scope canceled because module unloaded")
-            currentScope = null
-        }
+        coroutineScope.cancel("Scope canceled because module unloaded")
         super.unload()
     }
-}
-
-fun coroutineScopeModuleLoader(
-    createdAtStart: Boolean = false,
-    scopeQualifier: Qualifier? = null,
-    coroutineScope: () -> CoroutineScope,
-    moduleDeclaration: ModuleDeclaration
-): CoroutineScopeKoinModuleLoader {
-    return CoroutineScopeKoinModuleLoader(
-        createdAtStart,
-        scopeQualifier,
-        coroutineScope,
-        moduleDeclaration
-    )
 }

@@ -6,7 +6,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.ModuleDeclaration
 import org.koin.dsl.module
 
-open class KoinModuleLoader internal constructor(
+open class KoinModuleLoader(
     private val createdAtStart: Boolean = false,
     moduleDeclaration: ModuleDeclaration
 ) {
@@ -36,11 +36,4 @@ open class KoinModuleLoader internal constructor(
             declarations.forEach { declaration -> declaration() }
         }
     }
-}
-
-fun moduleLoader(
-    createdAtStart: Boolean = false,
-    moduleDeclaration: ModuleDeclaration
-): KoinModuleLoader {
-    return KoinModuleLoader(createdAtStart, moduleDeclaration)
 }
