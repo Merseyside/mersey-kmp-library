@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.*
 
 abstract class BaseViewModel protected constructor() : ViewModel() {
 
-//    internal val scope: CoroutineScope
-//        get() { return viewModelScope }
-
     private val mutProgress = MutableStateFlow(false)
     val isInProgress = mutProgress.asStateFlow()
 
