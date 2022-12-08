@@ -39,7 +39,7 @@ abstract class VMDialog<Binding : ViewDataBinding, Model : BaseViewModel>
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
         loadKoinModules(getKoinModules(bundle, *params))
-        viewModel = provideViewModel(bundle, params)
+        viewModel = provideViewModel(bundle, *params)
     }
 
     open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
