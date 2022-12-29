@@ -4,11 +4,11 @@ plugins {
         plugin(android.library)
         plugin(kotlin.multiplatform)
         plugin(moko.multiplatform)
-        id(mersey.android.convention.id())
-        id(mersey.kotlin.convention.id())
+        id(mersey.android.extension.id())
+        id(mersey.kotlin.extension.id())
         plugin(kotlin.serialization)
         plugin(kotlin.kapt)
-        id(cocoapods.id())
+        //id(cocoapods.id())
     }
     `maven-publish-config`
 }
@@ -38,23 +38,23 @@ kotlin {
         iosSimulatorArm64Main.dependsOn(iosMain)
     }
 
-    cocoapods {
-
-        framework {
-            summary = "A Kotlin multiplatform mobile library with useful utils"
-            homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
-
-            version = multiplatformLibs.versions.mersey.kmm.get()
-        }
-
-        // https://github.com/tonymillion/Reachability
-        pod("Reachability") {
-            version = "3.2"
-        }
-    }
+//    cocoapods {
+//
+//        framework {
+//            summary = "A Kotlin multiplatform mobile library with useful utils"
+//            homepage = "https://github.com/Merseyside/mersey-kmp-library/tree/master/utils-core"
+//
+//            version = multiplatformLibs.versions.mersey.kmm.get()
+//        }
+//
+//        // https://github.com/tonymillion/Reachability
+//        pod("Reachability") {
+//            version = "3.2"
+//        }
+//    }
 }
 
-kotlinConvention {
+kotlinExtension {
     debug = true
     setCompilerArgs(
         "-Xinline-classes",
@@ -74,7 +74,8 @@ val mppLibs = listOf(
 
 val android = listOf(
     androidLibs.sqldelight,
-    androidLibs.lifecycleLiveDataKtx
+    androidLibs.lifecycleLiveDataKtx,
+    androidLibs.koin
 )
 
 val merseyLibs = listOf(

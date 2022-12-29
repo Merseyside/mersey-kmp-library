@@ -5,13 +5,13 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
-import com.merseyside.merseyLib.archy.core.di.state.getStateKey
+import com.merseyside.merseyLib.utils.core.koin.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
-import com.merseyside.merseyLib.archy.core.di.state.saveState
+import com.merseyside.merseyLib.utils.core.koin.state.saveState
 import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModelForClass
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
@@ -37,10 +37,10 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
     }
 
     protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return getViewModel(
+        return viewModelForClass(
             clazz = getViewModelClass(),
             parameters = { parametersOf(bundle, *params) }
-        )
+        ).value
     }
 
     @CallSuper

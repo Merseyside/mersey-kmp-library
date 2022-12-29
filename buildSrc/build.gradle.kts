@@ -1,6 +1,4 @@
 plugins {
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.serialization") version "1.7.0"
     `kotlin-dsl`
 }
 
@@ -19,7 +17,7 @@ dependencies {
         implementation(kotlin.gradle)
         implementation(kotlin.serialization)
         implementation(moko.resourcesGenerator)
-        implementation(sqlDelight)
+        implementation(sqldelight)
         implementation(nexusPublish)
         implementation(android.navigation.safeArgs)
     }

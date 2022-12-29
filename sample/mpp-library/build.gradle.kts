@@ -4,13 +4,14 @@ plugins {
         plugin(android.library)
         plugin(kotlin.multiplatform)
         plugin(moko.multiplatform)
-        id(mersey.kotlin.convention.id())
-        id(mersey.android.convention.id())
+        id(mersey.kotlin.extension.id())
+        id(mersey.android.extension.id())
         id(cocoapods.id())
     }
 }
 
 android {
+    namespace = "com.merseyside.sample.mppLibrary"
     compileSdk = Application.compileSdk
 
     defaultConfig {
@@ -24,7 +25,7 @@ val merseyModules = listOf(
     Modules.MultiPlatform.MerseyLibs.utils
 )
 
-kotlinConvention {
+kotlinExtension {
     debug = true
 }
 

@@ -3,8 +3,8 @@ plugins {
     with(catalogPlugins.plugins) {
         plugin(android.library)
         plugin(kotlin.multiplatform)
-        id(mersey.android.convention.id())
-        id(mersey.kotlin.convention.id())
+        id(mersey.android.extension.id())
+        id(mersey.kotlin.extension.id())
         plugin(kotlin.serialization)
         plugin(kotlin.kapt)
         plugin(moko.multiplatform)
@@ -39,7 +39,7 @@ kotlin {
     }
 }
 
-kotlinConvention {
+kotlinExtension {
     debug = true
     setCompilerArgs(
         "-Xinline-classes",

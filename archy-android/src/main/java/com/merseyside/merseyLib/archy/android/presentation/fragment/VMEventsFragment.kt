@@ -60,6 +60,8 @@ abstract class VMEventsFragment<Binding : ViewDataBinding, Model, Listener> :
         }
     }
 
+    override fun onConnectionStateChanged(state: Boolean) {}
+
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
             actionMsg?.let {
