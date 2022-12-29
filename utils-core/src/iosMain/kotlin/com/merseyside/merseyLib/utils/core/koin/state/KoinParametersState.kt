@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.archy.core.koin.state
+package com.merseyside.merseyLib.utils.core.koin.state
 
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import org.koin.core.parameter.ParametersHolder

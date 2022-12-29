@@ -11,6 +11,7 @@ plugins {
 }
 
 android {
+    namespace = "com.merseyside.sample.mppLibrary"
     compileSdk = Application.compileSdk
 
     defaultConfig {

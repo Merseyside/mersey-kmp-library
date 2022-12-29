@@ -3,7 +3,7 @@ package com.merseyside.merseyLib.utils.core.koin.scope.dsl
 import com.merseyside.merseyLib.utils.core.state.SavedState
 import com.merseyside.merseyLib.utils.core.state.StateSaver
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import org.koin.core.module.KoinDefinition
+import org.koin.core.definition.KoinDefinition
 import org.koin.dsl.ScopeDSL
 import com.merseyside.merseyLib.utils.core.koin.scope.newSavedState as new
 

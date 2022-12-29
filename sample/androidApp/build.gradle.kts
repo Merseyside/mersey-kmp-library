@@ -10,6 +10,7 @@ plugins {
 }
 
 android {
+    namespace = "com.merseyside.sample"
     compileSdk = Application.compileSdk
 
     defaultConfig {

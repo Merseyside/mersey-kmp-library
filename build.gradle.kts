@@ -17,13 +17,13 @@ buildscript { // disable pod install tasks until find a solution
             add("podImport")
             add("podInstall")
             add("podGenIOS")
-            add("podSetupBuildReachabilityIphoneos")
-            add("podSetupBuildReachabilityIphonesimulator")
-            add("podBuildReachabilityIphoneos")
-            add("podBuildReachabilityIphonesimulator")
-            add("cinteropReachabilityIosX64")
-            add("cinteropReachabilityIosSimulatorArm64")
-            add("cinteropReachabilityIosArm64")
+//            add("podSetupBuildReachabilityIphoneos")
+//            add("podSetupBuildReachabilityIphonesimulator")
+//            add("podBuildReachabilityIphoneos")
+//            add("podBuildReachabilityIphonesimulator")
+//            add("cinteropReachabilityIosX64")
+//            add("cinteropReachabilityIosSimulatorArm64")
+//            add("cinteropReachabilityIosArm64")
         }
     }
 }

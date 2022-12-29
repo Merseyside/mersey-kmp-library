@@ -2,7 +2,7 @@ package com.merseyside.merseyLib.utils.core.koin.scope.dsl
 
 import com.merseyside.merseyLib.utils.core.koin.module.dsl.new
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import org.koin.core.module.KoinDefinition
+import org.koin.core.definition.KoinDefinition
 import org.koin.dsl.ScopeDSL
 
 inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10, reified T11> ScopeDSL.scopedOf(
