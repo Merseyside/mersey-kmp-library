@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     group = "io.github.merseyside"
-    version = "1.5.2"
+    version = "1.5.3"
 }
 
 buildscript { // disable pod install tasks until find a solution
