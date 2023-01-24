@@ -4,8 +4,9 @@ import kotlinx.coroutines.CoroutineScope
 import org.koin.core.definition.KoinDefinition
 import org.koin.dsl.ScopeDSL
 
-inline fun <reified R : CoroutineScope> ScopeDSL.coroutineScope(crossinline block: () -> R): R {
-    val coroutine = block()
-    scoped { coroutine }
-    return coroutine
+inline fun <reified T : CoroutineScope> ScopeDSL.coroutineScope(
+    qualifier: Qualifier? = null,
+    noinline definition: Definition<T>
+): KoinDefinition<T> {
+    return scoped(qualifier, definition).onClose { it?.cancel() }
 }
