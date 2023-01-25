@@ -11,7 +11,7 @@ dependencyResolutionManagement {
         google()
     }
 
-    val catalogVersions = "1.6.4"
+    val catalogVersions = "1.6.6"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
