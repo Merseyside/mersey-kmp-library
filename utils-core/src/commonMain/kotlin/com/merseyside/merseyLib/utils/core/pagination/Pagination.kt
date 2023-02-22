@@ -36,6 +36,11 @@ abstract class Pagination<PD, Data, Page>(private val initPage: Page): ILogger
         return getNextPage() != null || lastData == null
     }
 
+    fun resetPaging() {
+        lastData = null
+        currentPage = initPage
+    }
+
     suspend fun loadNextPage() {
         if (!isNextPageValid()) {
             logMsg("No next page")
