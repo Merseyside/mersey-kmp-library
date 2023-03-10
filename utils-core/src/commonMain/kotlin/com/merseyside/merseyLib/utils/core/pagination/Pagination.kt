@@ -16,8 +16,21 @@ abstract class Pagination<PD, Data, Page>(
         where PD : PagerData<Data, Page> {
 
     private var lastData: PD? = null
+        set(value) {
+            field = value
+            safeLet(value) { data ->
+                if (data.prevPage != null && data.nextPage != null) {
+                    if (!newPages.any { it.values.contains(data.prevPage) }) {
+                        newPages.add(0, mapOf(data.prevPage to data.nextPage))
+                    }
+                }
+                newPages.add(mapOf(data.prevPage to data.nextPage))
+            }
+        }
     var currentNextPage: Page = initNextPage
     var currentPrevPage: Page = initPrevPage
+
+    private val newPages = mutableListOf(mapOf<Page?, Page?>(initPrevPage to initNextPage))
 
     private val pages = mutableMapOf<Page?, Page?>(initPrevPage to initNextPage)
 
@@ -29,15 +42,13 @@ abstract class Pagination<PD, Data, Page>(
 
     private fun getNextPage(): Page {
         return safeLet(lastData) {
-            pages[it.prevPage] = it.nextPage
-            findLastNextPage(it.nextPage ?: initPrevPage)
+            newPages.lastOrNull()?.values?.lastOrNull()
         } ?: initNextPage
     }
 
     private fun getPrevPage(): Page {
         return safeLet(lastData) {
-            pages[it.prevPage] = it.nextPage
-            findFirstPrevPage(it.prevPage ?: initPrevPage)
+            newPages.firstOrNull()?.keys?.firstOrNull()
         } ?: initPrevPage
     }
 
@@ -53,13 +64,14 @@ abstract class Pagination<PD, Data, Page>(
     }
 
     private fun isPrevPageValid(): Boolean {
-        return getPrevPage() != null
+        return getPrevPage() != null || lastData == null
     }
 
     fun resetPaging() {
         lastData = null
         currentNextPage = initNextPage
         currentPrevPage = initPrevPage
+        newPages.clear()
     }
 
     suspend fun loadNextPage() {
@@ -94,20 +106,6 @@ abstract class Pagination<PD, Data, Page>(
         } catch (e: Exception) {
             emitResult(Result.Error(e))
         }
-    }
-
-    private fun findFirstPrevPage(page: Page): Page {
-        val prevPage = pages.entries.find { entry -> entry.value == page }?.key
-            ?: return page
-
-        return findFirstPrevPage(prevPage)
-    }
-
-    private fun findLastNextPage(page: Page): Page {
-        val nextPage = pages[page]
-            ?: return page
-
-        return findLastNextPage(nextPage)
     }
 
     private suspend fun emitResult(result: Result<Data>) {
