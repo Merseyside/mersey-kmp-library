@@ -2,7 +2,6 @@ package com.merseyside.merseyLib.utils.core.pagination
 
 import com.merseyside.merseyLib.kotlin.entity.Result
 import com.merseyside.merseyLib.kotlin.logger.ILogger
-import com.merseyside.merseyLib.kotlin.logger.log
 import com.merseyside.merseyLib.kotlin.utils.safeLet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,19 +19,17 @@ abstract class Pagination<PD, Data, Page>(
             field = value
             safeLet(value) { data ->
                 if (data.prevPage != null && data.nextPage != null) {
-                    if (!newPages.any { it.values.contains(data.prevPage) }) {
-                        newPages.add(0, mapOf(data.prevPage to data.nextPage))
+                    if (!pages.any { it.values.contains(data.prevPage) }) {
+                        pages.add(0, mapOf(data.prevPage to data.nextPage))
                     }
                 }
-                newPages.add(mapOf(data.prevPage to data.nextPage))
+                pages.add(mapOf(data.prevPage to data.nextPage))
             }
         }
     var currentNextPage: Page = initNextPage
     var currentPrevPage: Page = initPrevPage
 
-    private val newPages = mutableListOf(mapOf<Page?, Page?>(initPrevPage to initNextPage))
-
-    private val pages = mutableMapOf<Page?, Page?>(initPrevPage to initNextPage)
+    private val pages = mutableListOf(mapOf<Page?, Page?>(initPrevPage to initNextPage))
 
     private val mutSharedFlow: MutableSharedFlow<Result<Data>> =
         MutableSharedFlow(extraBufferCapacity = 10)
@@ -42,13 +39,13 @@ abstract class Pagination<PD, Data, Page>(
 
     private fun getNextPage(): Page {
         return safeLet(lastData) {
-            newPages.lastOrNull()?.values?.lastOrNull()
+            pages.lastOrNull()?.values?.lastOrNull()
         } ?: initNextPage
     }
 
     private fun getPrevPage(): Page {
         return safeLet(lastData) {
-            newPages.firstOrNull()?.keys?.firstOrNull()
+            pages.firstOrNull()?.keys?.firstOrNull()
         } ?: initPrevPage
     }
 
@@ -71,7 +68,7 @@ abstract class Pagination<PD, Data, Page>(
         lastData = null
         currentNextPage = initNextPage
         currentPrevPage = initPrevPage
-        newPages.clear()
+        pages.clear()
     }
 
     suspend fun loadNextPage() {
