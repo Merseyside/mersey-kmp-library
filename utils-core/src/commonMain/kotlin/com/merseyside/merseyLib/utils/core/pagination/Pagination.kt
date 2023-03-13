@@ -15,17 +15,7 @@ abstract class Pagination<PD, Data, Page>(
         where PD : PagerData<Data, Page> {
 
     private var lastData: PD? = null
-        set(value) {
-            field = value
-            safeLet(value) { data ->
-                if (data.prevPage != null && data.nextPage != null) {
-                    if (!pages.any { it.values.contains(data.prevPage) }) {
-                        pages.add(0, mapOf(data.prevPage to data.nextPage))
-                    }
-                }
-                pages.add(mapOf(data.prevPage to data.nextPage))
-            }
-        }
+
     var currentNextPage: Page = initNextPage
     var currentPrevPage: Page = initPrevPage
 
@@ -82,6 +72,7 @@ abstract class Pagination<PD, Data, Page>(
         try {
             val newData = loadData(currentNextPage, initPrevPage)
             emitResult(Result.Loading())
+            pages.add(mapOf(newData.prevPage to newData.nextPage))
             onDataLoaded(newData)
         } catch (e: Exception) {
             emitResult(Result.Error(e))
@@ -99,6 +90,7 @@ abstract class Pagination<PD, Data, Page>(
         try {
             val newData = loadData(initNextPage, currentPrevPage)
             emitResult(Result.Loading())
+            pages.add(0, mapOf(newData.prevPage to newData.nextPage))
             onDataLoaded(newData)
         } catch (e: Exception) {
             emitResult(Result.Error(e))
