@@ -19,7 +19,7 @@ abstract class Pagination<PD, Data, Page>(
     var currentNextPage: Page = initNextPage
     var currentPrevPage: Page = initPrevPage
 
-    private val pages = mutableListOf(mapOf<Page?, Page?>(initPrevPage to initNextPage))
+    private val pages = mutableListOf(Pair<Page?, Page?>(initPrevPage, initNextPage))
 
     private val mutSharedFlow: MutableSharedFlow<Result<Data>> =
         MutableSharedFlow(extraBufferCapacity = 10)
@@ -29,17 +29,17 @@ abstract class Pagination<PD, Data, Page>(
 
     private fun getNextPage(): Page {
         return safeLet(lastData) {
-            pages.lastOrNull()?.values?.lastOrNull()
+            pages.lastOrNull()?.second
         } ?: initNextPage
     }
 
     private fun getPrevPage(): Page {
         return safeLet(lastData) {
-            pages.firstOrNull()?.keys?.firstOrNull()
+            pages.firstOrNull()?.first
         } ?: initPrevPage
     }
 
-    abstract suspend fun loadData(nextPage: Page, prevPage: Page): PD
+    abstract suspend fun loadData(prevPage: Page, nextPage: Page): PD
 
     private suspend fun onDataLoaded(pagerData: PD) {
         lastData = pagerData
@@ -51,7 +51,7 @@ abstract class Pagination<PD, Data, Page>(
     }
 
     private fun isPrevPageValid(): Boolean {
-        return getPrevPage() != null || lastData == null
+        return getPrevPage() != null
     }
 
     fun resetPaging() {
@@ -70,9 +70,9 @@ abstract class Pagination<PD, Data, Page>(
         currentNextPage = getNextPage()
 
         try {
-            val newData = loadData(currentNextPage, initPrevPage)
+            val newData = loadData(initPrevPage, currentNextPage)
             emitResult(Result.Loading())
-            pages.add(mapOf(newData.prevPage to newData.nextPage))
+            pages.add(newData.prevPage to newData.nextPage)
             onDataLoaded(newData)
         } catch (e: Exception) {
             emitResult(Result.Error(e))
@@ -88,9 +88,9 @@ abstract class Pagination<PD, Data, Page>(
         currentPrevPage = getPrevPage()
 
         try {
-            val newData = loadData(initNextPage, currentPrevPage)
+            val newData = loadData(currentPrevPage, initNextPage)
             emitResult(Result.Loading())
-            pages.add(0, mapOf(newData.prevPage to newData.nextPage))
+            pages.add(0, newData.prevPage to newData.nextPage)
             onDataLoaded(newData)
         } catch (e: Exception) {
             emitResult(Result.Error(e))
