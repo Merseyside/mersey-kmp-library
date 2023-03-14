@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 
 abstract class Pagination<PD, Data, Page>(
-    private val initNextPage: Page,
-    private val initPrevPage: Page
+    private val initPrevPage: Page,
+    private val initNextPage: Page
 ) : ILogger
         where PD : PagerData<Data, Page> {
 
     private var lastData: PD? = null
 
-    var currentNextPage: Page = initNextPage
     var currentPrevPage: Page = initPrevPage
+    var currentNextPage: Page = initNextPage
 
     private val pages = mutableListOf(Pair<Page?, Page?>(initPrevPage, initNextPage))
 
