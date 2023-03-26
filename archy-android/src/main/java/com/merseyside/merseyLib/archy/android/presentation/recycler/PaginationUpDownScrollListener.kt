@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.merseyside.merseyLib.kotlin.utils.safeLet
 
 abstract class PaginationUpDownScrollListener(
-    private val loadItemsCountDownOffset: Int = 5,
-    private val loadItemsCountUpOffset: Int = loadItemsCountDownOffset,
+    protected val loadItemsCountDownOffset: Int = 5,
+    protected val loadItemsCountUpOffset: Int = loadItemsCountDownOffset,
 ) : RecyclerView.OnChildAttachStateChangeListener {
 
     abstract val recyclerView: RecyclerView
