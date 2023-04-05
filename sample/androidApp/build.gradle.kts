@@ -47,6 +47,7 @@ android {
 kotlinExtension {
     debug = true
     setCompilerArgs(
+        "-Xcontext-receivers",
         "-Xinline-classes",
         "-opt-in=kotlin.RequiresOptIn",
         "-Xskip-prerelease-check"
@@ -56,7 +57,8 @@ kotlinExtension {
 val android = listOf(
     androidLibs.appCompat,
     androidLibs.material,
-    androidLibs.koin
+    androidLibs.koin,
+    androidLibs.navigation
 )
 
 val merseyLibs = listOf(

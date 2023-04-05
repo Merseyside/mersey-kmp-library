@@ -9,6 +9,7 @@ import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMes
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
+import kotlin.reflect.KClass
 
 abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
     : VMActivity<B, Model>(), EventsViewModel.BaseEventsListener
@@ -25,12 +26,8 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
         )
     }
 
-    override fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return super.provideViewModel(
-            bundle,
-            *params,
-            eventsDispatcherOnMain<EventsDispatcher<Listener>>()
-        )
+    override fun performInjection(bundle: Bundle?, vararg params: Any) {
+        super.performInjection(bundle, *params, eventsDispatcherOnMain<EventsDispatcher<Listener>>())
     }
 
     override fun onAlert(alert: Alert) {

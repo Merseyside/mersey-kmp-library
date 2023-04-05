@@ -57,6 +57,7 @@ kotlin {
 kotlinExtension {
     debug = true
     setCompilerArgs(
+        "-Xcontext-receivers",
         "-Xinline-classes",
         "-Xskip-prerelease-check",
         "-opt-in=kotlin.RequiresOptIn"

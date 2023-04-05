@@ -5,16 +5,11 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
 import com.merseyside.archy.presentation.activity.BaseBindingActivity
-import com.merseyside.merseyLib.utils.core.koin.state.getStateKey
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.BaseViewModel
-import com.merseyside.merseyLib.utils.core.koin.state.saveState
 import com.merseyside.merseyLib.kotlin.logger.Logger
-import com.merseyside.merseyLib.utils.core.state.StateSaver
 import com.merseyside.utils.reflection.ReflectionUtils
-import org.koin.androidx.viewmodel.ext.android.viewModelForClass
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
-import org.koin.core.parameter.parametersOf
 import kotlin.reflect.KClass
 
 abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
@@ -36,17 +31,16 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
         }
     }
 
-    protected open fun provideViewModel(bundle: Bundle?, vararg params: Any): Model {
-        return viewModelForClass(
-            clazz = getViewModelClass(),
-            parameters = { parametersOf(bundle, *params) }
-        ).value
-    }
+    protected abstract fun provideViewModel(
+        clazz: KClass<Model>,
+        bundle: Bundle?,
+        vararg params: Any
+    ): Model
 
     @CallSuper
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
         loadKoinModules(getKoinModules(bundle, *params))
-        viewModel = provideViewModel(bundle, *params)
+        viewModel = provideViewModel(getViewModelClass(), bundle, *params)
     }
 
     open fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
@@ -55,17 +49,12 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        (viewModel as? StateSaver)?.saveState(outState, getStateKey(getViewModelClass()))
-    }
-
     override fun handleError(throwable: Throwable): Boolean {
         return viewModel.onError(throwable)
     }
 
     override fun updateLanguage(context: Context) {
-        //viewModel.updateLanguage(context)
+        //com.merseyside.merseyLib.utils.core.koin.androidx.viewmodel.ext.android.com.merseyside.merseyLib.utils.core.koin.scope.dsl.viewmodel.viewModel.updateLanguage(context)
     }
 
     protected abstract fun loadingObserver(isLoading: Boolean)

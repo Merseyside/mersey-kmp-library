@@ -4,6 +4,7 @@ plugins {
         plugin(android.library)
         plugin(kotlin.multiplatform)
         plugin(moko.multiplatform)
+        plugin(kotlin.serialization)
         id(mersey.kotlin.extension.id())
         id(mersey.android.extension.id())
         id(cocoapods.id())
