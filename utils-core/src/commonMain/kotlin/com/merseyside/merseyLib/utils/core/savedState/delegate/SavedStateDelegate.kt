@@ -1,35 +1,47 @@
 package com.merseyside.merseyLib.utils.core.savedState.delegate
 
 import com.merseyside.merseyLib.utils.core.savedState.SavedState
+import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-fun <T> SavedState.value(defValue: T) = object : ReadWriteProperty<Any, T> {
-    private var value: T? = null
+fun <T> SavedState.saveable(init: (SavedState) -> T) = object : ReadOnlyProperty<Any, T> {
+    private var _value: T? = null
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return value ?: getOrPut(property.name, defValue).also {
-            value = it
+        return _value ?: run {
+            val savedState = getSavedState(property.name)
+            init(savedState).also { _value = it }
+        }
+    }
+}
+
+fun <T> SavedState.value(defValue: T) = object : ReadWriteProperty<Any, T> {
+    private var _value: T? = null
+
+    override fun getValue(thisRef: Any, property: KProperty<*>): T {
+        return _value ?: getOrPut(property.name, defValue).also {
+            _value = it
         }
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
-        put(property.name, value)
+        _value = put(property.name, value)
     }
 
 }
 
 fun <T> SavedState.valueOrNull() = object : ReadWriteProperty<Any, T?> {
-    private var value: T? = null
+    private var _value: T? = null
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T? {
-        return value ?: get<T>(property.name)?.also {
-            value = it
+        return _value ?: get<T>(property.name)?.also {
+            _value = it
         }
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) {
-        put(property.name, value)
+        _value = put(property.name, value)
     }
 
 }

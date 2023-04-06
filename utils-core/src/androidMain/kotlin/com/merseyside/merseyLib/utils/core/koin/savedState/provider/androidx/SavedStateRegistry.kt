@@ -1,6 +1,5 @@
 package com.merseyside.merseyLib.utils.core.koin.savedState.provider.androidx
 
-import android.os.Bundle
 import androidx.savedstate.SavedStateRegistry
 import com.merseyside.merseyLib.utils.core.koin.savedState.androidx.bundle.toBundle
 import com.merseyside.merseyLib.utils.core.koin.savedState.androidx.bundle.toSavedState

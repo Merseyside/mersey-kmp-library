@@ -54,7 +54,7 @@ abstract class VMActivity<Binding : ViewDataBinding, Model : BaseViewModel>
     }
 
     override fun updateLanguage(context: Context) {
-        //com.merseyside.merseyLib.utils.core.koin.androidx.viewmodel.ext.android.com.merseyside.merseyLib.utils.core.koin.scope.dsl.viewmodel.viewModel.updateLanguage(context)
+        //updateLanguage(context)
     }
 
     protected abstract fun loadingObserver(isLoading: Boolean)

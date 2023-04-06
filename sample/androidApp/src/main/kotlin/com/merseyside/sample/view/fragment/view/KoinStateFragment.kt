@@ -35,7 +35,6 @@ class KoinStateFragment : VMEventsFragment<FragmentKoinStateBinding, KoinStateVi
     override fun getBindingVariable() = BR.viewModel
 
     override fun getKoinModules(bundle: Bundle?, vararg params: Any): List<Module> {
-        SavedStateHandle
         return listOf(koinStateModule)
     }
 

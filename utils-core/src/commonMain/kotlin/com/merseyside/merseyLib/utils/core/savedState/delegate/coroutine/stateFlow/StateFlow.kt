@@ -18,7 +18,7 @@ fun <T, F : StateFlow<T>> SavedState.stateFlow(scope: CoroutineScope, init: (val
         override fun getValue(thisRef: Any?, property: KProperty<*>): F {
             return stateFlow ?: run {
                 val value = get<T>(property.name)
-                init(value)
+                init(value).also { stateFlow = it }
             }.also { flow ->
                 flow.onEach { value -> put(property.name, value) }.launchIn(scope)
             }
@@ -35,7 +35,7 @@ inline fun <reified T, F : StateFlow<T>> SavedState.serializableStateFlow(
     override fun getValue(thisRef: Any?, property: KProperty<*>): F {
         return stateFlow ?: run {
             val value = getSerializable<T>(property.name)
-            init(value)
+            init(value).also { stateFlow = it }
         }.also { flow ->
             flow.onEach { value -> putSerializable(property.name, value) }.launchIn(scope)
         }

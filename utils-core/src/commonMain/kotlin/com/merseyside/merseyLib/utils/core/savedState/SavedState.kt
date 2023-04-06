@@ -11,10 +11,14 @@ class SavedState {
         return container.contains(key)
     }
 
-    fun put(key: String, value: Any?) {
-        if (validateSavedStateValue(value)) {
+    fun <T> put(key: String, value: T?): T? {
+        return if (validateSavedStateValue(value)) {
             container[key] = value
-        } else throw IllegalArgumentException("Can not put value cause value's type is not supported. Look for serializable.")
+            value
+        } else throw IllegalArgumentException(
+            "Can not put value cause value's type is not supported." +
+                    " Look for serializable."
+        )
     }
 
     operator fun <T> get(key: String): T? {
@@ -28,9 +32,11 @@ class SavedState {
     }
 
     fun <T> get(key: String, defValue: T): T {
-        return get(key) ?: defValue
+        return get(key) ?: run {
+            put(key, defValue)
+            defValue
+        }
     }
-
 
     fun <T> remove(key: String): T? {
         return container.remove(key) as T?
@@ -40,14 +46,14 @@ class SavedState {
         return container.getOrPut(key) { value } as T
     }
 
-    fun getSavedState(key: String): SavedState? {
-        return if (contains(key)) {
-            val value = get<SavedState>(key)
-            value
-                ?: throw IllegalArgumentException("Value by $key key is not SavedState! \n $value")
-        } else null
+    fun getSavedState(key: String): SavedState {
+        val value = get<SavedState>(key)
+        return value ?: SavedState().also { put(key, it) }
     }
 
+    fun isEmpty(): Boolean {
+        return container.isEmpty()
+    }
     override fun toString(): String {
         val str = container.map { "${it.key} : ${it.value}" }.joinToString(separator = "\n")
         return str.ifEmpty { "Saved state is empty!" }

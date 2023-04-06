@@ -4,8 +4,8 @@ import com.merseyside.merseyLib.archy.core.presentation.viewModel.EventsViewMode
 import com.merseyside.merseyLib.kotlin.logger.log
 import com.merseyside.merseyLib.utils.core.savedState.SavedState
 import com.merseyside.merseyLib.utils.core.savedState.delegate.coroutine.stateFlow.serializableStateFlow
+import com.merseyside.merseyLib.utils.core.savedState.delegate.saveable
 import com.merseyside.sample.manager.SomeManager
-//import com.merseyside.sample.manager.SomeManager
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,8 +18,9 @@ import kotlinx.serialization.Serializable
 class KoinStateViewModel(
     override val eventsDispatcher: EventsDispatcher<KoinStateEventsListener>,
     private val savedState: SavedState,
-    private val someManager: SomeManager
 ) : EventsViewModel(), EventsDispatcherOwner<KoinStateViewModel.KoinStateEventsListener> {
+
+    private val someManager: SomeManager by savedState.saveable { savedState -> SomeManager(savedState) }
 
     val nameStateFlow: MutableStateFlow<String?> = MutableStateFlow("")
     val ageStateFlow: MutableStateFlow<String?> = MutableStateFlow(null)

@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.util.Size
 import android.util.SizeF
 import android.util.SparseArray
+import com.merseyside.merseyLib.utils.core.savedState.SavedState
 import java.io.Serializable
 
 actual fun validateSavedStateValue(value: Any?): Boolean {
@@ -22,6 +23,7 @@ actual fun validateSavedStateValue(value: Any?): Boolean {
 }
 
 private val ACCEPTABLE_CLASSES = arrayOf( // baseBundle
+    SavedState::class.java,
     Boolean::class.javaPrimitiveType,
     BooleanArray::class.java,
     Double::class.javaPrimitiveType,
