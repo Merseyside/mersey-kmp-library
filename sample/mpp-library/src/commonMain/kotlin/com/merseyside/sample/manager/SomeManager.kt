@@ -7,8 +7,4 @@ import com.merseyside.merseyLib.utils.core.savedState.delegate.valueOrNull
 class SomeManager(savedState: SavedState) {
 
     var nameWithAge by savedState.valueOrNull<String>()
-
-    init {
-        savedState.log("kek2")
-    }
 }

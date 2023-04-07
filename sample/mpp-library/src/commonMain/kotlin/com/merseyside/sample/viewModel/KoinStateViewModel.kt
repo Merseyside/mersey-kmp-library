@@ -36,7 +36,6 @@ class KoinStateViewModel(
     }
 
     init {
-        savedState.log("kek1")
         dataStateFlow.onEach { it.log("SavedState") }.launchIn(viewModelScope)
         managerData.onEach { someManager.nameWithAge = it }.launchIn(viewModelScope)
     }

@@ -48,11 +48,4 @@ class KoinStateFragment : VMEventsFragment<FragmentKoinStateBinding, KoinStateVi
             parameters = { parametersOf(*params) }
         )
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.log("kek")
-    }
-
-
 }
