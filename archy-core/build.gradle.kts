@@ -19,7 +19,6 @@ android {
 
     defaultConfig {
         minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
     }
 }
 
