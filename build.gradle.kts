@@ -3,8 +3,10 @@ plugins {
 }
 
 allprojects {
-    group = "io.github.merseyside"
-    version = "1.5.4"
+    plugins.withId("org.gradle.maven-publish") {
+        group = "io.github.merseyside"
+        version = multiplatformLibs.versions.mersey.kmm.get()
+    }
 }
 
 buildscript { // disable pod install tasks until find a solution

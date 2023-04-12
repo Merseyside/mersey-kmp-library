@@ -9,6 +9,7 @@ plugins {
         plugin(android.navigation.args)
     }
     `javadoc-stub-convention`
+    `maven-publish-config`
 }
 
 android {

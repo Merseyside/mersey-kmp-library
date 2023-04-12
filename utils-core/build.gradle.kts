@@ -10,6 +10,7 @@ plugins {
         plugin(kotlin.kapt)
         //id(cocoapods.id())
     }
+    `javadoc-stub-convention`
     `maven-publish-config`
 }
 
@@ -64,7 +65,6 @@ kotlinExtension {
 }
 
 val mppLibs = listOf(
-    common.mersey.time,
     multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,

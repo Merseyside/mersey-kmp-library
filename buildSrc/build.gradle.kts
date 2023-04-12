@@ -13,7 +13,7 @@ dependencies {
     with(catalogGradle) {
         implementation(moko.mobileMultiplatform)
         implementation(mersey.gradlePlugins)
-        implementation(android.gradle.stable)
+        implementation(android.gradle)
         implementation(kotlin.gradle)
         implementation(kotlin.serialization)
         implementation(moko.resourcesGenerator)
