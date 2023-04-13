@@ -3,6 +3,7 @@ package com.merseyside.merseyLib.utils.core.pagination
 import com.merseyside.merseyLib.kotlin.entity.Result
 import com.merseyside.merseyLib.kotlin.logger.ILogger
 import com.merseyside.merseyLib.kotlin.utils.safeLet
+import com.squareup.sqldelight.internal.AtomicBoolean
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filterIsInstance
@@ -61,41 +62,47 @@ abstract class Pagination<PD, Data, Page>(
         pages.clear()
     }
 
+
     suspend fun loadNextPage() {
-        if (!isNextPageValid()) {
-            logMsg("No next page")
-            return
-        }
-
-        currentNextPage = getNextPage()
-
-        try {
-            val newData = loadData(initPrevPage, currentNextPage)
-            emitResult(Result.Loading())
-            pages.add(newData.prevPage to newData.nextPage)
-            onDataLoaded(newData)
-        } catch (e: Exception) {
-            emitResult(Result.Error(e))
+        loadPage(::isNextPageValid) {
+            currentNextPage = getNextPage()
+            loadData(initPrevPage, currentNextPage).also {
+                pages.add(it.prevPage to it.nextPage)
+            }
         }
     }
 
     suspend fun loadPrevPage() {
-        if (!isPrevPageValid()) {
-            logMsg("No prev page")
-            return
-        }
-
-        currentPrevPage = getPrevPage()
-
-        try {
-            val newData = loadData(currentPrevPage, initNextPage)
-            emitResult(Result.Loading())
-            pages.add(0, newData.prevPage to newData.nextPage)
-            onDataLoaded(newData)
-        } catch (e: Exception) {
-            emitResult(Result.Error(e))
+        loadPage(::isPrevPageValid) {
+            currentPrevPage = getPrevPage()
+            loadData(currentPrevPage, initNextPage).also {
+                pages.add(0, it.prevPage to it.nextPage)
+            }
         }
     }
+
+    private var isLoading = AtomicBoolean(false)
+
+    private suspend fun loadPage(
+        isPageValid: () -> Boolean,
+        loadWork: suspend () -> PD
+    ) {
+        if (isLoading.get()) return
+        if (!isPageValid()) {
+            logMsg("No page")
+            return
+        }
+        try {
+            isLoading.set(true)
+            emitResult(Result.Loading())
+            onDataLoaded(loadWork())
+        } catch (e: Exception) {
+            emitResult(Result.Error(e))
+        } finally {
+            isLoading.set(false)
+        }
+    }
+
 
     private suspend fun emitResult(result: Result<Data>) {
         mutSharedFlow.emit(result)
