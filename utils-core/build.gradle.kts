@@ -98,4 +98,6 @@ dependencies {
     } else {
         merseyLibs.forEach { lib -> implementation(lib) }
     }
+
+    commonMainImplementation(common.mersey.time)
 }
