@@ -73,6 +73,7 @@ val mppLibs = listOf(
 )
 
 val android = listOf(
+    androidLibs.recyclerView,
     androidLibs.sqldelight,
     androidLibs.lifecycleLiveDataKtx,
     androidLibs.koin

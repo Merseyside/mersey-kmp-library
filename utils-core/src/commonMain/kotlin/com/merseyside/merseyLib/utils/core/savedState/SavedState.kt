@@ -3,7 +3,7 @@ package com.merseyside.merseyLib.utils.core.savedState
 import com.merseyside.merseyLib.utils.core.savedState.validator.validateSavedStateValue
 
 @Suppress("UNCHECKED_CAST")
-class SavedState {
+open class SavedState {
 
     internal val container: MutableMap<String, Any?> = mutableMapOf()
 
@@ -16,8 +16,8 @@ class SavedState {
             container[key] = value
             value
         } else throw IllegalArgumentException(
-            "Can not put value cause value's type is not supported." +
-                    " Look for serializable."
+            "Can not put value cause value's type is not supported. " +
+                    "Wait for serializable."
         )
     }
 
@@ -54,6 +54,11 @@ class SavedState {
     fun isEmpty(): Boolean {
         return container.isEmpty()
     }
+
+    fun clear() {
+        container.clear()
+    }
+
     override fun toString(): String {
         val str = container.map { "${it.key} : ${it.value}" }.joinToString(separator = "\n")
         return str.ifEmpty { "Saved state is empty!" }

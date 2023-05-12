@@ -16,6 +16,9 @@ fun <T> SavedState.saveable(init: (SavedState) -> T) = object : ReadOnlyProperty
     }
 }
 
+/**
+ * Only for primitives.
+ */
 fun <T> SavedState.value(defValue: T) = object : ReadWriteProperty<Any, T> {
     private var _value: T? = null
 

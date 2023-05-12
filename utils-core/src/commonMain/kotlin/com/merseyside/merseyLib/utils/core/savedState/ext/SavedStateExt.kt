@@ -5,6 +5,7 @@ import com.merseyside.merseyLib.kotlin.serialization.serialize
 import com.merseyside.merseyLib.utils.core.savedState.SavedState
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
+import kotlin.io.encoding.Base64
 
 inline fun <reified T> SavedState.putSerializable(key: String, value: T) {
     put(key, value?.serialize())
