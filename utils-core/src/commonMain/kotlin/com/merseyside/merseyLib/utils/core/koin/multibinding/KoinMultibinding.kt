@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.utils.core.koin
+package com.merseyside.merseyLib.utils.core.koin.multibinding
 
 import org.koin.core.Koin
 import org.koin.core.module.Module
@@ -10,7 +10,11 @@ import org.koin.ext.getFullName
 
 class Multibinding<K, V> : MutableMap<K, V> by mutableMapOf()
 
-inline fun <reified K, reified V> Koin.getMultibinding(qualifier: Qualifier): Map<K, V> =
+inline fun <reified K, reified V> Koin.getOrNullMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()): Map<K, V>? {
+    return getOrNull<Map<K, V>>(qualifier)?.toMap()
+}
+
+inline fun <reified K, reified V> Koin.getMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()): Map<K, V> =
     get<Multibinding<K, V>>(qualifier).toMap()
 
 inline fun <reified K, reified V> Koin.getMultibinding(): Map<K, V> =
@@ -19,12 +23,18 @@ inline fun <reified K, reified V> Koin.getMultibinding(): Map<K, V> =
 inline fun <reified K, reified V> Koin.getMultibindingList(): List<V> =
     getMultibinding<K, V>().values.toList()
 
-inline fun <reified V> Koin.getMultibindingList(qualifier: Qualifier): List<V> =
-    getMultibinding<Any, V>(qualifier).values.toList()
+inline fun <reified K, reified V> Koin.getMultibindingList(qualifier: Qualifier = multibindingQualifier<K, V>()): List<V> =
+    getMultibinding<K, V>(qualifier).values.toList()
 
 /* Scope */
-inline fun <reified K, reified V> Scope.getMultibinding(qualifier: Qualifier): Map<K, V> =
-    get<Multibinding<K, V>>(qualifier).toMap()
+inline fun <reified K, reified V> Scope.getOrNullMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()): Map<K, V>? =
+    getOrNull<Multibinding<K, V>>(qualifier)?.toMap()
+
+inline fun <reified K, reified V> Scope.getMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()): Map<K, V> =
+    getMutableMultibinding<K, V>(qualifier).toMap()
+
+inline fun <reified K, reified V> Scope.getMutableMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()): MutableMap<K, V> =
+    get<Multibinding<K, V>>(qualifier)
 
 inline fun <reified K, reified V> Scope.getMultibinding(): Map<K, V> =
     getMultibinding(multibindingQualifier<K, V>())
@@ -32,12 +42,11 @@ inline fun <reified K, reified V> Scope.getMultibinding(): Map<K, V> =
 inline fun <reified K, reified V> Scope.getMultibindingList(): List<V> =
     getMultibinding<K, V>().values.toList()
 
-inline fun <reified V> Scope.getMultibindingList(qualifier: Qualifier): List<V> =
-    getMultibinding<Any, V>(qualifier).values.toList()
-
+inline fun <reified K, reified V> Scope.getMultibindingList(qualifier: Qualifier = multibindingQualifier<K, V>()): List<V> =
+    getMultibinding<K, V>(qualifier).values.toList()
 
 inline fun <reified K, reified V> Module.intoMultibinding(
-    qualifier: Qualifier,
+    qualifier: Qualifier = multibindingQualifier<K, V>(),
     key: K,
     value: V
 ) {
@@ -59,12 +68,11 @@ inline fun <reified K, reified V> Module.intoMultibinding(key: K, value: V) {
     intoMultibinding(multibindingQualifier<K, V>(), key, value)
 }
 
-
 inline fun <reified K, reified V> Module.declareMultibinding() {
     declareMultibinding<K, V>(multibindingQualifier<K, V>())
 }
 
-inline fun <reified K, reified V> Module.declareMultibinding(qualifier: Qualifier) {
+inline fun <reified K, reified V> Module.declareMultibinding(qualifier: Qualifier = multibindingQualifier<K, V>()) {
     single(qualifier) { Multibinding<K, V>() }
 }
 
