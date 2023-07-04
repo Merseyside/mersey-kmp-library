@@ -10,8 +10,7 @@ plugins {
         plugin(moko.multiplatform)
         plugin(sqldelight)
     }
-    `javadoc-stub-convention`
-    `maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {

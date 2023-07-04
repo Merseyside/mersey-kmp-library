@@ -1,7 +1,6 @@
 package com.merseyside.merseyLib.utils.core.koin.savedState.provider.dsl
 
 import com.merseyside.merseyLib.utils.core.koin.savedState.provider.scope.getSavedState
-import com.merseyside.merseyLib.utils.core.koin.savedState.scope.addSavedState
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.dsl.new
 import org.koin.dsl.ScopeDSL

@@ -2,6 +2,7 @@ package com.merseyside.merseyLib.utils.core.koin.savedState.androidx.viewmodel.e
 
 import com.merseyside.merseyLib.utils.core.koin.savedState.ext.addSavedState
 import androidx.fragment.app.Fragment
+import com.merseyside.merseyLib.kotlin.logger.log
 import com.merseyside.merseyLib.utils.core.koin.savedState.key.getStateKey
 import com.merseyside.merseyLib.utils.core.koin.savedState.provider.androidx.getSavedState
 import com.merseyside.merseyLib.utils.core.koin.savedState.provider.androidx.registerSavedState
@@ -16,7 +17,9 @@ fun <T : ViewModel> Fragment.addSavedStateIfNeed(clazz: KClass<T>, parametersDef
         val savedState = getSavedState(savedStateRegistry, getStateKey(clazz))
         registerSavedState(savedStateRegistry, savedState, getStateKey(clazz))
 
-        parametersDefinition?.addSavedState(savedState) ?: { parametersOf(savedState) }
+        "here".log()
+        (parametersDefinition?.addSavedState(savedState) ?: { parametersOf(savedState) }).also { it.invoke().values.log("here1") }
+
     } else parametersDefinition
 }
 

@@ -17,7 +17,7 @@ dependencies {
         implementation(kotlin.gradle)
         implementation(kotlin.serialization)
         implementation(moko.resourcesGenerator)
-        implementation(nexusPublish)
         implementation(android.navigation.safeArgs)
+        implementation(maven.publish.plugin)
     }
 }

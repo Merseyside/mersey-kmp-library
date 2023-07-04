@@ -15,7 +15,8 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
     override fun getFragmentContainer() = null
     override fun getLayoutId() = R.layout.activity_main
-    override fun getToolbar() = null
+    override fun getMainToolbar() = null
+
     override fun performInjection(bundle: Bundle?, vararg params: Any) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
