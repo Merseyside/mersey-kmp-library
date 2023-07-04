@@ -10,7 +10,7 @@ plugins {
         plugin(moko.multiplatform)
         plugin(sqldelight)
     }
-    `maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {
@@ -19,7 +19,6 @@ android {
 
     defaultConfig {
         minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
     }
 }
 

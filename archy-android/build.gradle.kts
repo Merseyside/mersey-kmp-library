@@ -8,7 +8,7 @@ plugins {
         plugin(kotlin.kapt)
         plugin(android.navigation.args)
     }
-    `android-maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {
@@ -17,7 +17,6 @@ android {
 
     defaultConfig {
         minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
     }
     
     buildFeatures {

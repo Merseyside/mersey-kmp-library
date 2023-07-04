@@ -10,7 +10,7 @@ plugins {
         plugin(kotlin.kapt)
         //id(cocoapods.id())
     }
-    `maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {
@@ -19,7 +19,6 @@ android {
 
     defaultConfig {
         minSdk = Application.minSdk
-        targetSdk = Application.targetSdk
     }
 }
 
@@ -57,6 +56,7 @@ kotlin {
 kotlinExtension {
     debug = true
     setCompilerArgs(
+        "-Xcontext-receivers",
         "-Xinline-classes",
         "-Xskip-prerelease-check",
         "-opt-in=kotlin.RequiresOptIn"
@@ -64,18 +64,20 @@ kotlinExtension {
 }
 
 val mppLibs = listOf(
-    common.mersey.time,
     multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
     multiplatformLibs.sqldelight,
-    multiplatformLibs.koin
+    multiplatformLibs.koin,
+    multiplatformLibs.settings
 )
 
 val android = listOf(
+    androidLibs.recyclerView,
     androidLibs.sqldelight,
     androidLibs.lifecycleLiveDataKtx,
-    androidLibs.koin
+    androidLibs.koin,
+    androidLibs.navigation
 )
 
 val merseyLibs = listOf(
@@ -98,4 +100,6 @@ dependencies {
     } else {
         merseyLibs.forEach { lib -> implementation(lib) }
     }
+
+    commonMainImplementation(common.mersey.time)
 }

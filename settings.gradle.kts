@@ -1,4 +1,3 @@
-enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 private val isLocalAndroidDependencies = false
@@ -11,7 +10,7 @@ dependencyResolutionManagement {
         google()
     }
 
-    val catalogVersions = "1.6.4"
+    val catalogVersions = "1.7.5"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
