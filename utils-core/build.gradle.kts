@@ -10,8 +10,7 @@ plugins {
         plugin(kotlin.kapt)
         //id(cocoapods.id())
     }
-    `javadoc-stub-convention`
-    `maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {
@@ -69,14 +68,16 @@ val mppLibs = listOf(
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
     multiplatformLibs.sqldelight,
-    multiplatformLibs.koin
+    multiplatformLibs.koin,
+    multiplatformLibs.settings
 )
 
 val android = listOf(
     androidLibs.recyclerView,
     androidLibs.sqldelight,
     androidLibs.lifecycleLiveDataKtx,
-    androidLibs.koin
+    androidLibs.koin,
+    androidLibs.navigation
 )
 
 val merseyLibs = listOf(

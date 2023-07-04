@@ -26,7 +26,7 @@ abstract class VMEventsFragment<Binding : ViewDataBinding, Model, Listener> :
     }
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        super.performInjection(bundle, *params, eventsDispatcherOnMain<EventsDispatcher<Listener>>())
+        super.performInjection(bundle, eventsDispatcherOnMain<EventsDispatcher<Listener>>(), *params)
     }
 
     override fun onAlert(alert: Alert) {

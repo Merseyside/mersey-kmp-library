@@ -1,5 +1,5 @@
 PODS:
-  - mpp_library (1.5.2)
+  - mpp_library (1.5.4)
   - Reachability (3.2)
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../mpp-library"
 
 SPEC CHECKSUMS:
-  mpp_library: 5a0cdfe968d914d6bd4816266d35966ef938f4bf
+  mpp_library: f565f95b31a5b7b1baaa6be71d2356897deff6c7
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
 
 PODFILE CHECKSUM: 984fdf42b2cd57b5e14197719552245436d87e71

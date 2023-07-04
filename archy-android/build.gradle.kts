@@ -8,8 +8,7 @@ plugins {
         plugin(kotlin.kapt)
         plugin(android.navigation.args)
     }
-    `javadoc-stub-convention`
-    `maven-publish-config`
+    `maven-publish-plugin`
 }
 
 android {

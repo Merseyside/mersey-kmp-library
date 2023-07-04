@@ -3,7 +3,7 @@ package com.merseyside.merseyLib.utils.core.savedState
 import com.merseyside.merseyLib.utils.core.savedState.validator.validateSavedStateValue
 
 @Suppress("UNCHECKED_CAST")
-open class SavedState {
+class SavedState {
 
     internal val container: MutableMap<String, Any?> = mutableMapOf()
 
@@ -59,8 +59,8 @@ open class SavedState {
         container.clear()
     }
 
-    override fun toString(): String {
-        val str = container.map { "${it.key} : ${it.value}" }.joinToString(separator = "\n")
-        return str.ifEmpty { "Saved state is empty!" }
-    }
+//    override fun toString(): String {
+//        val str = container.map { "${it.key} : ${it.value}" }.joinToString(separator = "\n")
+//        return str.ifEmpty { "Saved state is empty!" }
+//    }
 }

@@ -1,15 +1,16 @@
-package com.merseyside.merseyLib.utils.core.koin.scope.ext
+package com.merseyside.merseyLib.utils.core.koin.scope.activity
 
 import androidx.activity.ComponentActivity
+import com.merseyside.merseyLib.utils.core.koin.scope.delegate.LifecycleScopeDelegate
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.ScopeID
 
-fun ComponentActivity.sharedScope(
+fun ComponentActivity.fragmentScope(
     scopeID: Lazy<ScopeID>,
     qualifier: Lazy<Qualifier>
-): LifecycleSharedScopeDelegate {
-    return LifecycleSharedScopeDelegate(
+): LifecycleScopeDelegate {
+    return LifecycleScopeDelegate(
         koin = getKoin(),
         lifecycleOwner = this,
         provideScope = { koin ->
@@ -21,9 +22,9 @@ fun ComponentActivity.sharedScope(
     )
 }
 
-fun ComponentActivity.sharedScope(
+fun ComponentActivity.fragmentScope(
     scopeID: ScopeID,
     qualifier: Qualifier
-): LifecycleSharedScopeDelegate {
-    return sharedScope(lazy {scopeID}, lazy {qualifier})
+): LifecycleScopeDelegate {
+    return fragmentScope(lazy {scopeID}, lazy {qualifier})
 }
