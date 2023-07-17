@@ -31,3 +31,18 @@ inline fun <reified T> SavedState.getSerializable(
 ): T? {
     return get<String>(key)?.deserialize(deserializationStrategy)
 }
+
+inline fun <reified T> SavedState.getSerializable(
+    key: String,
+    defValue: T
+): T {
+    return get<String>(key)?.deserialize() ?: defValue
+}
+
+inline fun <reified T> SavedState.getSerializable(
+    key: String,
+    defValue: T,
+    deserializationStrategy: DeserializationStrategy<T>
+): T {
+    return get<String>(key)?.deserialize(deserializationStrategy) ?: defValue
+}
