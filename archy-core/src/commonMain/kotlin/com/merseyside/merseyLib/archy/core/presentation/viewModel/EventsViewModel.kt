@@ -27,7 +27,7 @@ abstract class EventsViewModel : BaseViewModel() {
 
     protected fun showErrorMsg(msg: StringDesc) {
         TextMessage(
-            isError = false,
+            isError = true,
             msg = TextValue(msg)
         ).also { showMessage(it) }
     }
