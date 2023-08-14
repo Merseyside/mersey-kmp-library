@@ -2,6 +2,7 @@ package com.merseyside.merseyLib.utils.core.koin.scope.fragment
 
 import androidx.fragment.app.Fragment
 import com.merseyside.merseyLib.kotlin.logger.Logger
+import com.merseyside.merseyLib.kotlin.logger.log
 import com.merseyside.merseyLib.utils.core.koin.scope.delegate.LifecycleScopeDelegate
 import com.merseyside.merseyLib.utils.core.koin.scope.delegate.OnBackPressedScopeDelegate
 import com.merseyside.merseyLib.utils.core.koin.scope.delegate.ScopeDelegate

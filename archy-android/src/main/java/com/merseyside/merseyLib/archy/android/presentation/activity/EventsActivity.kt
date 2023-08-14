@@ -3,15 +3,16 @@ package com.merseyside.merseyLib.archy.android.presentation.activity
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.merseyside.merseyLib.archy.android.presentation.extensions.getString
+import com.merseyside.merseyLib.archy.core.presentation.message.Message
+import com.merseyside.merseyLib.archy.core.presentation.message.TypedMessage
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.EventsViewModel
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
-import kotlin.reflect.KClass
 
-abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
+abstract class EventsActivity<B : ViewDataBinding, Model, Listener>
     : VMActivity<B, Model>(), EventsViewModel.BaseEventsListener
         where Model : EventsViewModel,
               Listener : EventsViewModel.BaseEventsListener {
@@ -33,10 +34,10 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
     override fun onAlert(alert: Alert) {
         with(alert) {
             showAlertDialog(
-                title?.getString(this@VMEventsActivity),
-                message?.getString(this@VMEventsActivity),
-                positiveButtonText?.getString(this@VMEventsActivity),
-                negativeButtonText?.getString(this@VMEventsActivity),
+                title?.getString(this@EventsActivity),
+                message?.getString(this@EventsActivity),
+                positiveButtonText?.getString(this@EventsActivity),
+                negativeButtonText?.getString(this@EventsActivity),
                 onPositiveClick,
                 onNegativeClick,
                 isSingleAction,
@@ -63,13 +64,13 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
         with(textMessage) {
             actionMsg?.let {
                 showErrorMsg(
-                    msg.getString(this@VMEventsActivity),
+                    msg.getString(this@EventsActivity),
                     null,
-                    it.getString(this@VMEventsActivity),
+                    it.getString(this@EventsActivity),
                     onClick
                 )
             } ?: run {
-                showErrorMsg(msg.getString(this@VMEventsActivity))
+                showErrorMsg(msg.getString(this@EventsActivity))
             }
         }
     }
@@ -78,14 +79,47 @@ abstract class VMEventsActivity<B : ViewDataBinding, Model, Listener>
         with(textMessage) {
             actionMsg?.let {
                 showMsg(
-                    msg.getString(this@VMEventsActivity),
+                    msg.getString(this@EventsActivity),
                     null,
-                    it.getString(this@VMEventsActivity),
+                    it.getString(this@EventsActivity),
                     onClick
                 )
             } ?: run {
-                showMsg(msg.getString(this@VMEventsActivity))
+                showMsg(msg.getString(this@EventsActivity))
             }
+        }
+    }
+
+    override fun onMessage(message: Message) {
+
+        when (message) {
+            is TypedMessage -> {
+                when (message) {
+                    is TypedMessage.InfoMessage -> {
+                        with(message) {
+                            showMsg(
+                                text.getString(),
+                                null,
+                                action?.text?.getString(),
+                                action?.action
+                            )
+                        }
+                    }
+
+                    is TypedMessage.ErrorMessage -> {
+                        with(message) {
+                            showErrorMsg(
+                                text.getString(),
+                                null,
+                                action?.text?.getString(),
+                                action?.action
+                            )
+                        }
+                    }
+                }
+            }
+
+            else -> throw IllegalArgumentException("Can not handle passed message type!")
         }
     }
 }

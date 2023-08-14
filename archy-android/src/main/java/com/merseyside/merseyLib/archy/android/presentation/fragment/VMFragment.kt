@@ -24,12 +24,11 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
     }
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        viewModel = provideViewModel(getViewModelClass(), bundle, *params)
+        viewModel = provideViewModel(getViewModelClass(), *params)
     }
 
     protected abstract fun provideViewModel(
         clazz: KClass<Model>,
-        bundle: Bundle?,
         vararg params: Any
     ): Model
 

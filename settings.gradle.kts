@@ -5,12 +5,13 @@ private val isLocalKotlinExtLibrary = false
 
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
         mavenLocal()
+        mavenCentral()
+
         google()
     }
 
-    val catalogVersions = "1.7.5"
+    val catalogVersions = "1.7.6"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
