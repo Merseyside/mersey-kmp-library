@@ -37,7 +37,7 @@ abstract class EventsViewModel : BaseViewModel() {
     @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: StringDesc) {
         TextMessage(
-            isError = false,
+            isError = true,
             msg = TextValue(msg)
         ).also { showMessage(it) }
     }
