@@ -1,9 +1,6 @@
 package com.merseyside.merseyLib.archy.core.presentation.viewModel
 
 import com.merseyside.merseyLib.archy.core.presentation.message.Message
-import com.merseyside.merseyLib.archy.core.presentation.message.TypedMessage
-import com.merseyside.merseyLib.archy.core.presentation.text.TextString
-import com.merseyside.merseyLib.archy.core.presentation.text.stringResource
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextValue
@@ -23,7 +20,7 @@ abstract class EventsViewModel : BaseViewModel() {
     }
 
     protected fun showMsg(message: Message) {
-        eventsDispatcher.dispatchEvent { onMessage(message) }
+        eventsDispatcher.dispatchEvent { showMsg(message) }
     }
 
     @Deprecated("Use showMsg(Message) method")
@@ -190,7 +187,7 @@ abstract class EventsViewModel : BaseViewModel() {
         fun onError(throwable: Throwable): Boolean
         fun onMessage(message: TextMessage)
 
-        fun onMessage(message: Message)
+        fun showMsg(message: Message)
         fun onAlert(alert: Alert)
         fun onConnectionStateChanged(state: Boolean)
     }

@@ -35,7 +35,7 @@ abstract class EventsFragment<Binding : ViewDataBinding, Model, Listener> :
         )
     }
 
-    @Deprecated("Use onMessage(Message) method")
+    @Deprecated("Use showMsg(Message) method")
     override fun onAlert(alert: Alert) {
         with(alert) {
             showAlertDialog(
@@ -55,7 +55,7 @@ abstract class EventsFragment<Binding : ViewDataBinding, Model, Listener> :
         return this.handleError(throwable)
     }
 
-    @Deprecated("Use onMessage(Message) method")
+    @Deprecated("Use showMsg(Message) method")
     override fun onMessage(message: TextMessage) {
         if (message.isError) {
             showErrorMsg(message)
@@ -66,7 +66,7 @@ abstract class EventsFragment<Binding : ViewDataBinding, Model, Listener> :
 
     override fun onConnectionStateChanged(state: Boolean) {}
 
-    @Deprecated("Use onMessage(Message) method")
+    @Deprecated("Use showMsg(Message) method")
     private fun showErrorMsg(textMessage: TextMessage) {
         with(textMessage) {
             actionMsg?.let {
@@ -82,7 +82,7 @@ abstract class EventsFragment<Binding : ViewDataBinding, Model, Listener> :
         }
     }
 
-    @Deprecated("Use onMessage(Message) method")
+    @Deprecated("Use showMsg(Message) method")
     private fun showMsg(textMessage: TextMessage) {
         with(textMessage) {
             actionMsg?.let {
@@ -99,7 +99,7 @@ abstract class EventsFragment<Binding : ViewDataBinding, Model, Listener> :
     }
 
 
-    override fun onMessage(message: Message) {
+    override fun showMsg(message: Message) {
 
         when (message) {
             is TypedMessage -> {

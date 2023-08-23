@@ -90,7 +90,7 @@ abstract class EventsActivity<B : ViewDataBinding, Model, Listener>
         }
     }
 
-    override fun onMessage(message: Message) {
+    override fun showMsg(message: Message) {
 
         when (message) {
             is TypedMessage -> {
