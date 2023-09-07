@@ -55,31 +55,36 @@ sealed class TypedMessage(
         action: Action? = null
     ): TypedMessage(text, action) {
         companion object {
-            operator fun invoke(str: String): InfoMessage {
-                return InfoMessage(TextString(str))
+
+            operator fun invoke(throwable: Throwable): ErrorMessage {
+                return ErrorMessage(TextString(throwable.message ?: "Something went wrong"))
             }
 
-            operator fun invoke(str: String, action: Action.() -> Unit): InfoMessage {
+            operator fun invoke(str: String): ErrorMessage {
+                return ErrorMessage(TextString(str))
+            }
+
+            operator fun invoke(str: String, action: Action.() -> Unit): ErrorMessage {
                 val action = Action().apply(action)
-                return InfoMessage(TextString(str), action)
+                return ErrorMessage(TextString(str), action)
             }
 
-            operator fun invoke(resource: StringResource): InfoMessage {
-                return InfoMessage(TextRes(StringDesc.Resource(resource)))
+            operator fun invoke(resource: StringResource): ErrorMessage {
+                return ErrorMessage(TextRes(StringDesc.Resource(resource)))
             }
 
-            operator fun invoke(resource: StringResource, action: Action.() -> Unit): InfoMessage {
+            operator fun invoke(resource: StringResource, action: Action.() -> Unit): ErrorMessage {
                 val action = Action().apply(action)
-                return InfoMessage(TextRes(StringDesc.Resource(resource)), action)
+                return ErrorMessage(TextRes(StringDesc.Resource(resource)), action)
             }
 
-            operator fun invoke(stringDesc: StringDesc): InfoMessage {
-                return InfoMessage(TextRes(stringDesc))
+            operator fun invoke(stringDesc: StringDesc): ErrorMessage {
+                return ErrorMessage(TextRes(stringDesc))
             }
 
-            operator fun invoke(stringDesc: StringDesc, action: Action.() -> Unit): InfoMessage {
+            operator fun invoke(stringDesc: StringDesc, action: Action.() -> Unit): ErrorMessage {
                 val action = Action().apply(action)
-                return InfoMessage(TextRes(stringDesc), action)
+                return ErrorMessage(TextRes(stringDesc), action)
             }
         }
     }

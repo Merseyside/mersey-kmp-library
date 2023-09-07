@@ -1,8 +1,8 @@
-package com.merseyside.merseyLib.utils.core.notification.di
+package com.merseyside.merseyLib.utils.core.notification.koin
 
-import com.merseyside.merseyLib.utils.core.koin.multibinding.declareMultibinding
-import com.merseyside.merseyLib.utils.core.koin.multibinding.getMultibindingList
-import com.merseyside.merseyLib.utils.core.koin.multibinding.intoMultibinding
+import com.merseyside.merseyLib.utils.core.koin.multibinding.map.declareMultibinding
+import com.merseyside.merseyLib.utils.core.koin.multibinding.map.getMultibindingList
+import com.merseyside.merseyLib.utils.core.koin.multibinding.map.intoMultibinding
 import com.merseyside.merseyLib.utils.core.notification.NotificationInterceptor
 import com.merseyside.merseyLib.utils.core.notification.NotificationBuilder
 import com.merseyside.merseyLib.utils.core.notification.Converter
@@ -33,7 +33,7 @@ fun Module.singleNotificationBuilder() {
             get(),
             getMultibindingList<String, Converter<*>>(notificationConverterQualifier)
         ).apply {
-            getOrNull<NotificationInterceptor>()?.let { setInterceptor(it) }
+            getOrNull<NotificationInterceptor>()?.let { interceptor -> setInterceptor(interceptor) }
         }
     }
 }

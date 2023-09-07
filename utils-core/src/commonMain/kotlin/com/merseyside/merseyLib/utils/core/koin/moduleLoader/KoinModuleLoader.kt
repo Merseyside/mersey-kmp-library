@@ -5,6 +5,7 @@ import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.ModuleDeclaration
 import org.koin.dsl.module
+import org.koin.mp.KoinPlatformTools
 
 open class KoinModuleLoader(
     private val createdAtStart: Boolean = false,
@@ -19,6 +20,7 @@ open class KoinModuleLoader(
     open fun load() {
         currentModule = createModule(createdAtStart)
         loadKoinModules(currentModule)
+        KoinPlatformTools.defaultContext().get().createEagerInstances()
         isLoaded = true
     }
 

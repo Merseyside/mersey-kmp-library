@@ -1,4 +1,4 @@
-package com.merseyside.merseyLib.utils.core.koin.multibinding
+package com.merseyside.merseyLib.utils.core.koin.multibinding.map
 
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -6,7 +6,7 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 
 inline fun <reified Key : Any, reified T> Module.retainedFactory(
-    qualifier: Qualifier = multibindingQualifier<Key, T>(),
+    qualifier: Qualifier = multibindingMapQualifier<Key, T>(),
     noinline provide: Scope.(key: Key) -> T
 ): KoinDefinition<T> {
     declareMultibinding<Key, T>()
