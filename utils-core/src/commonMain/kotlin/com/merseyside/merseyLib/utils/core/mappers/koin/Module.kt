@@ -8,9 +8,11 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.onClose
 
 fun Module.declareKoinMappers(
-    qualifier: Qualifier
+    qualifier: Qualifier,
+    tag: String = qualifier.value,
+    isLogging: Boolean = false
 ) {
-    single(qualifier) { Mappers() }
+    single(qualifier) { Mappers(tag, isLogging) }
 }
 
 fun Module.addMappers(

@@ -1,17 +1,12 @@
 package com.merseyside.merseyLib.utils.core.mappers
 
+import com.merseyside.merseyLib.kotlin.logger.ILogger
 import com.merseyside.merseyLib.kotlin.logger.Logger
 import com.merseyside.merseyLib.utils.core.mappers.annotations.InternalMappersApi
 
-class Mappers {
+class Mappers(override val tag: String, var isLogging: Boolean = false) : ILogger {
 
-    var isLogging: Boolean = false
-        private set
     private val mappers: MutableMap<String, Mapper<out Any>> = mutableMapOf()
-
-    fun setLogging(logging: Boolean) {
-        isLogging = logging
-    }
 
     fun addMappers(mappers: List<Mapper<out Any>>) {
         mappers.forEach { mapper -> addMapper(mapper) }
@@ -31,13 +26,15 @@ class Mappers {
         mappers.remove(mapper.qualifier)
     }
 
+    @Suppress("ReplaceSizeZeroCheckWithIsEmpty")
     @OptIn(InternalMappersApi::class)
     inline fun <reified R : Any> mapList(
-        iterable: Iterable<out Any>,
+        iterable: Iterable<Any>,
         qualifier: Qualifier,
         args: Array<out Any?>
     ): List<R> {
-        Logger.logInfo("Mappers", "Mapping $qualifier")
+        if (isLogging) Logger.logInfo(tag, "Mapping list of $qualifier")
+        if (iterable.count() == 0) return emptyList()
         val responsibleMapper = requireNotNull(findResponsibleMapper(qualifier)) {
             "Responsible mapper for $qualifier not found"
         }
@@ -54,7 +51,7 @@ class Mappers {
 
     @OptIn(InternalMappersApi::class)
     inline fun <reified R : Any> map(value: Any, qualifier: Qualifier, args: Array<Any?>): R {
-        if (isLogging) Logger.logInfo("Mappers", "Mapping $qualifier")
+        if (isLogging) Logger.logInfo(tag, "Mapping $qualifier")
         val responsibleMapper = requireNotNull(findResponsibleMapper(qualifier)) {
             "Responsible mapper for $qualifier(in) not found"
         }
