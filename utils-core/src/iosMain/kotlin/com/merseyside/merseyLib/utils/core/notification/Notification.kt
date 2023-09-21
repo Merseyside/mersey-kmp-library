@@ -1,18 +1,20 @@
 package com.merseyside.merseyLib.utils.core.notification
 
+import com.merseyside.merseyLib.kotlin.utils.Id
 import kotlin.reflect.KClass
 
 actual class Notification private actual constructor(
     /**
      * Tag adds to notifications. Can be used to identify notification.
      */
-    val tag: String
+    val tag: String,
+    val  notificationId: Id
 ) {
 
     /**
      * @return true if notification successfully showed.
      */
-    actual fun show(): Boolean {
+    actual fun show(needToHide:Boolean): Boolean {
         return false
     }
 
@@ -28,7 +30,7 @@ actual class Notification private actual constructor(
 
 actual abstract class Converter<T> {
 
-    actual fun createNotification(data: T): Notification {
+    actual fun createNotification(data: T,notificationId: Id): Notification {
         TODO()
     }
 

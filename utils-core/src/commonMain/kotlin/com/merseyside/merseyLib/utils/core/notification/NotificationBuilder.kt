@@ -1,5 +1,6 @@
 package com.merseyside.merseyLib.utils.core.notification
 
+import com.merseyside.merseyLib.kotlin.utils.Id
 import kotlin.reflect.KClass
 
 class NotificationBuilder(
@@ -25,13 +26,13 @@ class NotificationBuilder(
         }
     }
 
-    inline fun <reified T : Any> create(data: T): Notification {
+    inline fun <reified T : Any> create(data: T, notificationId:Id): Notification {
         val converter = findResponsibleConverter(T::class)
-        return createWithConverter(converter, data)
+        return createWithConverter(converter, data, notificationId)
     }
 
-    fun <T> createWithConverter(converter: Converter<T>, data: T): Notification {
-        return converter.createNotification(data).also { notification ->
+    fun <T> createWithConverter(converter: Converter<T>, data: T, notificationId: Id): Notification {
+        return converter.createNotification(data,notificationId).also { notification ->
             notification.setAdapter(notificationAdapter)
             notificationInterceptor?.let { notification.setInterceptor(it) }
         }

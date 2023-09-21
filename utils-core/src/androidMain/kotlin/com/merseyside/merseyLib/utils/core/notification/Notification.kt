@@ -1,18 +1,21 @@
 package com.merseyside.merseyLib.utils.core.notification
 
+import com.merseyside.merseyLib.kotlin.utils.Id
 import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
 actual class Notification private actual constructor(
-    val tag: String
+    val tag: String,
+    val notificationId: Id
 ) {
 
     internal lateinit var notificationDefinition: NotificationDefinition
 
     constructor(
         tag: String,
+        notificationId: Id,
         definition: NotificationDefinition
-    ): this(tag) {
+    ) : this(tag, notificationId) {
         notificationDefinition = definition
     }
 
@@ -20,10 +23,10 @@ actual class Notification private actual constructor(
      * @return true if notification successfully showed.
      */
     @Throws(IllegalStateException::class)
-    actual fun show(): Boolean {
+    actual fun show(needToHide:Boolean): Boolean {
         return notificationAdapter?.run {
             notificationInterceptor?.intercept(this@Notification)
-            show(this@Notification)
+            show(this@Notification, needToHide)
         } ?: throw IllegalStateException("Notification adapter doesn't set")
     }
 
@@ -43,8 +46,12 @@ actual abstract class Converter<T> {
 
     abstract val tag: String
 
-    actual fun createNotification(data: T): Notification {
-        return Notification(tag, convert(data))
+    actual fun createNotification(data: T, notificationId: Id): Notification {
+        return Notification(
+            tag = tag,
+            notificationId = notificationId,
+            convert(data)
+        )
     }
 
     protected abstract fun convert(data: T): NotificationDefinition
