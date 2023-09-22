@@ -18,7 +18,7 @@ actual abstract class NotificationAdapter(
     ): Boolean
 
     /**
-     * @return true if notification successfully shown.
+     * @return true if notification was successfully shown.
      */
     actual fun show(notification: Notification): Boolean {
         with(notification) {

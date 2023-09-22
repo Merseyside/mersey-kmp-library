@@ -9,6 +9,9 @@ actual class Notification private actual constructor(
 
     internal lateinit var notificationDefinition: NotificationDefinition
 
+    private var notificationAdapter: NotificationAdapter? = null
+    private var notificationInterceptor: NotificationInterceptor? = null
+
     constructor(
         tag: String,
         definition: NotificationDefinition
@@ -26,9 +29,6 @@ actual class Notification private actual constructor(
             show(this@Notification)
         } ?: throw IllegalStateException("Notification adapter doesn't set")
     }
-
-    private var notificationAdapter: NotificationAdapter? = null
-    private var notificationInterceptor: NotificationInterceptor? = null
 
     internal actual fun setInterceptor(notificationInterceptor: NotificationInterceptor) {
         this.notificationInterceptor = notificationInterceptor

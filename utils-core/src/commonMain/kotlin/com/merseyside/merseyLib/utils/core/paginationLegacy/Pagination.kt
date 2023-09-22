@@ -4,10 +4,7 @@ import com.merseyside.merseyLib.kotlin.entity.result.Result
 import com.merseyside.merseyLib.kotlin.logger.ILogger
 import com.merseyside.merseyLib.kotlin.utils.safeLet
 import com.squareup.sqldelight.internal.AtomicBoolean
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 @Deprecated("See nee pagination")
 abstract class Pagination<PD, Data, Page>(
@@ -27,7 +24,7 @@ abstract class Pagination<PD, Data, Page>(
         MutableSharedFlow(extraBufferCapacity = 10)
     val resultFlow: Flow<Result<Data>> = mutSharedFlow
 
-    val dataFlow: Flow<Data> = resultFlow.filterIsInstance<Result.Success<Data>>().map { it.value }
+    val dataFlow: Flow<Data> = resultFlow.filterIsInstance<Result.Success<Data>>().mapNotNull { it.value }
 
     private fun getNextPage(): Page {
         return safeLet(lastData) {

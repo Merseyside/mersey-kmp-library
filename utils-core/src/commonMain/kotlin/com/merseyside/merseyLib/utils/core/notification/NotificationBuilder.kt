@@ -37,6 +37,7 @@ class NotificationBuilder(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalArgumentException::class)
     fun <T : Any> findResponsibleConverter(clazz: KClass<T>): Converter<T> {
         return converters.find { it.isResponsibleFor(clazz) } as? Converter<T>
