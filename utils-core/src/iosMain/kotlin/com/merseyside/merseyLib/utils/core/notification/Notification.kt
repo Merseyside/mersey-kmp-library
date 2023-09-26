@@ -3,30 +3,22 @@ package com.merseyside.merseyLib.utils.core.notification
 import com.merseyside.merseyLib.kotlin.utils.Id
 import kotlin.reflect.KClass
 
-actual class Notification private actual constructor(
-    /**
-     * Tag adds to notifications. Can be used to identify notification.
-     */
-    val tag: String,
-    val  notificationId: Id
-) {
+/**
+ * Tag adds to notifications. Can be used to identify notification.
+ */
+actual class Notification private actual constructor(tag: String, notificationId: Id) {
 
     /**
      * @return true if notification successfully showed.
      */
-    actual fun show(needToHide:Boolean): Boolean {
-        return false
-    }
-
-    internal actual fun setInterceptor(notificationInterceptor: NotificationInterceptor) {
-
+    actual fun show(): Boolean {
+        TODO()
     }
 
     internal actual fun setAdapter(notificationAdapter: NotificationAdapter) {
-
+        TODO()
     }
 }
-
 
 actual abstract class Converter<T> {
 
@@ -35,11 +27,6 @@ actual abstract class Converter<T> {
     }
 
     internal actual fun isResponsibleFor(clazz: KClass<*>): Boolean {
-        return false
+        TODO()
     }
-}
-
-actual abstract class NotificationInterceptor {
-
-    actual abstract fun intercept(notification: Notification)
 }

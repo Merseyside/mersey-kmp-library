@@ -8,17 +8,10 @@ class NotificationBuilder(
     private var converters: List<Converter<*>>,
 ) {
 
-    var notificationInterceptor: NotificationInterceptor? = null
-        private set
-
     constructor(
         notificationAdapter: NotificationAdapter,
         vararg converters: Converter<*>
     ) : this(notificationAdapter, converters.toList())
-
-    fun setInterceptor(interceptor: NotificationInterceptor) {
-        this.notificationInterceptor = interceptor
-    }
 
     fun addConverter(converter: Converter<*>) {
         converters = converters.toMutableList().apply {
@@ -26,7 +19,7 @@ class NotificationBuilder(
         }
     }
 
-    inline fun <reified T : Any> create(data: T, notificationId:Id): Notification {
+    inline fun <reified T : Any> create(data: T, notificationId: Id): Notification {
         val converter = findResponsibleConverter(T::class)
         return createWithConverter(converter, data, notificationId)
     }
@@ -34,10 +27,10 @@ class NotificationBuilder(
     fun <T> createWithConverter(converter: Converter<T>, data: T, notificationId: Id): Notification {
         return converter.createNotification(data,notificationId).also { notification ->
             notification.setAdapter(notificationAdapter)
-            notificationInterceptor?.let { notification.setInterceptor(it) }
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalArgumentException::class)
     fun <T : Any> findResponsibleConverter(clazz: KClass<T>): Converter<T> {
         return converters.find { it.isResponsibleFor(clazz) } as? Converter<T>

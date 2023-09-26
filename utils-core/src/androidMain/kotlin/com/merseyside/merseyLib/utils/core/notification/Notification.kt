@@ -19,23 +19,24 @@ actual class Notification private actual constructor(
         notificationDefinition = definition
     }
 
+    fun updateDefinition(block: NotificationDefinition) {
+        val oldDefinition = notificationDefinition
+        notificationDefinition = {
+            oldDefinition()
+            block()
+        }
+    }
+
     /**
      * @return true if notification successfully showed.
      */
     @Throws(IllegalStateException::class)
-    actual fun show(needToHide:Boolean): Boolean {
-        return notificationAdapter?.run {
-            notificationInterceptor?.intercept(this@Notification)
-            show(this@Notification, needToHide)
-        } ?: throw IllegalStateException("Notification adapter doesn't set")
+    actual fun show(): Boolean {
+        return notificationAdapter?.show(this@Notification)
+            ?: throw IllegalStateException("Notification adapter doesn't set")
     }
 
     private var notificationAdapter: NotificationAdapter? = null
-    private var notificationInterceptor: NotificationInterceptor? = null
-
-    internal actual fun setInterceptor(notificationInterceptor: NotificationInterceptor) {
-        this.notificationInterceptor = notificationInterceptor
-    }
 
     internal actual fun setAdapter(notificationAdapter: NotificationAdapter) {
         this.notificationAdapter = notificationAdapter
@@ -63,9 +64,4 @@ actual abstract class Converter<T> {
     private val parameterizedType = (this.javaClass
         .genericSuperclass as ParameterizedType)
         .actualTypeArguments[0] as Class<T>
-}
-
-actual abstract class NotificationInterceptor {
-
-    actual abstract fun intercept(notification: Notification)
 }

@@ -7,4 +7,7 @@ actual abstract class NotificationAdapter {
     actual fun show(notification: Notification): Boolean {
         TODO("Not yet implemented")
     }
+
+    actual fun setInterceptors(list: List<NotificationInterceptor>) {
+    }
 }

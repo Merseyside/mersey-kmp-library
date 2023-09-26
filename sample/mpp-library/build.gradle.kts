@@ -36,6 +36,7 @@ val multiplatform = listOf(
 
 dependencies {
     commonMainApi(common.mersey.kotlin.ext)
+    androidMainApi(androidLibs.androidx.core)
     commonMainImplementation(projects.archyCore)
     commonMainImplementation(projects.utilsCore)
 
