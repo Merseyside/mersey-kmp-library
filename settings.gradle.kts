@@ -65,4 +65,4 @@ if (isLocalKotlinExtLibrary) {
         File(rootDir.parent, "mersey-kotlin-ext/kotlin-ext")
 }
 
-rootProject.name = "kmm-support-library"
+rootProject.name = "kmp-support-library"

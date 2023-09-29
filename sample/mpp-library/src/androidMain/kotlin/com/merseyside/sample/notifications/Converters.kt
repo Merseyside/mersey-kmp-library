@@ -13,8 +13,8 @@ actual class MessageEntityConverter {
         ): NotificationDefinition {
             return {
                 with(data) {
-                    //setContentTitle(sender)
-                    //setContentText(message)
+                    setContentTitle(sender)
+                    setContentText(message)
                 }
             }
         }
