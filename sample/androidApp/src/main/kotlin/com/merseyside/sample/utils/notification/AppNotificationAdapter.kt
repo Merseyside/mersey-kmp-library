@@ -42,7 +42,7 @@ class AppNotificationAdapter(context: Context): NotificationAdapter(context) {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-        } else NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+        } else NotificationManagerCompat.from(context).notify(notificationId.toInt(), notification)
 
         return true
     }

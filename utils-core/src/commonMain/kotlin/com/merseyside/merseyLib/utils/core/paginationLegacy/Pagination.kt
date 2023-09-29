@@ -25,7 +25,7 @@ abstract class Pagination<PD, Data, Page>(
         MutableSharedFlow(extraBufferCapacity = 10)
     val resultFlow: Flow<Result<Data>> = mutSharedFlow
 
-    //val dataFlow: Flow<Data> = resultFlow.filterSuccessValues()
+    val dataFlow: Flow<Data> = resultFlow.filterSuccessValues()
 
     private fun getNextPage(): Page {
         return safeLet(lastData) {
