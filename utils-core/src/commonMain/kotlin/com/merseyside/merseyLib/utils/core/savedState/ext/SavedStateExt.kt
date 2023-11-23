@@ -7,6 +7,10 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlin.io.encoding.Base64
 
+fun <T : Any> SavedState.getSavedState(key: T): SavedState {
+    return getSavedState(key.toString())
+}
+
 inline fun <reified T> SavedState.putSerializable(key: String, value: T) {
     put(key, value?.serialize())
 }

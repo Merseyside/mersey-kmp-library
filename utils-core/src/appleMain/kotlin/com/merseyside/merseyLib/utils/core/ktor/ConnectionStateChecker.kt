@@ -1,8 +1,8 @@
 package com.merseyside.merseyLib.utils.core.ktor
 
 //import cocoapods.Reachability.Reachability
-import com.merseyside.merseyLib.kotlin.coroutines.utils.uiDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -42,7 +42,7 @@ actual class ConnectionStateChecker {
     }
 
     actual fun addNetworkStateCallback(callback: (Boolean) -> Unit) {
-        CoroutineScope(uiDispatcher).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             networkStateFlow.collect {
                 callback(it)
             }

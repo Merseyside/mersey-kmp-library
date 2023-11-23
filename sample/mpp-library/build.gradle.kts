@@ -3,7 +3,6 @@ plugins {
     with(catalogPlugins.plugins) {
         plugin(android.library)
         plugin(kotlin.multiplatform)
-        plugin(moko.multiplatform)
         plugin(kotlin.serialization)
         id(mersey.kotlin.extension.id())
         id(mersey.android.extension.id())
@@ -36,7 +35,7 @@ val multiplatform = listOf(
 
 dependencies {
     commonMainApi(common.mersey.kotlin.ext)
-    androidMainApi(androidLibs.androidx.core)
+    api(androidLibs.androidx.core)
     commonMainImplementation(projects.archyCore)
     commonMainImplementation(projects.utilsCore)
 

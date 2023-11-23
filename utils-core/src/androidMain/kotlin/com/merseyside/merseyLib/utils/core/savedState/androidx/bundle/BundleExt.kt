@@ -1,13 +1,13 @@
-package com.merseyside.merseyLib.utils.core.koin.savedState.androidx.bundle
+package com.merseyside.merseyLib.utils.core.savedState.androidx.bundle
 
 import android.os.Bundle
 import com.merseyside.merseyLib.utils.core.savedState.SavedState
 import com.merseyside.utils.ext.put
+import com.merseyside.utils.ext.putSafe
 
 fun Bundle.toSavedState(): SavedState {
     val savedState = SavedState()
-    val keys = this@toSavedState.keySet()
-    keys.forEach { key ->
+    keySet().forEach { key ->
         val value = get(key)
         value?.let {
             val newValue = if (value is Bundle) {
@@ -22,10 +22,12 @@ fun Bundle.toSavedState(): SavedState {
 }
 
 fun SavedState.toBundle(): Bundle {
-    return Bundle().apply {
+    preSave()
+
+    return Bundle().also { bundle ->
         container.forEach { (key, value) ->
-            if (value is SavedState) put(key, value.toBundle())
-            else this.put(key, value)
+            if (value is SavedState) bundle.put(key, value.toBundle())
+            else bundle.putSafe(key, value)
         }
     }
 }

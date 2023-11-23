@@ -26,12 +26,12 @@ class KoinStateViewModel(
     val ageStateFlow: MutableStateFlow<String?> = MutableStateFlow(null)
 
     val dataStateFlow: StateFlow<SomeData> by savedState.serializableStateFlow(viewModelScope) {
-        combineState(nameStateFlow, ageStateFlow.mapState { it?.toInt() }) { name, age ->
+        combineState(viewModelScope, nameStateFlow, ageStateFlow.mapState(viewModelScope) { it?.toInt() }) { name, age ->
             SomeData(name ?: "" , age ?: 0)
         }
     }
 
-    val managerData = combine(nameStateFlow, ageStateFlow.mapState { it?.toInt() }) { name, age ->
+    val managerData = combine(nameStateFlow, ageStateFlow.mapState(viewModelScope) { it?.toInt() }) { name, age ->
         "$name $age"
     }
 

@@ -12,9 +12,10 @@ import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcherOwner
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
 
-abstract class EventsActivity<B : ViewDataBinding, Model, Listener>
-    : VMActivity<B, Model>(), EventsViewModel.BaseEventsListener
-        where Model : EventsViewModel,
+abstract class EventsActivity<Binding, Model, Listener>
+    : VMActivity<Binding, Model>(), EventsViewModel.BaseEventsListener
+        where Binding : ViewDataBinding,
+              Model : EventsViewModel,
               Listener : EventsViewModel.BaseEventsListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,11 @@ abstract class EventsActivity<B : ViewDataBinding, Model, Listener>
     }
 
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        super.performInjection(bundle, *params, eventsDispatcherOnMain<EventsDispatcher<Listener>>())
+        super.performInjection(
+            bundle,
+            *params,
+            eventsDispatcherOnMain<EventsDispatcher<Listener>>()
+        )
     }
 
     override fun onAlert(alert: Alert) {

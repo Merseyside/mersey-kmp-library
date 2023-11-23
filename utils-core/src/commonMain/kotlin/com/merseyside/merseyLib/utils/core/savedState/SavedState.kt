@@ -7,6 +7,8 @@ class SavedState {
 
     internal val container: MutableMap<String, Any?> = mutableMapOf()
 
+    private var onPreSaveStateCallback: OnPreSaveStateCallback? = null
+
     fun contains(key: String): Boolean {
         return container.contains(key)
     }
@@ -48,7 +50,7 @@ class SavedState {
 
     fun getSavedState(key: String): SavedState {
         val value = get<SavedState>(key)
-        return value ?: SavedState().also { put(key, it) }
+        return value ?: SavedState().also { state -> put(key, state) }
     }
 
     fun isEmpty(): Boolean {
@@ -59,8 +61,34 @@ class SavedState {
         container.clear()
     }
 
-//    override fun toString(): String {
-//        val str = container.map { "${it.key} : ${it.value}" }.joinToString(separator = "\n")
-//        return str.ifEmpty { "Saved state is empty!" }
-//    }
+    fun setOnPreSaveStateCallback(callback: OnPreSaveStateCallback?) {
+        this.onPreSaveStateCallback = callback
+    }
+
+    override fun toString(): String {
+        return if (container.isNotEmpty()) {
+            val builder = StringBuilder()
+            container.forEach { (key, value) ->
+                builder.append(key)
+                builder.append(": ")
+                if (value is SavedState) builder.append("\n    ")
+                builder.append(value)
+            }
+
+            builder.toString()
+        } else {
+            "Saved state is empty!"
+        }
+    }
+
+    fun preSave() {
+        val innerSaveStates = container.values.filterIsInstance<SavedState>()
+        innerSaveStates.forEach { savedState -> savedState.preSave() }
+        onPreSaveStateCallback?.onPreSaveState(this)
+    }
+
+    fun interface OnPreSaveStateCallback {
+
+        fun onPreSaveState(savedState: SavedState)
+    }
 }

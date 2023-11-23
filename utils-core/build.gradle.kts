@@ -3,7 +3,6 @@ plugins {
     with(catalogPlugins.plugins) {
         plugin(android.library)
         plugin(kotlin.multiplatform)
-        plugin(moko.multiplatform)
         id(mersey.android.extension.id())
         id(mersey.kotlin.extension.id())
         plugin(kotlin.serialization)
@@ -23,20 +22,17 @@ android {
 }
 
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
 
-    sourceSets {
-        val iosMain by getting
-        val iosSimulatorArm64Main by getting
-        iosSimulatorArm64Main.dependsOn(iosMain)
-    }
-
+    applyDefaultHierarchyTemplate()
+//
 //    cocoapods {
 //
 //        framework {
@@ -50,6 +46,8 @@ kotlin {
 //        pod("Reachability") {
 //            version = "3.2"
 //        }
+//
+//        ios.deploymentTarget = "15.0"
 //    }
 }
 
@@ -64,7 +62,7 @@ kotlinExtension {
 }
 
 val mppLibs = listOf(
-    multiplatformLibs.serialization,
+    common.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.ktor,
     multiplatformLibs.sqldelight,

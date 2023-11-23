@@ -8,16 +8,17 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-fun <T> SavedState.saveable(init: (SavedState) -> T) = object : ReadOnlyProperty<Any, T> {
-    private var _value: T? = null
+inline fun <T> SavedState.saveable(crossinline init: (SavedState) -> T) =
+    object : ReadOnlyProperty<Any, T> {
+        private var _value: T? = null
 
-    override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return _value ?: run {
-            val savedState = getSavedState(property.name)
-            init(savedState).also { _value = it }
+        override fun getValue(thisRef: Any, property: KProperty<*>): T {
+            return _value ?: run {
+                val savedState = getSavedState(property.name)
+                init(savedState).also { _value = it }
+            }
         }
     }
-}
 
 /**
  * Only for primitives.
@@ -76,13 +77,12 @@ inline fun <reified T> SavedState.serializableOrNull(
     private var _value: T? = null
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T? {
-        val key = property.name
-
         return _value ?: run {
-            serializer?.let {
-                getSerializable(key, it)
+            val key = property.name
+            serializer?.let { ser ->
+                getSerializable(key, ser)
             } ?: getSerializable(key)
-        }.also { _value = it }
+        }.also { value -> _value = value }
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) {

@@ -4,7 +4,7 @@ import android.content.Context
 import com.merseyside.merseyLib.archy.android.presentation.fragment.EventsFragment
 import com.merseyside.merseyLib.utils.core.koin.androidx.viewmodel.ext.android.getViewModel
 import com.merseyside.merseyLib.utils.core.koin.savedState.scope.declareStateProvider
-import com.merseyside.merseyLib.utils.core.koin.scope.fragment.fragmentScope
+import com.merseyside.merseyLib.utils.core.koin.androidx.scope.fragmentScope
 import com.merseyside.sample.BR
 import com.merseyside.sample.R
 import com.merseyside.sample.databinding.FragmentKoinStateBinding

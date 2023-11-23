@@ -17,8 +17,7 @@ fun <T : ViewModel> Fragment.addSavedStateIfNeed(clazz: KClass<T>, parametersDef
         val savedState = getSavedState(savedStateRegistry, getStateKey(clazz))
         registerSavedState(savedStateRegistry, savedState, getStateKey(clazz))
 
-        "here".log()
-        (parametersDefinition?.addSavedState(savedState) ?: { parametersOf(savedState) }).also { it.invoke().values.log("here1") }
+        (parametersDefinition?.addSavedState(savedState) ?: { parametersOf(savedState) }).also { it.invoke().values }
 
     } else parametersDefinition
 }

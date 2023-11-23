@@ -1,8 +1,8 @@
 package com.merseyside.merseyLib.utils.core.koin.savedState.provider.androidx
 
 import androidx.savedstate.SavedStateRegistry
-import com.merseyside.merseyLib.utils.core.koin.savedState.androidx.bundle.toBundle
-import com.merseyside.merseyLib.utils.core.koin.savedState.androidx.bundle.toSavedState
+import com.merseyside.merseyLib.utils.core.savedState.androidx.bundle.toBundle
+import com.merseyside.merseyLib.utils.core.savedState.androidx.bundle.toSavedState
 import com.merseyside.merseyLib.utils.core.savedState.SavedState
 
 fun getSavedState(savedStateRegistry: SavedStateRegistry, key: String): SavedState {

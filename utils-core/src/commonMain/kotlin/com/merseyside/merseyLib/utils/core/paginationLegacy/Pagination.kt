@@ -4,7 +4,6 @@ import com.merseyside.merseyLib.kotlin.entity.result.Result
 import com.merseyside.merseyLib.kotlin.entity.result.filterSuccessValues
 import com.merseyside.merseyLib.kotlin.logger.ILogger
 import com.merseyside.merseyLib.kotlin.utils.safeLet
-import com.squareup.sqldelight.internal.AtomicBoolean
 import kotlinx.coroutines.flow.*
 
 @Deprecated("Use new pagination")
@@ -80,26 +79,26 @@ abstract class Pagination<PD, Data, Page>(
         }
     }
 
-    private var isLoading = AtomicBoolean(false)
+    //private var isLoading = AtomicBoolean(false)
 
     private suspend fun loadPage(
         isPageValid: () -> Boolean,
         loadWork: suspend () -> PD
     ) {
-        if (isLoading.get()) return
-        if (!isPageValid()) {
-            logMsg("No page")
-            return
-        }
-        try {
-            isLoading.set(true)
-            emitResult(Result.Loading())
-            onDataLoaded(loadWork())
-        } catch (e: Exception) {
-            emitResult(Result.Error(e))
-        } finally {
-            isLoading.set(false)
-        }
+//        if (isLoading.get()) return
+//        if (!isPageValid()) {
+//            logMsg("No page")
+//            return
+//        }
+//        try {
+//            isLoading.set(true)
+//            emitResult(Result.Loading())
+//            onDataLoaded(loadWork())
+//        } catch (e: Exception) {
+//            emitResult(Result.Error(e))
+//        } finally {
+//            isLoading.set(false)
+//        }
     }
 
 
