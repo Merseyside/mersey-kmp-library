@@ -69,10 +69,9 @@ class SavedState {
         return if (container.isNotEmpty()) {
             val builder = StringBuilder()
             container.forEach { (key, value) ->
-                builder.append(key)
-                builder.append(": ")
+                builder.append(key).append(": ")
                 if (value is SavedState) builder.append("\n    ")
-                builder.append(value)
+                builder.append(value).appendLine()
             }
 
             builder.toString()
