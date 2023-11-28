@@ -1,8 +1,7 @@
 package com.merseyside.merseyLib.utils.core.koin.scope.dsl
 
-import com.merseyside.merseyLib.kotlin.coroutines.utils.defaultDispatcher
-import com.merseyside.merseyLib.kotlin.coroutines.utils.uiDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
@@ -19,9 +18,9 @@ fun ScopeDSL.coroutineScope(
 }
 
 fun ScopeDSL.defaultCoroutineScope(closeScope: Boolean = true, qualifier: Qualifier? = null): KoinDefinition<CoroutineScope> {
-    return coroutineScope(closeScope, qualifier) { CoroutineScope(defaultDispatcher) }
+    return coroutineScope(closeScope, qualifier) { CoroutineScope(Dispatchers.Default) }
 }
 
 fun ScopeDSL.uiCoroutineScope(closeScope: Boolean = true, qualifier: Qualifier? = null): KoinDefinition<CoroutineScope> {
-    return coroutineScope(closeScope, qualifier) { CoroutineScope(uiDispatcher) }
+    return coroutineScope(closeScope, qualifier) { CoroutineScope(Dispatchers.Main) }
 }

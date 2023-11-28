@@ -1,15 +1,14 @@
 package com.merseyside.sample.di
 
 import com.merseyside.merseyLib.utils.core.notification.di.declareNotificationConverter
-import com.merseyside.merseyLib.utils.core.notification.di.singleNotificationBuilder
 import com.merseyside.sample.notifications.MessageEntityConverter
+import com.merseyside.sample.notifications.NotificationTest
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import com.merseyside.sample.notifications.NotificationTest
 
 fun initKoin(
     vararg appModules: Module,
@@ -29,7 +28,7 @@ fun initKoin(
 
 private val appModule = module {
 
-    singleNotificationBuilder()
+    //singleNotificationBuilder()
     declareNotificationConverter(MessageEntityConverter)
 
     singleOf(::NotificationTest)

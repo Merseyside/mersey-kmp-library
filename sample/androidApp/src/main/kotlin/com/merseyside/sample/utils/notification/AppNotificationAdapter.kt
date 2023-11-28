@@ -14,42 +14,19 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.merseyside.merseyLib.kotlin.utils.Id
 import com.merseyside.merseyLib.utils.core.notification.NotificationAdapter
 import com.merseyside.merseyLib.utils.core.notification.NotificationDefinition
 import com.merseyside.sample.R
 import com.merseyside.sample.view.MainActivity
 
-class AppNotificationAdapter(
-    context: Context
-): NotificationAdapter(context, CHANNEL_ID) {
-
-    override fun defaultDefinition(context: Context): NotificationDefinition = {
-        priority = NotificationCompat.PRIORITY_DEFAULT
-        setVibrate(longArrayOf(200, 50, 200))
-        setContentIntent(getPendingIntent(context))
-        setSmallIcon(R.drawable.ic_notification)
-        setChannelId(CHANNEL_ID)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun createNotificationChannel(): NotificationChannel {
-        val name: CharSequence = VERBOSE_NOTIFICATION_CHANNEL_NAME
-        val description: String = VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
-        val importance: Int = NotificationManager.IMPORTANCE_HIGH
-
-        return NotificationChannel(CHANNEL_ID, name, importance).apply {
-            this.description = description
-            enableLights(true)
-            lightColor = Color.GREEN
-        }
-    }
-
+class AppNotificationAdapter(context: Context): NotificationAdapter(context) {
     override fun show(
         context: Context,
+        notification: Notification,
         tag: String,
-        builder: NotificationCompat.Builder
+        notificationId: Id
     ): Boolean {
-        val notification: Notification = builder.build()
         notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
 
         // Show the notification
@@ -65,9 +42,29 @@ class AppNotificationAdapter(
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-        } else NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+        } else NotificationManagerCompat.from(context).notify(notificationId.toInt(), notification)
 
         return true
+    }
+
+    override fun createDefaultDefinition(context: Context): NotificationDefinition = {
+        priority = NotificationCompat.PRIORITY_DEFAULT
+        setVibrate(longArrayOf(200, 50, 200))
+        setContentIntent(getPendingIntent(context))
+        setSmallIcon(R.drawable.ic_notification)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun createDefaultChannel(context: Context): NotificationChannel {
+        val name: CharSequence = VERBOSE_NOTIFICATION_CHANNEL_NAME
+        val description: String = VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
+        val importance: Int = NotificationManager.IMPORTANCE_HIGH
+
+        return NotificationChannel(CHANNEL_ID, name, importance).apply {
+            this.description = description
+            enableLights(true)
+            lightColor = Color.GREEN
+        }
     }
 
     private fun getPendingIntent(context: Context): PendingIntent {

@@ -23,24 +23,18 @@ abstract class VMFragment<Binding : ViewDataBinding, Model : BaseViewModel>
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
-    }
-
     override fun performInjection(bundle: Bundle?, vararg params: Any) {
-        viewModel = provideViewModel(getViewModelClass(), bundle, *params)
+        viewModel = provideViewModel(getViewModelClass(), *params)
     }
 
     protected abstract fun provideViewModel(
         clazz: KClass<Model>,
-        bundle: Bundle?,
         vararg params: Any
     ): Model
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initDataBinding(requireBinding())
         super.onViewCreated(view, savedInstanceState)
+        initDataBinding(requireBinding())
     }
 
     override fun updateLanguage(context: Context) {

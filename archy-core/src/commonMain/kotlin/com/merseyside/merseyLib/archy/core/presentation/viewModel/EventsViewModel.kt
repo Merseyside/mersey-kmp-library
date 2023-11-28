@@ -1,5 +1,6 @@
 package com.merseyside.merseyLib.archy.core.presentation.viewModel
 
+import com.merseyside.merseyLib.archy.core.presentation.message.Message
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.Alert
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextMessage
 import com.merseyside.merseyLib.archy.core.presentation.viewModel.entity.TextValue
@@ -18,6 +19,11 @@ abstract class EventsViewModel : BaseViewModel() {
         return true
     }
 
+    protected fun showMsg(message: Message) {
+        eventsDispatcher.dispatchEvent { showMsg(message) }
+    }
+
+    @Deprecated("Use showMsg(Message) method")
     protected fun showMsg(msg: StringDesc) {
         TextMessage(
             isError = false,
@@ -25,13 +31,15 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: StringDesc) {
         TextMessage(
-            isError = false,
+            isError = true,
             msg = TextValue(msg)
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showMsg(msg: String) {
         Logger.log(this, msg)
         TextMessage(
@@ -40,6 +48,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: String) {
         Logger.logErr(this, msg)
         TextMessage(
@@ -48,6 +57,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showMsg(msg: String, actionMsg: String, onClick: () -> Unit = {}) {
         Logger.log(this, msg)
         TextMessage(
@@ -58,6 +68,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: String, actionMsg: String, onClick: () -> Unit = {}) {
         Logger.logErr(this, msg)
         TextMessage(
@@ -68,6 +79,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showMsg(msg: StringDesc, actionMsg: StringDesc, onClick: () -> Unit = {}) {
         Logger.log(this, msg)
         TextMessage(
@@ -78,6 +90,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: StringDesc, actionMsg: String, onClick: () -> Unit = {}) {
         Logger.logErr(this, msg)
         TextMessage(
@@ -88,6 +101,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: String, actionMsg: StringDesc, onClick: () -> Unit = {}) {
         Logger.logErr(this, msg)
         TextMessage(
@@ -98,6 +112,7 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showErrorMsg(msg: StringDesc, actionMsg: StringDesc, onClick: () -> Unit = {}) {
         Logger.logErr(this, msg)
         TextMessage(
@@ -108,7 +123,8 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showMessage(it) }
     }
 
-    fun showAlert(
+    @Deprecated("Use showMsg(Message) method")
+    open fun showAlert(
         title: String? = null,
         message: String? = null,
         positiveButtonText: String? = null,
@@ -130,7 +146,8 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showAlert(it) }
     }
 
-    fun showAlertDialog(
+    @Deprecated("Use showMsg(Message) method")
+    open fun showAlertDialog(
         title: StringDesc? = null,
         message: StringDesc? = null,
         positiveButtonText: StringDesc? = null,
@@ -152,10 +169,12 @@ abstract class EventsViewModel : BaseViewModel() {
         ).also { showAlert(it) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showMessage(message: TextMessage) {
         eventsDispatcher.dispatchEvent { onMessage(message) }
     }
 
+    @Deprecated("Use showMsg(Message) method")
     protected fun showAlert(alert: Alert) {
         eventsDispatcher.dispatchEvent { onAlert(alert) }
     }
@@ -167,6 +186,8 @@ abstract class EventsViewModel : BaseViewModel() {
     interface BaseEventsListener {
         fun onError(throwable: Throwable): Boolean
         fun onMessage(message: TextMessage)
+
+        fun showMsg(message: Message)
         fun onAlert(alert: Alert)
         fun onConnectionStateChanged(state: Boolean)
     }

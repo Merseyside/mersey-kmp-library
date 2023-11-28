@@ -2,13 +2,11 @@ package com.merseyside.sample.notifications
 
 import com.merseyside.merseyLib.utils.core.notification.NotificationBuilder
 
-class NotificationTest(
-    private val notificationBuilder: NotificationBuilder
-) {
+class NotificationTest(private val notificationBuilder: NotificationBuilder) {
 
     fun showNotification() {
         val message = generateMessage()
-        val notification = notificationBuilder.create(message)
+        val notification = notificationBuilder.create(message, 0)
         notification.show()
     }
 

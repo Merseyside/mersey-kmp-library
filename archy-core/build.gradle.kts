@@ -7,8 +7,6 @@ plugins {
         id(mersey.kotlin.extension.id())
         plugin(kotlin.serialization)
         plugin(kotlin.kapt)
-        plugin(moko.multiplatform)
-        plugin(sqldelight)
     }
     `maven-publish-plugin`
 }
@@ -23,19 +21,22 @@ android {
 }
 
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
 
-    sourceSets {
-        val iosMain by getting
-        val iosSimulatorArm64Main by getting
-        iosSimulatorArm64Main.dependsOn(iosMain)
-    }
+    applyDefaultHierarchyTemplate()
+
+//    sourceSets {
+//        val iosMain by getting
+//        val iosSimulatorArm64Main by getting
+//        iosSimulatorArm64Main.dependsOn(iosMain)
+//    }
 }
 
 kotlinExtension {
@@ -52,8 +53,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 }
 
 val mppLibs = listOf(
+    common.serialization,
     multiplatformLibs.coroutines,
-    multiplatformLibs.serialization,
     multiplatformLibs.moko.resources,
     multiplatformLibs.moko.mvvm,
     multiplatformLibs.moko.mvvm.livedata,
@@ -74,9 +75,9 @@ dependencies {
     }
 
     if (isLocalAndroidDependencies()) {
-        androidMainImplementation(project(Modules.Android.MerseyLibs.utils))
+        implementation(project(Modules.Android.MerseyLibs.utils))
     } else {
-        androidMainImplementation(androidLibs.mersey.utils)
+        implementation(androidLibs.mersey.utils)
     }
 
     mppModules.forEach { module -> commonMainApi(module) }

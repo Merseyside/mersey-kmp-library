@@ -5,12 +5,13 @@ private val isLocalKotlinExtLibrary = false
 
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
         mavenLocal()
+        mavenCentral()
+
         google()
     }
 
-    val catalogVersions = "1.7.5"
+    val catalogVersions = "1.7.9"
     val group = "io.github.merseyside"
     versionCatalogs {
         val multiplatformLibs by creating {
@@ -64,4 +65,4 @@ if (isLocalKotlinExtLibrary) {
         File(rootDir.parent, "mersey-kotlin-ext/kotlin-ext")
 }
 
-rootProject.name = "kmm-support-library"
+rootProject.name = "kmp-support-library"

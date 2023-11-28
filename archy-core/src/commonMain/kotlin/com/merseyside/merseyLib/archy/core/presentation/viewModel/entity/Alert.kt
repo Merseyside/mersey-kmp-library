@@ -1,6 +1,6 @@
 package com.merseyside.merseyLib.archy.core.presentation.viewModel.entity
 
-data class Alert(
+open class Alert(
     val title: TextValue? = null,
     val message: TextValue? = null,
     val positiveButtonText: TextValue? = null,
